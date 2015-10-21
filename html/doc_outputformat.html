@@ -1,0 +1,407 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Output focimt cell array formats</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_outputformat.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Output focimt cell array formats</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#7">General seismic moment tensor solution data</a></li><li><a href="#15">Seismic moment tensor solution data</a></li><li><a href="#51">Handling output cell array data from many solutions</a></li></ul></div><p>The results of seismic moment tensor inversion performed using <tt><a href="doc_focimt.html">focimt.m</a></tt> routine are by default returned in a cell array. The cell array is composed of <i>n</i> elements, each containing seismic moment tensor solution from a single earthquake. The order of seismic moment tensor solutions in the output cell array corresponds to the order of input cell array data, or accordingly to the order of event/phase data in the input ASCII files.</p><p>The package provides <tt><a href="doc_getsolution.html">getsolution.m</a></tt> routine that can efficiently extract information from moment tensor inversion output cell array. See <i>Examples</i> section for details.</p><p>Consider the output of the seismic moment tensor inversion using <tt>focimt</tt>, returned in the following example:</p><pre class="codeinput">[Output, Input] = focimt(<span class="string">'./examples/example2_raw.txt'</span>);
+Output
+</pre><pre class="codeoutput">
+Output = 
+
+    [1x1 struct]    [1x1 struct]
+
+</pre><p>This particular dataset contained event and phase data from two earthquakes. To access the seismic moment tensor solution from a particular earthquake, one have to specify explicitly the element of <tt>Output</tt> cell array:</p><pre class="codeinput">Output{1}
+</pre><pre class="codeoutput">
+ans = 
+
+          event_id: '344_014_+165'
+          n_trials: 1
+    calculation_dt: 7.3626e+05
+              full: [1x1 struct]
+        deviatoric: [1x1 struct]
+                dc: [1x1 struct]
+
+</pre><p>Each cell array element contains basic information on earthquake as well as three MATLAB structure arrays <tt>full</tt>, <tt>deviatoric</tt> and <tt>dc</tt> containing seismic moment tensor inversion solutions for unconstrained, deviatoric and double-couple seismic moment tensors.</p><h2>General seismic moment tensor solution data<a name="7"></a></h2><p>The basic data holds the general information on processed earthquake:</p><p><b>event_id</b></p><p>Contains the event ID number specified in the input file or input cell array.</p><p><b>n_trials</b></p><p>This field contains the number of calculations of the seismic moment tensor. Unless <i>Jacknife test</i> or <i>Bootstrap resampling</i> is used while running the seismic moment tensor inversion using <tt>focimt.m</tt> routine, the number of solutions is always 1, i.e. <tt>n_trials=1</tt>. If <i>Jacknife</i> parameter is <tt>'on'</tt>, three structures <tt>full</tt>, <tt>deviatoric</tt> and <tt>dc</tt> will contain various fields containing seismic moment tensor output parameters in a form of cell arrays (or matrices) with <i>m+1</i> elements (or rows) where <i>m</i> is the number of stations. First elements (or rows) of fields will correspond to the regular moment tensor solution using all stations available and the following elements (or rows) will correspond to the <i>Jacknife</i> solutions, every other with different station removed.</p><p>Similarly, if <i>Bootstrap resampling</i> procedure is enabled, the output cell array will contain various field where each field will have <i>m+1</i> elements. Again, the first element corresponds to the <i>regular</i> seismic moment tensor inversion result, where all stations were used and the following elements corresponds to bootstrap-resampled data.</p><p><b>calculation_dt</b></p><p>Contains time of calculation in MATLAB datetime format.</p><h2>Seismic moment tensor solution data<a name="15"></a></h2><p>The last three structure arrays, <b>full</b>, <b>deviatoric</b> and <b>dc</b> contain the actual seismic moment tensor inversion results for unconstrained full moment tensor (structure <tt>full</tt>), constrained deviatoric or equivalently trace-null moment tensor (structure <tt>deviatoric</tt>) and constrained double-couple moment tensor (structure <tt>dc</tt>). The format off all structures is the same and can be easily visualized by accessing the particular element of the structure array. For example, to access the full (uncostrained) moment tensor inversion results:</p><pre class="codeinput">Output{1}.full
+</pre><pre class="codeoutput">
+ans = 
+
+          Type: {'N'}
+    STATION_ID: 0
+           ISO: 27.13
+          CLVD: 10.836
+            DC: 62.034
+            M0: 6.2537e+13
+            MT: 6.91e+13
+      M0ERRMAX: 1.1698e+10
+            MW: 3.1674
+             P: [188.83 34.198]
+             T: [341.17 52.505]
+             B: [89.43 13.513]
+            F1: [87.146 80.585 76.298]
+            F2: [323.28 16.574 145.01]
+         Fault: {'TF'}
+           MXX: [1x6 double]
+           CXX: [1x6 double]
+      RMSERROR: 0.0013436
+       Station: {1x25 cell}
+     UMEASURED: [1x25 double]
+           UTH: [1x25 double]
+
+</pre><p>The meaning of the fields is as follows:</p><p><b>Type</b> (<tt>string</tt> or <tt>cell array of strings</tt>)</p><p>Contains information on the type of seismic moment tensor inversion, only meaningfull while <i>Jacknife test</i> or <i>Bootstrap resampling</i> is performed. <tt>'N'</tt> character denotes the regular solution calculated with all stations available. The <tt>'J'</tt> character denotes seismic moment tensor solution calculated with Jacknife approach. In this case the information on which station was removed is specified in <tt>STATION_ID</tt> variable. Finally, the <tt>'B'</tt> character denotes the boostrap-resampled dataset.</p><p><b>ISO</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Contains the amount of isotropic component in the calculated seismic moment tensors in percents.</p><p><b>CLVD</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Contains amount of CLVD (compensated linear vector dipole) component in the calculated seismic moment tensor. The value is specifed in percents.</p><p><b>DC</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Contains amount of double-couple components in the calculate seismic moment tensor. The value is provided in percents.</p><p><b>M0</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Contains the scalar seismic moment in Newton-Meters [Nm].</p><p><b>MT</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Contains the information on total seismic moment in Newton-Meters [Nm]. The value is calculated according to the following formula:</p><p><img src="doc_outputformat_eq11651183913910518599.png" alt="$$M_T=\sqrt{\sum{(m_{ii}^2)}}$$"></p><p>where <img src="doc_outputformat_eq03105429389088472189.png" alt="$m_{ii}$"> are eigenvalues of the full seismic moment tensor. The total seismic moment is equal to the seismic moment <img src="doc_outputformat_eq06536887301301526906.png" alt="$M_0$"> for double-couple constrained moment tensor solution.</p><p><b>M0ERRMAX</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Hold information on maximum error of the seismic moment tensor. The value is extracted from covariance matrix:</p><p><img src="doc_outputformat_eq07493053655429238090.png" alt="$$M_0^{errmax}=max\{\sqrt{C_{ii}}\}$$"></p><p>The maximum error is therefore the square root of the maximum diagonal elements of the covariance matrix.</p><p><b>MW</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Moment magnitude calculated from the total seismic moment using Hanks and Kanamori (1979) formula:</p><p><img src="doc_outputformat_eq03010816486198001135.png" alt="$$M_W=0.66\log_{10}M_0-6.03$$"></p><p><b>P</b>, <b>T</b>, <b>B</b> (<tt>matrix</tt>)</p><p>These three matrices contain information on trend and plunge of P, T, and B axes. The trend is provided in degrees from north towards east. The plunge is presented in degrees from horizontal towards bottom (plunge equal to 0 corresponds to horizontal (parallel to earth surface) directio while plunge equal to 90 corresponds to pure vertical directio (towards center of Earth).</p><p><b>F1</b>, <b>F2</b> (<tt>matrix</tt>)</p><p>These two matrices contain fault parameters. First, second and third element (or column when either <i>Jacknife test</i> or <i>Bootstrap resampling</i> is turned on) corresponds to strike, dip and rake. All values are provided in degrees and follows the seismological convention. The strike (first column) is measured from north to east. The dip (second column) is measured from horizontal to vertical and rake (third colum) is positive/negative for thrust/normal faulting.</p><p><b>Fault</b> (<tt>string</tt> or <tt>cell array of strings</tt>)</p><p>Provides information on the <i>fault type</i>. This value is calculated by comparing the orientation of <i>P</i>, <i>T</i> and <i>B</i> axes with respect to global coordinate system (i.e. which one is the most "vertical" axis, plungin with the highhest angle). <tt>'NF'</tt>, <tt>'SS'</tt>, <tt>'TF'</tt> denotes <i>normal fault</i>, <i>strike slipe fault</i> and <i>thrust fault</i>, respectively.</p><p><b>MXX</b> (<tt>matrix</tt>)</p><p>Contains information on moment tensor components in AKI's convention. The following elements (or columents, if jacknife mode is used) correspond to <img src="doc_outputformat_eq02699857960457205315.png" alt="$M_{11}$">, <img src="doc_outputformat_eq09787795645638736432.png" alt="$M_{12}$">, <img src="doc_outputformat_eq14832484180360531778.png" alt="$M_{13}$">, <img src="doc_outputformat_eq12985638531400799570.png" alt="$M_{22}$">, <img src="doc_outputformat_eq15557018522581867892.png" alt="$M_{23}$">, and <img src="doc_outputformat_eq15611903642113597559.png" alt="$M_{33}$">. The values are specified in [Nm].</p><p><b>CXX</b> (<tt>matrix</tt>)</p><p>Contains diagonal elements of the covariance matrix with following elements (or columns if jacknife method is used) corresponding to <img src="doc_outputformat_eq15138425292306989767.png" alt="$c_{11}$">, <img src="doc_outputformat_eq09169953557047867366.png" alt="$c_{22}$">, <img src="doc_outputformat_eq15773362922279225615.png" alt="$c_{33}$">, <img src="doc_outputformat_eq10018892220197330887.png" alt="$c_{44}$">, <img src="doc_outputformat_eq09940183741213573377.png" alt="$c_{55}$">, and <img src="doc_outputformat_eq05616047160830337150.png" alt="$c_{66}$">. The covariance matrix is calculated only of <i>L2</i> norm is used.</p><p><b>RMSERROR</b> (<tt>scalar</tt> or <tt>vector</tt>)</p><p>Contain RMS error of the seismic moment tensor solution. The RMS error is calculated following the formula:</p><p><img src="doc_outputformat_eq07717939770669519578.png" alt="$$RMS=\sqrt{\frac{\sum_{i=1}^N(U_i^{measured}-U_i^{th})^2}{\sum_{i=1}^N(U_i^{measured})^2}}$$"></p><p>The RMS error is calculated from measured and predicted seismic moments on all <img src="doc_outputformat_eq03672095713503266041.png" alt="$N$"> stations (the measured and predicted seismic moments are provided in <tt>UMEASURED</tt> and <tt>UTH</tt> matrices).</p><p><b>Station</b> (<tt>cell array of strings</tt>)</p><p>Contains the list of stations used in seismic moment tensor inversion. The order of stations in the cell array reflects the order of data in <tt>UMEASURED</tt> and <tt>UTH</tt> matrices.</p><p><b>UMEASURED</b>, <b>UTH</b> (matrix)</p><p>These two matrices contain measured and theoretical moments recorded or predicted, respectively, on a particular station speficied by <tt>Station</tt> cell array. The measured amplitudes correspond to the input data.</p><h2>Handling output cell array data from many solutions<a name="51"></a></h2><p>As an example, let's perform the moment tensor inversion for 90 events using the sample data located in /examples directory:</p><pre class="codeinput">Solution = focimt(<span class="string">'./examples/example3.txt'</span>);
+</pre><p>The resulting <tt>Solution</tt> cell array contains 90 elements corresponding to 90 moment tensors calculated, one for each earthquake. Now, to access the results of a particular moment tensor inversion we have to use indexing operator, e.g.:</p><pre class="codeinput">Solution{5}.full
+</pre><pre class="codeoutput">
+ans = 
+
+          Type: {'N'}
+    STATION_ID: 0
+           ISO: -41.123
+          CLVD: -31.527
+            DC: 27.35
+            M0: 5.6378e+14
+            MT: 7.3059e+14
+      M0ERRMAX: 2.4521e+13
+            MW: 3.8041
+             P: [329.94 58.774]
+             T: [154.38 31.15]
+             B: [63.19 1.9677]
+            F1: [62.706 76.178 -92.026]
+            F2: [251.13 13.967 -81.821]
+         Fault: {'NF'}
+           MXX: [1x6 double]
+           CXX: [1x6 double]
+      RMSERROR: 0.33807
+       Station: {1x14 cell}
+     UMEASURED: [1x14 double]
+           UTH: [1x14 double]
+
+</pre><p>that provide us with results of <i>full</i> moment tensor inversion for the 5th seismic event.</p><p>Consider a scenario when we want to extract values of isotropic component from full moment tensor for all earthquakes, for example in order to plot statistics of <i>isotropic component</i> distribution in the analyzed dataset. This can be easily achieved by using the <tt><a href="doc_getsolution.html">getsolution.m</a></tt> routine:</p><pre class="codeinput">ISO = getsolution(Solution,<span class="string">'full'</span>,<span class="string">'ISO'</span>);
+</pre><p>This will result in a vector composed of 90 elements where each element corresponds to the amount of <i>isotropic</i> component from all 90 earthquakes for which the full seismic moment tensor was calculated. This can be used for plotting the statistics of various parameters for the inverted dataset, e.g.:</p><pre class="codeinput">hist(ISO)
+</pre><img vspace="5" hspace="5" src="doc_outputformat_01.png" alt=""> <p>willl display the distribution of <i>isotropic components</i> in the analyzed dataset.</p><p>In principle, more parameters can be extracted from the output cell array at once. For example, to extract the moment magnitude and orientation of P axes for the <i>deviatoric</i> moment tensor solutions of all analyzed earthquakes, the following code may be executed:</p><pre class="codeinput">[MW,P] = getsolution(Solution,<span class="string">'deviatoric'</span>,<span class="string">'MW'</span>,<span class="string">'P'</span>);
+</pre><p>It is important to note that the order of input parameters ('MW','P' in the example above determines the order of output parameters located on the left side of the formula. Also, the names of input parameters to extract must correspond to the names of variables in the ouput structure array!</p><p>The function may be also used to extract general output data outside of <tt>'full'</tt>, <tt>'deviatoric'</tt>, and <tt>'dc'</tt> structures inside of each cell array element. For example, the general data contains the ID number of events:</p><pre class="codeinput">Solution{1}
+</pre><p>To extract all ID numbers, the following code may be used:</p><pre class="codeinput">ids = getsolution(Solution,<span class="string">'deviatoric'</span>,<span class="string">'event_id'</span>);
+</pre><p>In this case, the second parameter (<tt>'deviatoric'</tt>) is of no use, but still it must be set up to either <tt>'full'</tt>, <tt>'deviatoric'</tt>, or <tt>'dc'</tt>.</p><pre class="codeoutput">
+ans = 
+
+          event_id: '004-03781'
+          n_trials: 1
+    calculation_dt: 7.3626e+05
+              full: [1x1 struct]
+        deviatoric: [1x1 struct]
+                dc: [1x1 struct]
+
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Output focimt cell array formats
+%%
+% The results of seismic moment tensor inversion performed using 
+% |<doc_focimt.html focimt.m>| routine are by default returned in a cell array. 
+% The cell array is composed of _n_ elements, each containing seismic moment 
+% tensor solution from a single earthquake. The order of seismic moment tensor 
+% solutions in the output cell array corresponds to the order of input cell
+% array data, or accordingly to the order of event/phase data in the input ASCII
+% files.
+%%
+% The package provides |<doc_getsolution.html getsolution.m>| routine that
+% can efficiently extract information from moment tensor inversion output cell 
+% array. See _Examples_ section for details.
+%%
+% Consider the output of the seismic moment tensor inversion using 
+% |focimt|, returned in the following example:
+%%
+[Output, Input] = focimt('./examples/example2_raw.txt');
+Output
+%%
+% This particular dataset contained event and phase data from two earthquakes. 
+% To access the seismic moment tensor solution from a particular earthquake, one have 
+% to specify explicitly the element of |Output| cell array:
+Output{1}
+%%
+% Each cell array element contains basic information on earthquake as well
+% as three MATLAB structure arrays |full|, |deviatoric| and |dc| containing seismic moment 
+% tensor inversion solutions for unconstrained, deviatoric and
+% double-couple seismic moment tensors. 
+%% General seismic moment tensor solution data
+% The basic data holds the general information on processed earthquake:
+%%
+% *event_id*
+%%
+% Contains the event ID number specified in the input file or input cell array.
+%%
+% *n_trials*
+%%
+% This field contains the number of calculations of the seismic moment tensor.
+% Unless _Jacknife test_ or _Bootstrap resampling_ is used while running the seismic 
+% moment tensor inversion using |focimt.m| routine, the number of solutions is 
+% always 1, i.e. |n_trials=1|. If _Jacknife_ parameter is
+% |'on'|, three structures |full|, |deviatoric| and |dc| will contain various 
+% fields containing seismic moment tensor output parameters in a form of cell 
+% arrays (or matrices) with _m+1_ elements (or rows) where _m_ is the 
+% number of stations. First elements (or rows) of fields will 
+% correspond to the regular moment tensor solution using 
+% all stations available and the following elements (or rows) will 
+% correspond to the _Jacknife_ solutions, every other with different station 
+% removed.
+%%%
+% Similarly, if _Bootstrap resampling_ procedure is enabled, the output cell
+% array will contain various field where each field will have _m+1_ elements.
+% Again, the first element corresponds to the _regular_ seismic moment tensor
+% inversion result, where all stations were used and the following elements
+% corresponds to bootstrap-resampled data.
+%%
+% *calculation_dt*
+%%
+% Contains time of calculation in MATLAB datetime format.
+%% Seismic moment tensor solution data
+% The last three structure arrays, *full*, *deviatoric* and *dc* contain the actual 
+% seismic moment tensor inversion results for
+% unconstrained full moment tensor (structure |full|), constrained deviatoric or 
+% equivalently trace-null moment tensor (structure |deviatoric|) and 
+% constrained double-couple moment tensor (structure |dc|). The format
+% off all structures is the same and can be easily visualized by accessing the
+% particular element of the structure array. For example, to access the 
+% full (uncostrained) moment tensor inversion results:
+Output{1}.full
+%%
+% The meaning of the fields is as follows:
+%%
+% *Type* (|string| or |cell array of strings|)
+%%
+% Contains information on the type of seismic moment tensor inversion, only
+% meaningfull while _Jacknife test_ or _Bootstrap resampling_ is performed. |'N'| character denotes
+% the regular solution calculated with all stations available. The |'J'|
+% character denotes seismic moment tensor solution calculated with Jacknife
+% approach. In this case the information on which station was removed is specified in
+% |STATION_ID| variable. Finally, the |'B'| character denotes the
+% boostrap-resampled dataset.
+%%
+% *ISO* (|scalar| or |vector|)
+%% 
+% Contains the amount of isotropic component in the calculated seismic moment 
+% tensors in percents. 
+%%
+% *CLVD* (|scalar| or |vector|)
+%%
+% Contains amount of CLVD (compensated linear vector dipole) component in
+% the calculated seismic moment tensor. The value is specifed in percents.
+%%
+% *DC* (|scalar| or |vector|)
+%%
+% Contains amount of double-couple components in the calculate seismic
+% moment tensor. The value is provided in percents.
+%%
+% *M0* (|scalar| or |vector|)
+%%
+% Contains the scalar seismic moment in Newton-Meters [Nm]. 
+%%
+% *MT* (|scalar| or |vector|)
+%%
+% Contains the information on total seismic moment in Newton-Meters [Nm]. The value is
+% calculated according to the following formula: 
+%
+% $$M_T=\sqrt{\sum{(m_{ii}^2)}}$$
+%
+%%
+% where $m_{ii}$ are eigenvalues of the full seismic moment tensor. The total
+% seismic moment is equal to the seismic moment $M_0$ for double-couple
+% constrained moment tensor solution.
+%%
+% *M0ERRMAX* (|scalar| or |vector|)
+%%
+% Hold information on maximum error of the seismic moment tensor. The value
+% is extracted from covariance matrix:
+%
+% $$M_0^{errmax}=max\{\sqrt{C_{ii}}\}$$
+%
+%%
+% The maximum error is therefore the square root of the maximum diagonal
+% elements of the covariance matrix.
+%%
+% *MW* (|scalar| or |vector|)
+%%
+% Moment magnitude calculated from the total seismic moment using Hanks and
+% Kanamori (1979) formula:
+%
+% $$M_W=0.66\log_{10}M_0-6.03$$
+%
+%%
+% *P*, *T*, *B* (|matrix|)
+%%
+% These three matrices contain information on trend and plunge of P, T, and
+% B axes. The trend is provided in degrees from north towards east. The
+% plunge is presented in degrees from horizontal towards bottom (plunge
+% equal to 0 corresponds to horizontal (parallel to earth surface) directio
+% while plunge equal to 90 corresponds to pure vertical directio (towards
+% center of Earth).
+%%
+% *F1*, *F2* (|matrix|)
+%%
+% These two matrices contain fault parameters. First, second and third
+% element (or column when either _Jacknife test_ or _Bootstrap resampling_ is turned on) corresponds to strike, dip and
+% rake. All values are provided in degrees and follows the seismological
+% convention. The strike (first column) is measured from north to east. The dip (second column) is measured
+% from horizontal to vertical and rake (third colum) is positive/negative for thrust/normal
+% faulting.
+%%
+% *Fault* (|string| or |cell array of strings|)
+%%
+% Provides information on the _fault type_. This value is calculated by comparing
+% the orientation of _P_, _T_ and _B_ axes with respect to global
+% coordinate system (i.e. which one is the most "vertical" axis, plungin with
+% the highhest angle). |'NF'|, |'SS'|, |'TF'| denotes _normal fault_, _strike 
+% slipe fault_ and _thrust fault_, respectively.
+%%
+% *MXX* (|matrix|)
+%% 
+% Contains information on moment tensor components in AKI's convention. The following elements (or
+% columents, if jacknife mode is used) correspond to $M_{11}$, $M_{12}$, 
+% $M_{13}$, $M_{22}$, $M_{23}$, and $M_{33}$. The values are specified in
+% [Nm].
+%%
+% *CXX* (|matrix|)
+%% 
+% Contains diagonal elements of the covariance matrix with following elements
+% (or columns if jacknife method is used) corresponding to $c_{11}$, 
+% $c_{22}$, $c_{33}$, $c_{44}$, $c_{55}$, and $c_{66}$. The covariance
+% matrix is calculated only of _L2_ norm is used.
+%% 
+% *RMSERROR* (|scalar| or |vector|)
+%%
+% Contain RMS error of the seismic moment tensor solution. The RMS error is
+% calculated following the formula:
+%
+% $$RMS=\sqrt{\frac{\sum_{i=1}^N(U_i^{measured}-U_i^{th})^2}{\sum_{i=1}^N(U_i^{measured})^2}}$$
+%
+% The RMS error is calculated from measured and predicted seismic moments on all
+% $N$ stations (the measured and predicted seismic moments are provided in
+% |UMEASURED| and |UTH| matrices).
+%%
+% *Station* (|cell array of strings|)
+%%
+% Contains the list of stations used in seismic moment tensor inversion. The
+% order of stations in the cell array reflects the order of data in |UMEASURED|
+% and |UTH| matrices. 
+%%
+% *UMEASURED*, *UTH* (matrix)
+%%
+% These two matrices contain measured and theoretical moments recorded or
+% predicted, respectively, on a particular station speficied by |Station| cell array. 
+% The measured amplitudes correspond to the input data. 
+
+%% Handling output cell array data from many solutions
+% As an example, let's perform the moment tensor inversion for 90 
+% events using the sample data located in
+% /examples directory:
+Solution = focimt('./examples/example3.txt');
+%%
+% The resulting |Solution| cell array contains 90 elements corresponding to 90
+% moment tensors calculated, one for each earthquake. Now, to access the results of a
+% particular moment tensor inversion we have to use indexing operator, e.g.:
+Solution{5}.full
+%%
+% that provide us with results of _full_ moment tensor inversion for the 5th seismic
+% event. 
+%%
+% Consider a scenario when we want to extract values of isotropic
+% component from full moment tensor for all earthquakes, for example in order
+% to plot statistics of _isotropic component_ distribution in the analyzed 
+% dataset. This can be easily achieved by using the |<doc_getsolution.html getsolution.m>| 
+% routine:
+ISO = getsolution(Solution,'full','ISO');
+%%
+% This will result in a vector composed of 90 elements where each element
+% corresponds to the amount of _isotropic_ component from all 90 earthquakes for
+% which the full seismic moment tensor was calculated. This can be used for
+% plotting the statistics of various parameters for the inverted dataset, e.g.:
+hist(ISO) 
+%%
+% willl display the distribution of _isotropic components_ in the analyzed 
+% dataset.
+%%
+% In principle, more parameters can be extracted from the output cell array 
+% at once. For example, to extract the moment magnitude and orientation 
+% of P axes for the _deviatoric_ moment tensor solutions of all analyzed 
+% earthquakes, the following code may be executed:
+[MW,P] = getsolution(Solution,'deviatoric','MW','P');
+%% 
+% It is important to note that the order of input parameters ('MW','P' in the 
+% example above determines the order of output parameters located on the left
+% side of the formula. Also, the names of input parameters to extract must
+% correspond to the names of variables in the ouput structure array!
+%%%
+% The function may be also used to extract general output data outside of
+% |'full'|, |'deviatoric'|, and |'dc'| structures inside of each cell array element.
+% For example, the general data contains the ID number of events:
+Solution{1}
+%%%
+% To extract all ID numbers, the following code may be used:
+ids = getsolution(Solution,'deviatoric','event_id');
+%%%
+% In this case, the second parameter (|'deviatoric'|) is of no use, but still
+% it must be set up to either |'full'|, |'deviatoric'|, or |'dc'|. 
+      
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,620 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Quick start guide</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_quickstart.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Quick start guide</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Installation</a></li><li><a href="#2">Getting help/documentation</a></li><li><a href="#7">Moment tensor inversion</a></li><li><a href="#11">Getting parametric output data</a></li><li><a href="#15">Quality assessment</a></li><li><a href="#23">Handling multiple events at once</a></li><li><a href="#32">Refinement of moment tensors using Hybrid Moment Tensor</a></li></ul></div><h2>Installation<a name="1"></a></h2><p>The downloaded package should be firstly unpacked to a separate directory. In the following, it is recommended to add the location of the directory with the content of <b>hybridMT</b> package to MATLAB path. One can either do it through MATLAB interface (Home&gt;Set Path in R2014b) or by calling the script <tt>hybridmt_install.m</tt> located in the root folder of <b>hybridMT</b> package. The script will add the location of root folder to MATLAB search path and also update the help search database with the documentation of <b>hybridMT</b> package.</p><h2>Getting help/documentation<a name="2"></a></h2><p>The package integrates with MATLAB help system and search database. Accessing <tt>hybridMT</tt> package help system may vary with different versions of MATLAB. In newest releases, the documentation is accessible by opening the MATLAB help system and clicking on <i>Supplemental Software</i> link located in the bottom part of the help homescreen:</p><p><img vspace="5" hspace="5" src="help_supplementary.png" alt=""> </p><p>resulting in opening the package help system:</p><p><img vspace="5" hspace="5" src="help_package.png" alt=""> </p><p>Alternatively, the following command may be executed when current MATLAB folder is set to the directory where the package was installed:</p><pre class="codeinput">doc <span class="string">-classic</span>;
+</pre><p>Older versions of MATLAB may integrate the <b>hybridMT</b> help with MATLAB documentation.</p><p>The help is also provided in a form of HTML files accompanying each function. For example, typing down:</p><pre class="codeinput">help <span class="string">focimt</span>;
+</pre><pre class="codeoutput"> FOCIMT Perform seismic full moment tensor inversion using fociMT software.
+    Use FOCIMT to perform the seismic moment tensor inversion using fociMT
+    software via MATLAB wrapper.
+ 
+    part of hybridMT package
+    &lt;a href="matlab:open('html/doc_focimt.html')"&gt;Reference page for focimt&lt;/a&gt;
+
+</pre><p>provides the User with a short description of the routine. The User can follow the hyperlink that provides the extended documentation of the routine.</p><p>Finally, the <b>hybridMT</b> package provides a documentation in a form of PDF file located in the main directory.</p><h2>Moment tensor inversion<a name="7"></a></h2><p>The seismic moment tensor inversion may be performed by a direct call to command line application <tt><a href="doc_focimtexe.html">focimt</a></tt> or by calling the <tt><a href="doc_focimt.html">focimt.m</a></tt> routine. The latter routine is in fact a MATLAB "wrapper" to <tt><a href="doc_focimtexe.html">focimt</a></tt> allowing to easily specify the inversion parameters as well as to gather the moment tensor output.</p><p>The input moment tensor inversion data must be provided in a form of ASCII file following one of two available input formats handled by the package functions described in the manual later on. Examples of ASCII input files are located in <tt>/examples</tt> subdirectory of <b>hybridMT</b> package installation folder.</p><p>In the following, we use sample file <tt>example6a.txt</tt> located in <tt>/examples</tt> folder that is formatted according to <i>1D velocity model ASCII format</i>. One can open the input file with any ASCII text editor:</p><pre>71761660 19    4299668     514987    -2300     2700
+  AL4 Z P   -5.837934028e-009    4298878     514278      661
+  MCL Z P   -1.597535590e-008    4300663     515328      961
+  BUC Z P   -1.974913194e-010    4297161     514321      888
+  BRP Z P   -1.531125000e-008    4300690     517602      905
+  SQK Z P   -5.010868056e-009    4297196     516487      639
+  CLV Z P   -4.782118056e-009    4298866     518196      989
+  AL5 Z P    1.063269965e-008    4299029     511402      593
+  RGP Z P   -3.901814236e-009    4303292     516370      799
+  SB4 Z P   -1.578637153e-009    4295581     514832      327
+  HBW Z P    9.751050347e-009    4301085     510786      985
+  HVC Z P   -2.176428908e-009    4299334     519405      779
+  AL1 Z P    7.571961806e-009    4298831     510115      704
+  NEG Z P   -1.369678819e-009    4297989     519971      922
+  STY Z P    2.129661458e-009    4296077     519041     1112
+  AL6 Z P    1.136909722e-009    4294586     512040      749
+  ACR Z P   -7.998354869e-010    4298682     520805      803
+  DRK Z P    1.260164931e-009    4293306     517103      757
+  HER Z P    1.906137153e-009    4299553     507480      668
+  LCK Z P    2.227144097e-009    4296783     522420     1166</pre><p>The first line of the input file is <i>Event Line</i> containing basic information about seismic event. In this particular case the <tt>71761660</tt> reflects event ID number followed by number of phases (<tt>26</tt>) and location of earthquake in local cartesian coordinate system (Northing = 4299447 meters, Easting = 515161 meters, Z = -2460 meters). The last value corresponds to the rock density in hypocentral area (2900kg/m^3).</p><p>The <i>event line</i> is followed by limited (in this particular case 26) <i>phase lines</i> containing phase information. Each phase lines contains information on station name (<tt>'AL4'</tt>), component and phase type (<tt>'Z'</tt> and <tt>'P'</tt>), area below the first pulse of the phase onset (=spectral level, = proportional to seismic moment) together with sign information, and finally location of stations in Cartesian coordinate system.</p><p>The ASCII input file may contain multiple blocks <i>event line</i> - <i>phase_lines</i> allowing performing the moment tensor inversion for many earthquakes at once. More details on the format of the input files is presented in section <a href="doc_focimtformats.html">Input focimt ASCII file formats</a> of the main manual.</p><p>This type of input file assumes the User provide the 1D velocity model to perform the 1D ray-tracing and calculate auxiliary parameters necessary for the moment tensor inversion such as the takeoff angles, incidence angles and distance along the ray path (the latter is necessary to calculate the seismic moment). We therefore prepare the velocity model first:</p><pre class="codeinput">VELOCITYMODEL = [0.00 3.00 8.00 20.00 22.00; 4.10 5.47 5.75 6.02 7.90]';
+stairs(VELOCITYMODEL(:,2),VELOCITYMODEL(:,1),<span class="string">'-'</span>,<span class="string">'LineWidth'</span>,2);
+ylabel(<span class="string">'Layer top [km]'</span>); xlabel(<span class="string">'Velocity [km/s]'</span>);
+set(gca,<span class="string">'YDir'</span>,<span class="string">'reverse'</span>);
+</pre><img vspace="5" hspace="5" src="doc_quickstart_01.png" alt=""> <p>Having the input file and the 1D velocity model, the moment tensor inversion (using defaut inversion options) can be performed easily by executing the <a href="doc_focimt.m">focimt</a> routine:</p><pre class="codeinput">Solution = focimt(<span class="string">'examples/example6a.txt'</span>,<span class="string">'VelocityModel'</span>,VELOCITYMODEL,<span class="string">'BeachBallFormat'</span>,<span class="string">'PNG'</span>);
+</pre><p>The velocity model for the moment tensor inversion with the ASCII file above was provided by auxiliary parameter <i>VelocityModel</i>. The additional parameter <i>BeachBallFormat</i> allows to create a graphical representation of the seismic moment tensor inversion in a form of beach ball plot. By default, three moment tensors are calculated:</p><div><ul><li>Unconstrained (full) moment tensor solution,</li><li>Deviatoric moment tensor solution (no volumetric change in the source, i.e. ISO = 0, CLVD+DC), and</li><li>Double-couple moment tensor solution (no volumetric change in the   source, no linear dipole, ISO = 0, CLVD = 0, DC).</li></ul></div><p>The detailed information on the inversion method used as well as the moment tensor decomposition scheme used in the package is presented in section <a href="doc_method.html">Theoretical background</a> of the main manual.</p><p>Setting the second auxiliary parameter <i>BeachBallFormat</i> to <tt>'PNG'</tt> results in generation of three PNG images representing uncostrained, deviatoric and double-couple solutions. Other image formats such as PDF, SVG and PS are available by modification of <i>BeachBallFormat</i>.</p><p>Double-couple solution (ISO = 0%, CLVD = 0%):</p><p><img vspace="5" hspace="5" src="71761660-dc.png" alt=""> </p><p>Deviatoric solution (ISO = 0%):</p><p><img vspace="5" hspace="5" src="71761660-deviatoric.png" alt=""> </p><p>Full solution:</p><p><img vspace="5" hspace="5" src="71761660-full.png" alt=""> </p><p>By default, the generated beach ball contains center cross, best double-couple nodal lines, station locations on the focal sphere, location of P and T axes and center cross. Each of these elements may be switch on or off by modification of <i>PlotCross</i>, <i>PlotDC</i>, <i>PlotStations</i> and <i>PlotAxes</i> properties. Also, the projection type (equal area/equal angle) as well as projection hemisphere (lower/upper) can be adjusted to User preferences by modification of <i>Projection</i> and <i>Hemisphere</i> properties. Finally, the size of output image(s) can be modified by <i>BeachBallSize</i> property.</p><h2>Getting parametric output data<a name="11"></a></h2><p>The moment tensor solution is returned as cell array:</p><pre class="codeinput">Solution
+</pre><pre class="codeoutput">
+Solution = 
+
+    [1x1 struct]
+
+</pre><p>Each cell array element corresponds to resulting moment tensor from a single earthquake. For example, to access the moment tensor solutions (full, deviatoric, and double-couple solutions) of the first earthquake we can use the indexing operator. Using the moment tensor solution from example above, this can be done by calling:</p><pre class="codeinput">Solution{1}
+</pre><pre class="codeoutput">
+ans = 
+
+          event_id: '71761660'
+          n_trials: 1
+    calculation_dt: 7.3626e+05
+              full: [1x1 struct]
+        deviatoric: [1x1 struct]
+                dc: [1x1 struct]
+
+</pre><p>Each element of the cell array is a structure array containing basic information on earthquake (<tt>event_id</tt>, <tt>n_trials</tt>, and <tt>calculation_dt</tt>) and three structures containing output parameters of calculated unconstrained full, deviatoric and double-couple constrained moment tensors (<tt>full</tt>, <tt>deviatoric</tt> and <tt>dc</tt> structures). For example, to access the output parameters of the full moment tensor solution of the first earthquake one may type:</p><pre class="codeinput">Solution{1}.full
+</pre><pre class="codeoutput">
+ans = 
+
+          Type: {'N'}
+    STATION_ID: 0
+           ISO: 11.63
+          CLVD: 3.9735
+            DC: 84.397
+            M0: 2.253e+11
+            MT: 2.3707e+11
+      M0ERRMAX: 6.7724e+09
+            MW: 1.5385
+             P: [246.78 61.337]
+             T: [116.91 19.311]
+             B: [19.453 20.33]
+            F1: [10.517 67.255 -112.13]
+            F2: [236.97 31.319 -48.056]
+         Fault: {'NF'}
+           MXX: [1x6 double]
+           CXX: [1x6 double]
+      RMSERROR: 0.25025
+       Station: {1x19 cell}
+     UMEASURED: [1x19 double]
+           UTH: [1x19 double]
+
+</pre><p>The elements of moment tensor solution structure array are generally self-explanatory (more details on meaning of all parameters is presented in section <a href="doc_outputformat.html">Output focimt cell array formats</a> of the manual). For example, the orientation of the two fault planes is stored in variables <tt>F1</tt> and <tt>F2</tt> as <tt>[strike dip rake]</tt> triplets. Similarly, the orientation of P, T, B cardinal axes is formatted as <tt>[trend plunge]</tt>. The scalar and total seismic moment is stored in <tt>M0</tt> and <tt>MT</tt> variables. The detailed overview of all output parameters is presented in section <a href="doc_outputformat.html">Output focimt cell array formats</a> of the manual.</p><h2>Quality assessment<a name="15"></a></h2><p>Each moment tensor solution structure array contains two direct parameters corresponding to the quality of the seismic moment tensor inversted:</p><div><ul><li>RMS error between observed and predicted amplitudes. The value is stored in <tt>RMSERROR</tt> variable.</li><li>Maximum error of the seismic moment calculated as the square root of the maximum element of covariance matrix. The value is stored in <tt>M0ERRMAX</tt> variable.</li></ul></div><p>For example, the deviatoric solution of the moment tensor solution calculated previously has RMS error and maximum error:</p><pre class="codeinput">Solution{1}.deviatoric.RMSERROR
+</pre><pre class="codeoutput">
+ans =
+
+      0.30186
+
+</pre><p>and</p><pre class="codeinput">Solution{1}.deviatoric.M0ERRMAX
+</pre><pre class="codeoutput">
+ans =
+
+   6.4676e+09
+
+</pre><p>The package allows to perform two other types of quality assessment of the seismic moment tensors:</p><div><ul><li>Station Jacknife test</li><li>Bootstrap resampling</li></ul></div><p>In <i>Station Jacknife Test</i> the seismic moment tensor inversion is firstly performed with all phases available. In the second step, the inversion is repeated with one phase removed from the input data. The second stage is repeated for every phase. The resulting moment tensor contains one solution with all phases used and <i>n</i> auxiliary solutions (where <i>n</i> is the number of phases). This procedure allows to detect potential bias introduced by a single phase (or station) to the moment tensor solution (for example bad gain or bad polarity of the station).</p><p>The <i>Station Jacknife test</i> mayb be toggle on by modyfication of the <i>Jacknife</i> property of <a href="doc_focimt.html">focimt</a> routine. In the following example we perform the station Jacknife test using the same input file as before:</p><pre class="codeinput">JacknifeSol = focimt(<span class="string">'examples/example6a.txt'</span>,<span class="string">'VelocityModel'</span>,VELOCITYMODEL, <span class="keyword">...</span>
+  <span class="string">'BeachBallFormat'</span>,<span class="string">'PNG'</span>,<span class="string">'Jacknife'</span>,<span class="string">'on'</span>,<span class="string">'ProjectDir'</span>,<span class="string">'jtest'</span>);
+</pre><p>This time we stored the results in the project folder specified by <i>ProjectDir</i> parameter and we additionally turned on the <i>Jacknife station test</i>.</p><p>The generated graphical representation of the seismic moment tensors for full, deviatoric and double-couple moment tensors look as follows:</p><p>Double-couple solution (ISO = 0%, CLVD = 0%):</p><p><img vspace="5" hspace="5" src="jtest/71761660-dc.png" alt=""> </p><p>Deviatoric solution (ISO = 0%):</p><p><img vspace="5" hspace="5" src="jtest/71761660-deviatoric.png" alt=""> </p><p>Full solution:</p><p><img vspace="5" hspace="5" src="jtest/71761660-full.png" alt=""> </p><p>The tensor shading and black nodal lines corresponds to the moment tensor solution calculated with all phases (stations). The blue lines correspond to nodal lines calculated with <i>Jacknife</i> method. The color of the <i>Jacknife</i> lines depicts the sense of fault motion. Blue, green and red nodal lines correspond to the normal, strike-slip and thrust faulting. In the example above the moment tensor solution is very stable and removing of random one station in general does not affect the solution nearly at all.</p><p>The second type of uncertainty assessment is <i>bootstrap resampling</i> of the original catalog. In bootstrap resampling, the original input phase data is used to generate <tt>n</tt> derived input phase data. For each bootstrap sample, up to <tt>m</tt> percent of randomly selected phases will have polarity reversed. The bootstrap resampling parameters is handled by <i>Bootstrap</i> option followed by a 1-by-2 elements vector where first number correspond to the number of bootstrap resamplings and second number specifies what is the percentage polarities to be reversed.</p><p>In the following example we generate and then pefrorm the seismic moment tensor inversion of 100-elements bootstrap resample of the input dataset generated under the assumption that up to 1% of input phases may have wrongly picked polarity:</p><pre class="codeinput">BootstrapSol = focimt(<span class="string">'examples/example6a.txt'</span>,<span class="string">'VelocityModel'</span>,VELOCITYMODEL, <span class="keyword">...</span>
+  <span class="string">'BeachBallFormat'</span>,<span class="string">'PNG'</span>,<span class="string">'Bootstrap'</span>,[100 0.01],<span class="string">'ProjectDir'</span>,<span class="string">'btest_n01'</span>);
+</pre><p>This results in the following distribution of uncertainties of the fault plane estimation:</p><p>Double-couple solution (ISO = 0%, CLVD = 0%):</p><p><img vspace="5" hspace="5" src="btest_n01/71761660-dc.png" alt=""> </p><p>Deviatoric solution (ISO = 0%):</p><p><img vspace="5" hspace="5" src="btest_n01/71761660-deviatoric.png" alt=""> </p><p>Full solution:</p><p><img vspace="5" hspace="5" src="btest_n01/71761660-full.png" alt=""> </p><p>Both <i>Station Jacknife Test</i> and <i>Bootstrap resampling</i> generate a set of seismic moment tensor solutions. This set is obviously returned in output cell array. For example, while accessing the full moment tensor solution from bootstrap resampling method one can realize that the output parameters are now matrices with the number of rows corresponding to the total number of bootstrap resamplings plus one additional row corresponding to the original solution with original input data:</p><pre class="codeinput">BootstrapSol{1}.full
+</pre><pre class="codeoutput">
+ans = 
+
+          Type: {101x1 cell}
+    STATION_ID: [101x1 int32]
+           ISO: [101x1 double]
+          CLVD: [101x1 double]
+            DC: [101x1 double]
+            M0: [101x1 double]
+            MT: [101x1 double]
+      M0ERRMAX: [101x1 double]
+            MW: [101x1 double]
+             P: [101x2 double]
+             T: [101x2 double]
+             B: [101x2 double]
+            F1: [101x3 double]
+            F2: [101x3 double]
+         Fault: {101x1 cell}
+           MXX: [101x6 double]
+           CXX: [101x6 double]
+      RMSERROR: [101x1 double]
+       Station: {1x19 cell}
+     UMEASURED: [101x19 double]
+           UTH: [101x19 double]
+
+</pre><p>The type of solution can be easily recovered by inspecting the <tt>Type</tt> element of moment tensor solution structure:</p><pre class="codeinput">[BootstrapSol{1}.full.Type{:}]
+</pre><pre class="codeoutput">
+ans =
+
+NBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
+
+</pre><p>In the example above <tt>'N'</tt> corresponds to [N]ormal (original) solution from input dataset provided and <tt>'B'</tt> denotes bootstrap-resampled solution (<tt>J</tt> corresponds to Station Jacknife Test solution).</p><p>Having the boostrap resampling one can investigate the uncertainties of various parameters. For example, to plot the distribution of deviatoric component of resampled dataset:</p><pre class="codeinput">hist(BootstrapSol{1}.full.ISO);
+xlabel(<span class="string">'ISO component percentage'</span>);
+ylabel(<span class="string">'Frequency'</span>);
+</pre><img vspace="5" hspace="5" src="doc_quickstart_02.png" alt=""> <p>The following example plots the uncertainties of moment magnitude:</p><pre class="codeinput">hist(BootstrapSol{1}.full.MW);
+xlabel(<span class="string">'Moment magnitude'</span>);
+ylabel(<span class="string">'Frequency'</span>);
+</pre><img vspace="5" hspace="5" src="doc_quickstart_03.png" alt=""> <h2>Handling multiple events at once<a name="23"></a></h2><p>So far we discussed the moment tensor inversion of a single earthquake. However, the <b>hybridMT</b> package allows to process multiple events at once. As an example, let's perform the moment tensor inversion for 90 events using the sample data located in /examples directory and default processing parameters:</p><pre class="codeinput">MultipleEventsSolution = focimt(<span class="string">'./examples/example3.txt'</span>);
+</pre><p>The resulting <tt>MultipleEventsSolution</tt> cell array contains 90 elements corresponding to 90 moment tensors calculated, one for each earthquake. Now, to access the results of a particular moment tensor inversion we have to use indexing operator. For example, to access the 5th solution, one should use the followind code:</p><pre class="codeinput">MultipleEventsSolution{5}.full
+</pre><pre class="codeoutput">
+ans = 
+
+          Type: {'N'}
+    STATION_ID: 0
+           ISO: -41.123
+          CLVD: -31.527
+            DC: 27.35
+            M0: 5.6378e+14
+            MT: 7.3059e+14
+      M0ERRMAX: 2.4521e+13
+            MW: 3.8041
+             P: [329.94 58.774]
+             T: [154.38 31.15]
+             B: [63.19 1.9677]
+            F1: [62.706 76.178 -92.026]
+            F2: [251.13 13.967 -81.821]
+         Fault: {'NF'}
+           MXX: [1x6 double]
+           CXX: [1x6 double]
+      RMSERROR: 0.33807
+       Station: {1x14 cell}
+     UMEASURED: [1x14 double]
+           UTH: [1x14 double]
+
+</pre><p>that provide us with results of <i>full</i> moment tensor inversion for the 5th seismic event.</p><p>Consider a scenario when we want to extract values of <i>isotropic</i> component from <i>full moment tensor</i> for ALL earthquakes, for example in order to plot the statistics of <i>isotropic component</i> of the analyzed dataset. In other words, we would like to extract the value of <tt>ISO</tt> variable in full moment tensor solution structure array <tt>full</tt> for each element of output cell array. This is quite complicated in general, however the <b>hybridMT</b> package provides a convenient function <tt><a href="doc_getsolution.html">getsolution.m</a></tt> to handle such case.</p><p>The following code will extract the amount of <i>isotropic</i> component of full moment tensors for all 90 events from the output cell array:</p><pre class="codeinput">ISO = getsolution(MultipleEventsSolution,<span class="string">'full'</span>,<span class="string">'ISO'</span>);
+</pre><p>This will result in a vector composed of 90 elements where each element corresponds to the amount of <i>isotropic</i> component from all 90 earthquakes for which the full seismic moment tensor was calculated. This can be used for plotting the statistics of various parameters for the inverted dataset, e.g.:</p><pre class="codeinput">hist(ISO)
+</pre><img vspace="5" hspace="5" src="doc_quickstart_04.png" alt=""> <p>willl display the distribution of <i>isotropic components</i> in the analyzed dataset.</p><p>In principle, more parameters can be extracted from the output cell array at once. For example, to extract the moment magnitude and orientation of P axes for the <i>deviatoric</i> moment tensor solutions of all analyzed earthquakes, the following code may be executed:</p><pre class="codeinput">[MW,P] = getsolution(MultipleEventsSolution,<span class="string">'deviatoric'</span>,<span class="string">'MW'</span>,<span class="string">'P'</span>);
+</pre><p>It is important to note that the order of input parameters ('MW','P' in the example above determines the order of output parameters located on the left side of the formula. Also, the names of input parameters to extract must correspond to the names of variables in the ouput structure array!</p><p>The function may be also used to extract general output data outside of <tt>'full'</tt>, <tt>'deviatoric'</tt>, and <tt>'dc'</tt> structures inside of each cell array element. For example, the general data contains the ID number of events:</p><pre class="codeinput">MultipleEventsSolution{1}
+</pre><pre class="codeoutput">
+ans = 
+
+          event_id: '004-03781'
+          n_trials: 1
+    calculation_dt: 7.3626e+05
+              full: [1x1 struct]
+        deviatoric: [1x1 struct]
+                dc: [1x1 struct]
+
+</pre><p>Finally, the routine works also for general output data. For example, to extract all ID numbers, the following code may be used:</p><pre class="codeinput">ids = getsolution(MultipleEventsSolution,<span class="string">'deviatoric'</span>,<span class="string">'event_id'</span>);
+</pre><p>In this case, the second parameter (<tt>'deviatoric'</tt>) is of no use, but still it must be set up to either <tt>'full'</tt>, <tt>'deviatoric'</tt>, or <tt>'dc'</tt>.</p><h2>Refinement of moment tensors using Hybrid Moment Tensor<a name="32"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Quick start guide
+% 
+%% Installation
+% The downloaded package should be firstly unpacked to a separate directory. 
+% In the following, it is recommended to add the location of the directory with 
+% the content of *hybridMT* package to MATLAB path. One can either do it 
+% through MATLAB interface (Home>Set Path in R2014b) or by calling the script 
+% |hybridmt_install.m| located in the root folder of *hybridMT* package.
+% The script will add the location of root folder to MATLAB search path and
+% also update the help search database with the documentation of *hybridMT*
+% package.
+%% Getting help/documentation
+% The package integrates with MATLAB help system and search database.
+% Accessing |hybridMT| package help system may vary with different versions
+% of MATLAB. In newest releases, the documentation is accessible by opening
+% the MATLAB help system and clicking on _Supplemental Software_ link
+% located in the bottom part of the help homescreen:
+%
+% <<help_supplementary.png>>
+%
+% resulting in opening the package help system:
+%
+% <<help_package.png>>
+%
+% Alternatively, the following command may be executed when current MATLAB 
+% folder is set to the directory where the package was installed:
+doc -classic; 
+%%
+% Older versions of MATLAB may integrate the *hybridMT* help with 
+% MATLAB documentation.
+%%
+% The help is also provided in a form of HTML files accompanying each
+% function. For example, typing down:
+help focimt;
+%%
+% provides the User with a short description of the routine. The User can
+% follow the hyperlink that provides the extended documentation of the
+% routine.
+%%
+% Finally, the *hybridMT* package provides a documentation in a form of PDF
+% file located in the main directory. 
+%% Moment tensor inversion
+% The seismic moment tensor inversion may be performed by a direct call to
+% command line application |<doc_focimtexe.html focimt>| or by calling the 
+% |<doc_focimt.html focimt.m>| routine. The latter routine is in fact a
+% MATLAB "wrapper" to |<doc_focimtexe.html focimt>| allowing to easily
+% specify the inversion parameters as well as to gather the moment tensor
+% output.
+%
+% The input moment tensor inversion data must be provided in a form of
+% ASCII file following one of two available input formats handled by the package functions 
+% described in the manual later on. Examples of ASCII input files are located in |/examples| 
+% subdirectory of *hybridMT* package installation folder. 
+%
+% In the following, we use sample file |example6a.txt| located in |/examples|
+% folder that is formatted according to _1D velocity model ASCII format_. 
+% One can open the input file with any ASCII text editor:
+%
+%  71761660 19    4299668     514987    -2300     2700
+%    AL4 Z P   -5.837934028e-009    4298878     514278      661
+%    MCL Z P   -1.597535590e-008    4300663     515328      961
+%    BUC Z P   -1.974913194e-010    4297161     514321      888
+%    BRP Z P   -1.531125000e-008    4300690     517602      905
+%    SQK Z P   -5.010868056e-009    4297196     516487      639
+%    CLV Z P   -4.782118056e-009    4298866     518196      989
+%    AL5 Z P    1.063269965e-008    4299029     511402      593
+%    RGP Z P   -3.901814236e-009    4303292     516370      799
+%    SB4 Z P   -1.578637153e-009    4295581     514832      327
+%    HBW Z P    9.751050347e-009    4301085     510786      985
+%    HVC Z P   -2.176428908e-009    4299334     519405      779
+%    AL1 Z P    7.571961806e-009    4298831     510115      704
+%    NEG Z P   -1.369678819e-009    4297989     519971      922
+%    STY Z P    2.129661458e-009    4296077     519041     1112
+%    AL6 Z P    1.136909722e-009    4294586     512040      749
+%    ACR Z P   -7.998354869e-010    4298682     520805      803
+%    DRK Z P    1.260164931e-009    4293306     517103      757
+%    HER Z P    1.906137153e-009    4299553     507480      668
+%    LCK Z P    2.227144097e-009    4296783     522420     1166
+%%
+% The first line of the input file is _Event Line_ containing basic
+% information about seismic event. In this particular case the |71761660|
+% reflects event ID number followed by number of phases (|26|) and location
+% of earthquake in local cartesian coordinate system (Northing = 4299447 meters,
+% Easting = 515161 meters, Z = -2460 meters). The last value corresponds to
+% the rock density in hypocentral area (2900kg/m^3).
+%
+% The _event line_ is followed by limited (in this particular case 26) 
+% _phase lines_ containing phase information. Each phase lines contains
+% information on station name (|'AL4'|), component and phase type (|'Z'|
+% and |'P'|), area below the first pulse of the phase onset (=spectral
+% level, = proportional to seismic moment) together with sign information,
+% and finally location of stations in Cartesian coordinate system. 
+%
+% The ASCII input file may contain multiple blocks _event line_ -
+% _phase_lines_ allowing performing the moment tensor inversion for many
+% earthquakes at once. More details on the format of the input files is 
+% presented in section <doc_focimtformats.html Input focimt ASCII file formats> of 
+% the main manual.
+%
+% This type of input file assumes the User provide the 1D velocity model to
+% perform the 1D ray-tracing and calculate auxiliary parameters necessary
+% for the moment tensor inversion such as the takeoff angles, incidence
+% angles and distance along the ray path (the latter is necessary to
+% calculate the seismic moment). We therefore prepare the velocity model
+% first:
+VELOCITYMODEL = [0.00 3.00 8.00 20.00 22.00; 4.10 5.47 5.75 6.02 7.90]';
+stairs(VELOCITYMODEL(:,2),VELOCITYMODEL(:,1),'-','LineWidth',2); 
+ylabel('Layer top [km]'); xlabel('Velocity [km/s]'); 
+set(gca,'YDir','reverse');
+%%
+% Having the input file and the 1D velocity model, the moment tensor
+% inversion (using defaut inversion options) can be performed easily by 
+% executing the <doc_focimt.m focimt> routine:
+Solution = focimt('examples/example6a.txt','VelocityModel',VELOCITYMODEL,'BeachBallFormat','PNG');
+%%
+% The velocity model for the moment tensor inversion with the ASCII file above 
+% was provided by auxiliary parameter _VelocityModel_. The additional parameter 
+% _BeachBallFormat_ allows to create a graphical
+% representation of the seismic moment tensor inversion in a form of beach
+% ball plot. By default, three moment tensors are calculated: 
+%
+% * Unconstrained (full) moment tensor solution,
+% * Deviatoric moment tensor solution (no volumetric change in the source, 
+% i.e. ISO = 0, CLVD+DC), and 
+% * Double-couple moment tensor solution (no volumetric change in the
+%   source, no linear dipole, ISO = 0, CLVD = 0, DC).
+% 
+% The detailed information on the inversion method used as well as the moment 
+% tensor decomposition scheme used in the package is presented in 
+% section <doc_method.html Theoretical background> of the main manual.
+%
+% Setting the second auxiliary parameter _BeachBallFormat_ to |'PNG'| results 
+% in generation of three PNG images representing uncostrained, deviatoric 
+% and double-couple solutions. Other image formats such as PDF, SVG and PS 
+% are available by modification of _BeachBallFormat_. 
+%
+% Double-couple solution (ISO = 0%, CLVD = 0%):
+%
+% <<71761660-dc.png>>
+%
+% Deviatoric solution (ISO = 0%):
+%
+% <<71761660-deviatoric.png>>
+%
+% Full solution:
+%
+% <<71761660-full.png>>
+%
+% By default, the generated beach ball contains center cross, best double-couple nodal lines, 
+% station locations on the focal sphere, location of P and T axes and center 
+% cross. Each of these elements may be switch on or off by modification of 
+% _PlotCross_, _PlotDC_, _PlotStations_ and _PlotAxes_ properties. Also, the projection type (equal area/equal angle) 
+% as well as projection hemisphere (lower/upper) can be adjusted to User 
+% preferences by modification of _Projection_ and _Hemisphere_ properties. Finally, the size
+% of output image(s) can be modified by _BeachBallSize_ property.
+%
+%% Getting parametric output data
+% The moment tensor solution is returned as cell array:
+Solution
+%%
+% Each cell array element corresponds to resulting moment tensor from 
+% a single earthquake. For example, to access the moment tensor solutions (full, deviatoric, and
+% double-couple solutions) of the first earthquake we can use the indexing
+% operator. Using the moment tensor solution from example above, this can
+% be done by calling:
+Solution{1}
+%%
+% Each element of the cell array is a structure array containing basic 
+% information on earthquake (|event_id|, |n_trials|, and |calculation_dt|) 
+% and three structures containing 
+% output parameters of calculated unconstrained full, deviatoric and double-couple 
+% constrained moment tensors (|full|, |deviatoric| and |dc| structures). 
+% For example, to access the output parameters of the full moment tensor 
+% solution of the first earthquake one may type: 
+Solution{1}.full
+%%
+% The elements of moment tensor solution structure array are generally 
+% self-explanatory (more details on meaning of all parameters is presented in section <doc_outputformat.html 
+% Output focimt cell array formats> of the manual). For example, the orientation of the two fault planes is stored in 
+% variables |F1| and |F2| as |[strike dip rake]| triplets. Similarly, the orientation
+% of P, T, B cardinal axes is formatted as |[trend plunge]|. The scalar and total
+% seismic moment is stored in |M0| and |MT| variables. The detailed overview 
+% of all output parameters is presented in section <doc_outputformat.html 
+% Output focimt cell array formats> of the manual.
+ 
+%% Quality assessment
+% Each moment tensor solution structure array contains two direct
+% parameters corresponding to the quality of the seismic moment tensor
+% inversted:
+% 
+% * RMS error between observed and predicted amplitudes. The value is stored in |RMSERROR| variable.
+% * Maximum error of the seismic moment calculated as the square root 
+% of the maximum element of covariance matrix. The value is stored in
+% |M0ERRMAX| variable.
+%
+% For example, the deviatoric solution of the moment tensor solution
+% calculated previously has RMS error and maximum error:
+Solution{1}.deviatoric.RMSERROR
+%%
+% and
+Solution{1}.deviatoric.M0ERRMAX
+%%
+% The package allows to perform two other types of quality assessment of
+% the seismic moment tensors:
+%
+% * Station Jacknife test
+% * Bootstrap resampling
+%
+% In _Station Jacknife Test_ the seismic moment tensor inversion is
+% firstly performed with all phases available. In the second step, the
+% inversion is repeated with one phase removed from the input data. The
+% second stage is repeated for every phase. The resulting moment tensor
+% contains one solution with all phases used and _n_ auxiliary solutions (where 
+% _n_ is the number of phases). This procedure allows to detect potential
+% bias introduced by a single phase (or station) to the moment tensor solution 
+% (for example bad gain or bad polarity of the station).
+%
+% The _Station Jacknife test_ mayb be toggle on by modyfication of the 
+% _Jacknife_ property of <doc_focimt.html focimt> routine. In the following
+% example we perform the station Jacknife test using the same input file as
+% before:
+JacknifeSol = focimt('examples/example6a.txt','VelocityModel',VELOCITYMODEL, ...
+  'BeachBallFormat','PNG','Jacknife','on','ProjectDir','jtest');
+%%
+% This time we stored the results in the project folder specified by
+% _ProjectDir_ parameter and we additionally turned on the _Jacknife 
+% station test_. 
+%
+% The generated graphical representation of the seismic moment tensors for
+% full, deviatoric and double-couple moment tensors look as follows:
+%
+% Double-couple solution (ISO = 0%, CLVD = 0%):
+%
+% <<jtest/71761660-dc.png>>
+%
+% Deviatoric solution (ISO = 0%):
+%
+% <<jtest/71761660-deviatoric.png>>
+%
+% Full solution:
+%
+% <<jtest/71761660-full.png>>
+%
+% The tensor shading and black nodal lines corresponds to the moment tensor
+% solution calculated with all phases (stations). The blue lines correspond
+% to nodal lines calculated with _Jacknife_ method. The color of the 
+% _Jacknife_ lines depicts the sense of fault motion. Blue, green and red
+% nodal lines correspond to the normal, strike-slip and thrust faulting. In
+% the example above the moment tensor solution is very stable and removing
+% of random one station in general does not affect the solution nearly at
+% all.
+%
+% The second type of uncertainty assessment is _bootstrap resampling_ of the
+% original catalog. In bootstrap resampling, the original input phase data 
+% is used to generate |n| derived input phase data. For each bootstrap
+% sample, up to |m| percent of randomly selected phases will have polarity reversed. 
+% The bootstrap resampling parameters is handled by
+% _Bootstrap_ option followed by a 1-by-2 elements vector where first
+% number correspond to the number of bootstrap resamplings and second
+% number specifies what is the percentage polarities to be reversed.
+% 
+% In the following example we generate and then pefrorm the seismic moment tensor
+% inversion of 100-elements bootstrap resample of the input
+% dataset generated under the assumption that up to 1% of input phases 
+% may have wrongly picked polarity:
+BootstrapSol = focimt('examples/example6a.txt','VelocityModel',VELOCITYMODEL, ...
+  'BeachBallFormat','PNG','Bootstrap',[100 0.01],'ProjectDir','btest_n01');
+%%
+% This results in the following distribution of uncertainties of the fault
+% plane estimation:
+%
+% Double-couple solution (ISO = 0%, CLVD = 0%):
+%
+% <<btest_n01/71761660-dc.png>>
+%
+% Deviatoric solution (ISO = 0%):
+%
+% <<btest_n01/71761660-deviatoric.png>>
+%
+% Full solution:
+%
+% <<btest_n01/71761660-full.png>>
+%
+% Both _Station Jacknife Test_ and _Bootstrap resampling_ generate a set of
+% seismic moment tensor solutions. This set is obviously returned in output
+% cell array. For example, while accessing the full moment tensor solution
+% from bootstrap resampling method one can realize that the output parameters
+% are now matrices with the number of rows corresponding to the total 
+% number of bootstrap resamplings plus one additional row corresponding to 
+% the original solution with original input data:
+BootstrapSol{1}.full
+%%
+% The type of solution can be easily recovered by inspecting the |Type|
+% element of moment tensor solution structure:
+[BootstrapSol{1}.full.Type{:}]
+%%
+% In the example above |'N'| corresponds to [N]ormal (original) solution from 
+% input dataset provided and |'B'| denotes bootstrap-resampled solution
+% (|J| corresponds to Station Jacknife Test solution).
+%
+% Having the boostrap resampling one can investigate the uncertainties of 
+% various parameters. For example, to plot the distribution of deviatoric
+% component of resampled dataset:
+hist(BootstrapSol{1}.full.ISO); 
+xlabel('ISO component percentage'); 
+ylabel('Frequency');
+%%
+% The following example plots the uncertainties of moment magnitude: 
+hist(BootstrapSol{1}.full.MW); 
+xlabel('Moment magnitude'); 
+ylabel('Frequency');
+%% Handling multiple events at once
+% So far we discussed the moment tensor inversion of a single earthquake. 
+% However, the *hybridMT* package allows to process multiple events at once. 
+% As an example, let's perform the moment tensor inversion for 90 events 
+% using the sample data located in /examples directory and default processing 
+% parameters:
+MultipleEventsSolution = focimt('./examples/example3.txt');
+%%
+% The resulting |MultipleEventsSolution| cell array contains 90 elements 
+% corresponding to 90 moment tensors calculated, one for each earthquake. 
+% Now, to access the results of a particular moment tensor inversion we have 
+% to use indexing operator. For example, to access the 5th solution, one
+% should use the followind code:
+MultipleEventsSolution{5}.full
+%%
+% that provide us with results of _full_ moment tensor inversion for the 5th 
+% seismic event. 
+%
+% Consider a scenario when we want to extract values of _isotropic_
+% component from _full moment tensor_ for ALL earthquakes, for example in order
+% to plot the statistics of _isotropic component_ of the analyzed 
+% dataset. In other words, we would like to extract the value of |ISO|
+% variable in full moment tensor solution structure array |full| for each
+% element of output cell array. This is quite complicated in general,
+% however the *hybridMT* package provides a convenient function 
+% |<doc_getsolution.html getsolution.m>| to handle such case.
+%
+% The following code will extract the amount of _isotropic_ component of
+% full moment tensors for all 90 events from the output cell array:
+ISO = getsolution(MultipleEventsSolution,'full','ISO');
+%%
+% This will result in a vector composed of 90 elements where each element
+% corresponds to the amount of _isotropic_ component from all 90 earthquakes for
+% which the full seismic moment tensor was calculated. This can be used for
+% plotting the statistics of various parameters for the inverted dataset, e.g.:
+hist(ISO) 
+%%
+% willl display the distribution of _isotropic components_ in the analyzed 
+% dataset.
+%%
+% In principle, more parameters can be extracted from the output cell array 
+% at once. For example, to extract the moment magnitude and orientation 
+% of P axes for the _deviatoric_ moment tensor solutions of all analyzed 
+% earthquakes, the following code may be executed:
+[MW,P] = getsolution(MultipleEventsSolution,'deviatoric','MW','P');
+%% 
+% It is important to note that the order of input parameters ('MW','P' in the 
+% example above determines the order of output parameters located on the left
+% side of the formula. Also, the names of input parameters to extract must
+% correspond to the names of variables in the ouput structure array!
+%
+% The function may be also used to extract general output data outside of
+% |'full'|, |'deviatoric'|, and |'dc'| structures inside of each cell array element.
+% For example, the general data contains the ID number of events:
+MultipleEventsSolution{1}
+%%
+% Finally, the routine works also for general output data. For example, to 
+% extract all ID numbers, the following code may be used:
+ids = getsolution(MultipleEventsSolution,'deviatoric','event_id');
+%%%
+% In this case, the second parameter (|'deviatoric'|) is of no use, but still
+% it must be set up to either |'full'|, |'deviatoric'|, or |'dc'|. 
+
+%% Refinement of moment tensors using Hybrid Moment Tensor 
+
+##### SOURCE END #####
+--></body></html>

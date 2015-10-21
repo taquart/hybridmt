@@ -1,0 +1,591 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Using focimt command line application</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_focimtexe.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Using focimt command line application</h1><!--introduction--><p><tt>focimt</tt> application can be either used directly in shell mode or via <tt><a href="doc_focimt.html">focimt.m</a></tt> routine, depending on whether the User is outside or inside of MATLAB environment. It is also worth to note that MATLAB environment allows to call batch programs directly from command window by preceeding the application name ('focimt') with exclamation mark. In this section we will use the latter option to present the features of <tt>focimt</tt> application and most important command line options. The full list of available command line options is presented later in this section. User can invoke the full list of command line options directly from MATLAB environment by typing <tt>focimt -h</tt>. Note that NOT all options of <tt>focimt</tt> are available within <tt><a href="doc_focimt.html">focimt.m</a></tt> routine.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Basic usage</a></li><li><a href="#8">Moment tensor inversion parameters</a></li><li><a href="#32">Outputting inversion results to ASCII file</a></li><li><a href="#38">Auxiliary options of focimt application</a></li><li><a href="#45">Command line options</a></li></ul></div><h2>Basic usage<a name="1"></a></h2><p>To perform the seismic moment tensor inversion in time domain using amplitude data stored in RAW ASCII format in <tt>example1.txt</tt> file stored in <tt>/examples</tt> directory and output the graphical representation of the solution to PNG and PDF formats:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG,PDF -o test01a</span>
+</pre><p>This will perform the constrained double-couple moment tensor inversion and the resulst will be stored with in files with <i>test01a</i> prefix. The call should result in creation of two files (beach balls) in PDF and PNG formats:</p><p><img vspace="5" hspace="5" src="test01a-example1_ev01-dc.png" alt=""> </p><p>The <tt>focimt</tt> application is capable to generate four types of output files: one raster format PNG and three vector formats SVG, PS and PDF. Note the vector formats are suitable for high-quality publishing.</p><p>By default, only double-couple constrained moment tensor is calculated. To calculate full, deviatoric and double-couple constrained moment tensors at once for a particular event or events, option <tt>-s FTD</tt> must be used, where <tt>[F]</tt>, <tt>[T]</tt>, and <tt>[D]</tt> corresponds to full, deviatoric and double-couple solutions, respectively, as in the example below:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s FTD -o test01b</span>
+</pre><p>The successful execution results in generation of 3 PNG files with filename suffixes <tt>-full</tt>, <tt>-deviatoric</tt>, and <tt>-dc</tt> and corresponding to the [F]ull moment tensor solution (ISO+CLVD+DC), deviatoric or [T]race-null constrained solution (ISO=0,CLVD+DC) and [D]ouble-couple constrained solution (ISO=0,CLVD=0,DC).</p><p><img vspace="5" hspace="5" src="test01b-example1_ev01-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test01b-example1_ev01-deviatoric.png" alt=""> </p><p><img vspace="5" hspace="5" src="test01b-example1_ev01-dc.png" alt=""> </p><p>The graphical representation of seismic moment tensor solution and image size can adjusted with <tt>-b</tt> and <tt>-z</tt> options. Also, the stereographic projection type can be modifieid using <tt>-p</tt> option. For example, to calculate the deviatoric solution only and create an upper-hemisphere, equal angle projection of the moment tensor solution without center cross and station polarity markers and with size of 300 pixels, one can call:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s T -p WU -b ACD -z 300 -o test01c</span>
+</pre><p>which results in the following picture:</p><p><img vspace="5" hspace="5" src="test01c-example1_ev01-deviatoric.png" alt=""> </p><h2>Moment tensor inversion parameters<a name="8"></a></h2><p>By default, the moment tensor inversion is performed using <i>L2</i> norm. This sometimes may NOT be an optimal case, especially in situations where one expect to have input data with large outlayers. In this case, the program allows to perform the inversion with <i>L1</i> norm, which is less sensitive to large errors in the input data. However, this results in radically increased computation time.</p><p>In axample below we perform the full moment tensor inversion using <i>L1</i> norm and export the result to PNG file. This can be achieved by option <tt>-n</tt>:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -z 300 -s F -n L1 -o test01d</span>
+</pre><p>The resulting graphical representation of the full moment tensor looks as follows:</p><p><img vspace="5" hspace="5" src="test01d-example1_ev01-full.png" alt=""> </p><p>and it is significantly different from full moment tensor solution calculated earlier using the <i>default</i> <i>L2</i> norm:</p><p><img vspace="5" hspace="5" src="test01b-example1_ev01-full.png" alt=""> </p><p><b>Handling more input data at once</b></p><p>The moment tensor inversion can be performed for multiple files at once. The input ASCII file in either RAW or 1D velocity model formats may contain multiple blocks header event data - phase event data. This greatly speeds up the processing of input data for the purpose of moment tensor inversion.</p><p>Consider example of moment tensor inversion of acoustic emission input data for deviatoric seismic moment tensor. The input file <tt>example3.txt</tt> contains 50 events forming a tight cluster. In this example we calculate their full seismic moment tensors and export the output to PNG files. This can be achieved by issuing the following command:</p><pre class="codeinput"><span class="syscmd">!focimt -o test03a -t PNG -s F -z 200 -i ./examples/example3.txt</span>
+</pre><p>This will result in 50 PNG files being generated in the current directory. Here is example of 10 of them:</p><p><img vspace="5" hspace="5" src="test03a-004-03781-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03884-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03949-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03964-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03982-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03994-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04002-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04047-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04053-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04059-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04061-full.png" alt=""> </p><p><b>Handling 1D velocity model input files</b></p><p>By default, the program expects data in <a href="doc_focimtformats.html">RAW ASCII format</a>. However, the user is capable to provide input data for the moment tensor inversion in <a href="doc_focimtformats.html">1D velocity model format</a> as well. However, this type of data must by provided together with input 1D velocity model. It is important to mention that the stations should be located above the sea level for the ray-tracing routine to work correctly.</p><p>The 1D velocity model is provided using <tt>-m</tt> option followed by the path to ASCII file containing the model. The sample 1D velocity model file is located in <tt>./examples</tt> directory.</p><p>The <tt>./examples</tt> directory contains two files <tt>example2_raw.txt</tt> and <tt>example2_raw.txt</tt> with input data for the seismic moment tensor inversion. Both files have in fact the same input data, however the first one is in the RAW format and the second one is provided in 1D velocity model format. We can test now whether they both result in the same moment tensor solutions:</p><p>First, calculate the full moment tensor solutions of two earthquakes using the RAW input file:</p><pre class="codeinput"><span class="syscmd">!focimt -o test02a_raw -t PNG -s F -z 300 -i ./examples/example2_raw.txt</span>
+</pre><p>This results in the following graphical representation of the moment tensor solution:</p><p><img vspace="5" hspace="5" src="test02a_raw-344_014_+165-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test02a_raw-346_087_-05-full.png" alt=""> </p><p>Secondly, we calculate the same moment tensor solutions using the 1D velocity model input file. In this case we have to provide the additional 1D velocity model that will be used by ray-tracing routine:</p><pre class="codeinput"><span class="syscmd">!focimt -o test02a_1d -t PNG -s F -z 300 -i ./examples/example2_1d.txt -m ./examples/vmodel.txt</span>
+</pre><p>This results in the following beach balls for two earthquakes:</p><p><img vspace="5" hspace="5" src="test02a_1d-344_014_+165-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test02a_1d-346_087_-05-full.png" alt=""> </p><p>As one can see, both solutions are identical regardles of input file format chosen. To create input data in for the examples above, the auxiliary function <a href="matlab:doc('genmt_vel1d')">genmt_vel1d.m</a> from the package has been used. The detailed description of both input file formats is presented <a href="doc_focimtformats.html">here</a>.</p><p><b>Station Jacknife test</b></p><p>The station <i>Jacknife test</i> can be performed by adding the <tt>-j</tt> option to the command line. When this option is specified, the moment tensor inversion is firstly performed as usual with all amplitude information provided by the User. In the following, a series of <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> moment tensor inversions will be <i>additionally</i> performed, when <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> is a number of phase data for a particular earthquake, but now all but one station will be removed from input data. This tests aims to visualize the potential problem if one input station has a strong influence on moment tensor solution.</p><p>Again, we used the example ASCII file above to test the stability of full moment tensor inversion:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s F -j -z 300 -o test01e</span>
+</pre><p>The graphical representation of moment tensor inversion while using a <i>Jacknife test</i> looks as follows:</p><p><img vspace="5" hspace="5" src="test01e-example1_ev01-full.png" alt=""> </p><p>The shading corresponds to the original full moment tensor solution where all stations were used. The additional blue, green and red lines (the latter is not seen in the case above) corresponds to nodal planes of <i>Jacknife</i> solutions with the color corresponding to the sense of motion of the fault planes. The blue, green and red color of nodal planes corresponds to norma, strike-slip and thrust fault.</p><p><b>Bootstrap resampling</b></p><p>The bootstrap resampling of the original dataset may be performed using <tt>-rp</tt> option followed by the number of bootstrap samples. Again, similarly to the <i>Jacknife test</i>, a series of <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> additional moment tensor inversions will be performed in addition to the regular inversion with an actual set of stations provided in the input file. For each elements of bootstrap sample specified percentage of randomly selected polarities will be reversed.</p><p>For example, to perform the 100 bootstrap resampling of the original dataset assuming that 1% of input phase data has reverted polarities, the following code should be executed:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s D -rp 100/0.01 -z 300 -o test01f</span>
+</pre><p>This result in following double-couple constrained moment tensor:</p><p><img vspace="5" hspace="5" src="test01f-example1_ev01-dc.png" alt=""> </p><h2>Outputting inversion results to ASCII file<a name="32"></a></h2><p><tt>focimt</tt> is capable to export output moment tensor data to a customizable ASCII output text files. The option governing text output is <tt>-d</tt> followed by selected UPPERCASE or lowercase characters and eventually an asterisk '*' sign. Each character in the argument value string determines different parameter or set of parameters to export and the order of characters determine the order of columns in output ASCII file. Finally, if User specifies the character(s) in lowercase, they will be additionally formatted in eye-friendly manner.</p><p>The available characters in the argument value string and corresponding parameters that are exportes is as follows:</p><p>
+<table border=1>
+<tr><td>character</td><td>Description</td></tr>
+<tr><td>M</td>
+<td>Moment tensor components in Aki's convention: M11,M12,M13,M22,M23,M33. The moment tensor components are in [Nm] units.</td></tr>
+<tr><td>C</td>
+<td>Moment tensor components in CMT conventions: M33,M11,M22,M13,-M23,-M12. The moment tensor components are in [Nm] units.</td></tr>
+<tr><td>F</td>
+<td>Fault plane solutions in format: STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB. All values are provided in degrees and follows the typical seismological convention.</td></tr>
+<tr><td>D</td>
+<td>Decomposition of the seismic moment tensor into Isotropic (ISO), Compensated linear vector dipole (CLVD) and double couple (DC) in format: ISO/CLVD/DC. The numbers are provided in percents and calculated according to Jost and Herrmann approach.</td></tr>
+<tr><td>Y</td>
+<td>Decomposition of the seismic moment tensor into Isotropic (ISO), Compensated linear vector dipole (CLVD) and double couple (DC) in format: ISO/CLVD/DC. The numbers are provided in percents and calculated according to Vavrycuk approach.</td></tr>
+<tr><td>A</td>
+<td>P/T/B Axes orientations in format: PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND/BPLUNGE. All values are in degrees and trends ranging 0-360 degree and plunges ranging 0-90 degrees (0 - horizontal, 90 - vertical).</td></tr>
+<tr><td>W</td>
+<td>Seismic moment, total seismic moment, maximum error of the seismic moment tensor estimate and the moment magnitude calculated using Hanks & Kanamori formula. The first three values are in [Nm] units.</td></tr>
+<tr><td>Q</td>
+<td>Quality index (used internally)</td></tr>
+<tr><td>T</td>
+<td>Fault type. 'SS','NF' or 'TF' will be exported depending whether the faulting style is strike-slip, normal or thrust, respectively.</td></tr>
+<tr><td>U</td>
+<td>Vector of synthetic displacements calculated (the number of exported numbers correspond to the number of amplitudes in the input file.</td></tr>
+<tr><td>E</td>
+<td>RMS Error calculated between theoretical and measured amplitudes scaled to measured values, see <doc_focimt_description.html following> page for details.</td></tr>
+<tr><td>V</td>
+<td>Diagonal elements of the MT covariance matrix in the following order: C11, C22, C33, C44, C55, C66</td></tr>
+<tr><td>*</td>
+<td>Export new line character.</td></tr>
+</table>
+</p><p>As an example, specifying '-d FAD' option exports firstly fault plane solutions, then P, T and B axes directions and finally the moment tensor decomposition using ISO/CLVD/DC convention. The output ASCII file will have the following structure:</p><p><tt>STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB/PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND/BPLUNGE/ISO/CLVD/DBCP</tt></p><p>Consider an example of seismic moment tensor inversion of two events. We would like now to produce two types of moment tensor solutions: full and deviatoric (option <tt>-s FD</tt>) and export the fault plane data (strike, dip and rakes) as well as moment tensor decompositions (iso/clvd/dc) into the text file. This can be achieved by calling:</p><pre class="codeinput"><span class="syscmd">!focimt -o test_export01a -i ./examples/example2_raw.txt -t SVG -s FD -d FD</span>
+</pre><p>Six files will be generated. Four of them will be graphical representations of moment tensor solutions for two events in SVG format and two types of moment tensors requested. The remaining two ascii files will contain the ASCII output, one for deviatoric and one for full moment tensor solutions.</p><h2>Auxiliary options of focimt application<a name="38"></a></h2><p><tt>focimt</tt> provides a simple way to generate a double-couple graphical representation of the seismic moment tensor solution in a form of <i>beach ball</i> directly from fault plane solution parameters and (optionally) station and polarity information. This can be achieved by <tt>-f</tt> option:</p><p>In the easiest form, the strike, dip and rake parameters is required to plot a simple beach ball picture. To plot the fault plane solution of the fault with strike/dip/rake = 11/60/-50[deg] an save it to a PNG file with size of 300 pixels:</p><pre class="codeinput"><span class="syscmd">!focimt -o fault01a -f 11/60/-50 -z 300 -t PNG</span>
+</pre><p>with the resulting beach ball</p><p><img vspace="5" hspace="5" src="fault01a.png" alt=""> </p><p>Note the output file name does not have any prefixes or suffixes as in the case of moment tensor inversion from the ASCII input file.</p><p>It is also possible to provide more fault plane parameters and produce a plot with multiple nodal lines, similar to what is plotted when station <i>Jacknife test</i> or <i>Boostrap resampling</i> option is used. In this case, the first fault plane nodal line is painted with black color and the remaining nodal lines are painted according to the sense of motion. To achieve such effects, option <tt>-fj</tt> is used and the data from following nodal lines are separated with ':' character as in the example below:</p><pre class="codeinput"><span class="syscmd">!focimt -o fault01b -fj 11/60/-50:15/65/-42:17/55/-55 -z 300 -t PNG</span>
+</pre><p><img vspace="5" hspace="5" src="fault01b.png" alt=""> </p><p>The example above draws three nodal lines in total with strike/dip/rakes 11/60/-50 (main nodal line), 15/65/-42 and 17/55/-55 (auxiliary nodal lines).</p><p>In addition, the stations can be plotted as an overlay in any of the above two examples by using option <tt>-fs</tt> followed by ':'-separated station information. The station information is provided in azimuth/takeoff/polarity/name format. Consider we want to add two stations to the example above:</p><pre class="codeinput"><span class="syscmd">!focimt -o fault01c -fj 11/60/-50:15/65/-42:17/55/-55 -fs 10/80/1/A:130/10/-1/B -z 300 -t PNG</span>
+</pre><p>resulting in the following beach ball:</p><p><img vspace="5" hspace="5" src="fault01c.png" alt=""> </p><p>The azimuth of station is measured from north positive towards east. The station takeoff is measured from vertical direction.</p><h2>Command line options<a name="45"></a></h2><p>The full list of command line options of <tt>focimt</tt> can be displayed in console window by calling:</p><pre class="codeinput"><span class="syscmd">!focimt -h</span>
+</pre><pre class="codeoutput">Usage: focimt [options [args]] 
+ 
+  --help,	-h	  Displays this information 
+  --input,	-i &lt;args&gt; Full path to the input file 
+  --output,	-o &lt;args&gt; Output file name (without extension).                 
+ 
+    If specified, the output solution data in ASCII format will be exported to  
+    a single file. Otherwise, 'fileid' field from input file will be used       
+    instead and moment tensor solution data will be exported to multiple files. 
+ 
+  --solution,	-s &lt;args&gt; Output solution type.                                 
+ 
+    Arguments: [F][T][D] for the (F)ull, (T)race-null and (D)ouble-couple       
+    solutions. Defines which moment tensor inversion will be performed. The     
+    default option is '-s D'. Combine three options to export desired moment    
+    tensor solutions, e.g. '-s DFT' will produce all three solutions at once.   
+ 
+  --type,	-t &lt;args&gt; Output file type.                                     
+ 
+    Arguments: [NONE][PNG][SVG][PS][PDF] for different output file types.       
+    Produce graphical representation of the moment tensor solution in a form of 
+    the beach ball. More than one output file format can be specified. The      
+    default value is '-t PNG'.                                                  
+ 
+  --norm,	-n &lt;args&gt; Norm type.                                            
+ 
+    Arguments: [L1|L2] for L1 and L2 norm, respectively. Defines norm used in   
+    seismic moment tensor inversion. The default option is '-n L2' (faster).    
+    When Jacknife method is used the option is ignored and L2 norm is always    
+    used.                                                                       
+ 
+  --projection,	-p &lt;args&gt; Projection type.                                      
+ 
+    Arguments: [W|S][U|L]: Defines projection for the graphical representation  
+    of the seismic moment tensor. Choose either (W)ulff projection or (S)chmidt 
+    projection. Then select (U)pper hemisphere or (L)ower hemispere projection  
+    The default option is '-p SL' (Schmidt projection, Lower hemisphere).       
+ 
+  --ball,	-b &lt;args&gt; The details of the beach ball picture                 
+ 
+    Arguments: [S][A][C][D]: Defines features of the graphical representation   
+    of seismic moment tensor. Plot (S)tations, (A)xes, (C)enter cross, best     
+    (D)ouble-couple lines. The default option is '-b SACD' (all features are    
+    displayed on the beach ball.                                                
+ 
+  --dump,	-d &lt;args&gt; Output data format and order.                         
+ 
+    Arguments: [M][C][F][D][A][W][Q][T][U][*].                                  
+    [M]: Moment tensor components in Aki's convention: M11,M12,M13,M22,M23,M33. 
+         The moment tensor components are in [Nm]                               
+    [C]: Moment tensor components in CMT conventions: M33,M11,M22,M13,-M23,-M12 
+         The moment tensor components are in [Nm]                               
+    [F]: Fault plane solutions in format: STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB 
+         (all values are in degrees)                                            
+    [D]: Decomposition of the moment tensor into Isotropic, Compensated linear  
+         vector dipole and double-couple in format: ISO/CLVD/DBCP. The numbers  
+         are provided in percents and calculated according to Jost and Herrmann 
+         (1989) approach.                                                       
+    [Y]: Decomposition of the moment tensor into Isotropic, Compensated linear  
+         vector dipole and double-couple in format: ISO/CLVD/DBCP. The numbers  
+         are provided in percents and calculated according to Vavrycuk (2001)   
+         approach.                                                              
+    [A]: P/T/B Axes orientations in format:                                     
+         PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND/BPLUNGE                           
+         All values are in degrees.                                             
+    [W]: Seismic moment, total seismic moment, maximum error of the seismic     
+         moment tensor estimate and the moment magnitude calculated using       
+         Hanks &amp; Kanamori formula. The first three values are in [Nm]           
+    [Q]: Quality index                                                          
+    [T]: Fault type. 'SS','NF' or 'TF' will be exported depending whether the   
+         faulting style is strike-slip, normal or thrust, respectively.         
+    [U]: Vector of synthetic displacements calculated (the number of exported   
+         numbers correspond to the number of amplitudes in the input file.      
+    [E]: Scaled RMS Error calculated between theoretical and measured seismic   
+         moments.                                                               
+    [V]: Diagonal elements of the MT covariance matrix in the following order:  
+         C11, C22, C33, C44, C55, C66                                           
+    [*]: Export new line character                                              
+                                                                                
+    NOTE #1:                                                                    
+    The order of arguments determine to order of output. For example -d FAD     
+    exports firstly fault plane solutions, then P, T and B axes directions and  
+    finally the moment tensor decomposition into ISO/CLVD/DBCP. The output file 
+    will have the following structure:                                          
+    STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB/PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND  
+    /BPLUNGE/ISO/CLVD/DBCP                                                      
+                                                                                
+    NOTE #2:                                                                    
+    Use lowercase arguments in order to export data in eye-friendly format.     
+ 
+  --model,	-m &lt;args&gt; Velocity model file (with extension)                  
+ 
+    Velocity model in HYPO71 format. Imposes different ASCII input file format. 
+ 
+  --jacknife,	-j        Performs station Jacknife test. 
+ 
+  --amplitude,	-a &lt;args&gt; Perform amplitude test.                               
+ 
+    Arguments: x[/y] where x is a floating-point positive number that describes 
+    the level of noise applied to each amplitude: A+x*A*N(0,1)/3 where N is a   
+    normal distribution with mean 0 and std 1. The default value of x is 1      
+    (i.e.amplitude vary by a max. factor of ~2). Optional parameter /y is       
+    a number of samples (default value is 100).                                 
+ 
+  --drawfault,	-f &lt;args&gt; Generate picture with fault plane solution            
+ 
+    Arguments: strike/dip/rake                                                  
+                                                                                
+ 
+  --drawfaults,	-fj &lt;args&gt; Generate picture with jacknife solutions              
+ 
+    Arguments: strike/dip/rake[:s1/d1/r1][:s2/d2/r2]...       
+                                                                                
+ 
+  --drawstations,	-fs &lt;args&gt; Generate picture with station and polarity data       
+ 
+    Arguments: azimuth/takeoff/polarity/name[:a2/t2/p2/n2][:a3/t3/p3/n3]...     
+                                                                                
+ 
+  --size,	-z &lt;args&gt; Beach ball file size                                  
+ 
+    Size of the beach ball figure in pixels.                                    
+ 
+  --resampling,	-rp &lt;args&gt; Perform bootstrap resampling of the input dataset     
+ 
+    Arguments: x/y where x is the maximum number of polarity mismatches and     
+    y is the number of bootstrap resamplings performed.                         
+ 
+  --version,	-v        Display fociMT version info 
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Using focimt command line application
+% |focimt| application can be either used directly in shell mode or via
+% |<doc_focimt.html focimt.m>| routine, depending on whether the User is
+% outside or inside of MATLAB environment. It is also worth to note that
+% MATLAB environment allows to call batch programs directly from command
+% window by preceeding the application name ('focimt') with exclamation
+% mark. In this section we will use the latter option to present the
+% features of |focimt| application and most important command line options. The
+% full list of available command line options is presented later in this section. 
+% User can invoke the full list of command line options directly from MATLAB environment by
+% typing |focimt -h|. Note that NOT all options of |focimt| are available
+% within |<doc_focimt.html focimt.m>| routine.
+%% Basic usage
+% To perform the seismic moment tensor inversion in time domain using
+% amplitude data stored in RAW ASCII format in |example1.txt| file stored in 
+% |/examples| directory and output the graphical representation of the
+% solution to PNG and PDF formats:
+!focimt -i ./examples/example1.txt -t PNG,PDF -o test01a
+%%%
+% This will perform the constrained double-couple moment tensor inversion
+% and the resulst will be stored with in files with _test01a_ prefix. The
+% call should result in creation of two files (beach balls) in PDF and PNG
+% formats:
+%
+% <<test01a-example1_ev01-dc.png>>
+%
+%%%
+% The |focimt| application is capable to generate four types of output
+% files: one raster format PNG and three vector formats SVG, PS and PDF.
+% Note the vector formats are suitable for high-quality publishing. 
+%%%
+% By default, only double-couple constrained moment tensor is
+% calculated. To calculate full, deviatoric and double-couple constrained
+% moment tensors at once for a particular event or events, option |-s FTD| must be used, where |[F]|, |[T]|,
+% and |[D]| corresponds to full, deviatoric and double-couple solutions,
+% respectively, as in the example below:
+!focimt -i ./examples/example1.txt -t PNG -s FTD -o test01b
+%%%
+% The successful execution results in generation of 3 PNG files with
+% filename suffixes |-full|, |-deviatoric|, and |-dc| and corresponding to
+% the [F]ull moment tensor solution (ISO+CLVD+DC), deviatoric or [T]race-null 
+% constrained solution (ISO=0,CLVD+DC) and [D]ouble-couple constrained solution
+% (ISO=0,CLVD=0,DC).
+%
+% <<test01b-example1_ev01-full.png>>
+%
+% <<test01b-example1_ev01-deviatoric.png>>
+%
+% <<test01b-example1_ev01-dc.png>>
+%
+%%%
+% The graphical representation of seismic moment tensor solution and image 
+% size can adjusted with |-b| and |-z| options. Also, the stereographic 
+% projection type can be modifieid using |-p| option. For example, to 
+% calculate the deviatoric solution only and create an upper-hemisphere, 
+% equal angle projection of the moment tensor solution without center cross
+% and station polarity markers and with size of 300 pixels, one can call:
+!focimt -i ./examples/example1.txt -t PNG -s T -p WU -b ACD -z 300 -o test01c
+%%%
+% which results in the following picture:
+%
+% <<test01c-example1_ev01-deviatoric.png>>
+%
+%% Moment tensor inversion parameters
+% By default, the moment tensor inversion is performed using _L2_ norm.
+% This sometimes may NOT be an optimal case, especially in situations where
+% one expect to have input data with large outlayers. In this case, the
+% program allows to perform the inversion with _L1_ norm, which is less
+% sensitive to large errors in the input data. However, this results in
+% radically increased computation time.
+%%%
+% In axample below we perform the full moment tensor inversion using _L1_
+% norm and export the result to PNG file. This can be achieved by option
+% |-n|:
+!focimt -i ./examples/example1.txt -t PNG -z 300 -s F -n L1 -o test01d
+%%%
+% The resulting graphical representation of the full moment tensor looks as
+% follows:
+%
+% <<test01d-example1_ev01-full.png>>
+%
+% and it is significantly different from full moment tensor solution
+% calculated earlier using the _default_ _L2_ norm:
+%
+% <<test01b-example1_ev01-full.png>>
+%
+%%
+% *Handling more input data at once*
+%%%
+% The moment tensor inversion can be performed for multiple files at once.
+% The input ASCII file in either RAW or 1D velocity model formats may
+% contain multiple blocks header event data - phase event data. This
+% greatly speeds up the processing of input data for the purpose of moment
+% tensor inversion.
+%%%
+% Consider example of moment tensor inversion of acoustic emission input 
+% data for deviatoric seismic moment tensor. The input file |example3.txt|
+% contains 50 events forming a tight cluster. In this example we calculate
+% their full seismic moment tensors and export the output to PNG files.
+% This can be achieved by issuing the following command:
+!focimt -o test03a -t PNG -s F -z 200 -i ./examples/example3.txt
+%%% 
+% This will result in 50 PNG files being generated in the current
+% directory. Here is example of 10 of them:
+%
+% <<test03a-004-03781-full.png>>
+%
+% <<test03a-004-03884-full.png>>
+%
+% <<test03a-004-03949-full.png>>
+%
+% <<test03a-004-03964-full.png>>
+%
+% <<test03a-004-03982-full.png>>
+%
+% <<test03a-004-03994-full.png>>
+%
+% <<test03a-004-04002-full.png>>
+%
+% <<test03a-004-04047-full.png>>
+%
+% <<test03a-004-04053-full.png>>
+%
+% <<test03a-004-04059-full.png>>
+%
+% <<test03a-004-04061-full.png>>
+%
+%%
+% *Handling 1D velocity model input files*
+%%%
+% By default, the program expects data in 
+% <doc_focimtformats.html RAW ASCII format>. However, the user is capable
+% to provide input data for the moment tensor inversion in <doc_focimtformats.html 1D velocity model format>
+% as well. However, this type of data must by provided together with input
+% 1D velocity model. It is important to mention that the stations
+% should be located above the sea level for the ray-tracing routine to work
+% correctly.
+%%%
+% The 1D velocity model is provided using |-m| option followed by the path
+% to ASCII file containing the model. The sample 1D velocity model file is
+% located in |./examples| directory. 
+%%%
+% The |./examples| directory contains two files |example2_raw.txt| and 
+% |example2_raw.txt| with input data for the seismic moment tensor
+% inversion. Both files have in fact the same input data, however the first
+% one is in the RAW format and the second one is provided in 1D velocity
+% model format. We can test now whether they both result in the same moment
+% tensor solutions:
+%%%
+% First, calculate the full moment tensor solutions of two earthquakes using the RAW input file:
+!focimt -o test02a_raw -t PNG -s F -z 300 -i ./examples/example2_raw.txt
+%%%
+% This results in the following graphical representation of the 
+% moment tensor solution:
+%
+% <<test02a_raw-344_014_+165-full.png>>
+%
+% <<test02a_raw-346_087_-05-full.png>>
+%
+%%%
+% Secondly, we calculate the same moment tensor solutions using the 1D
+% velocity model input file. In this case we have to provide the additional
+% 1D velocity model that will be used by ray-tracing routine:
+!focimt -o test02a_1d -t PNG -s F -z 300 -i ./examples/example2_1d.txt -m ./examples/vmodel.txt
+%%%
+% This results in the following beach balls for two earthquakes:
+%
+% <<test02a_1d-344_014_+165-full.png>>
+%
+% <<test02a_1d-346_087_-05-full.png>>
+%
+%%%
+% As one can see, both solutions are identical regardles of input file format
+% chosen. To create input data in
+% for the examples above, the auxiliary function <matlab:doc('genmt_vel1d') genmt_vel1d.m>
+% from the package has been used. The detailed description of both input
+% file formats is presented <doc_focimtformats.html here>.
+%%
+% *Station Jacknife test*
+%%%
+% The station _Jacknife test_ can be performed by adding the |-j| option to
+% the command line. When this option is specified, the moment tensor 
+% inversion is firstly performed as usual with all amplitude information
+% provided by the User. In the following, a series of $n$ moment tensor
+% inversions will be _additionally_ performed, when $n$ is a number of 
+% phase data for a particular earthquake, but now all but one station will
+% be removed from input data. This tests aims to visualize the potential
+% problem if one input station has a strong influence on moment tensor
+% solution. 
+%%%
+% Again, we used the example ASCII file above to test the stability of
+% full moment tensor inversion:
+!focimt -i ./examples/example1.txt -t PNG -s F -j -z 300 -o test01e
+%%%
+% The graphical representation of moment tensor inversion while using a
+% _Jacknife test_ looks as follows:
+%
+% <<test01e-example1_ev01-full.png>>
+%
+% The shading corresponds to the original full moment tensor solution where
+% all stations were used. The additional blue, green and red lines (the
+% latter is not seen in the case above) corresponds to nodal planes of 
+% _Jacknife_ solutions with the color corresponding to the sense of motion
+% of the fault planes. The blue, green and red color of nodal planes
+% corresponds to norma, strike-slip and thrust fault. 
+%%
+% *Bootstrap resampling*
+%%%
+% The bootstrap resampling of the original dataset may be performed using
+% |-rp| option followed by the number of bootstrap samples. Again, similarly
+% to the _Jacknife test_, a series of $n$ additional moment tensor 
+% inversions will be performed in addition to the regular inversion with an
+% actual set of stations provided in the input file. For each elements of 
+% bootstrap sample specified percentage of randomly selected polarities 
+% will be reversed.
+%%%
+% For example, to perform the 100 bootstrap resampling of the original dataset 
+% assuming that 1% of input phase data has reverted polarities, the following 
+% code should be executed: 
+!focimt -i ./examples/example1.txt -t PNG -s D -rp 100/0.01 -z 300 -o test01f
+%%%
+% This result in following double-couple constrained moment tensor:
+%
+% <<test01f-example1_ev01-dc.png>>
+%
+%% Outputting inversion results to ASCII file
+% |focimt| is capable to export output moment tensor data to a customizable
+% ASCII output text files. The option governing text output is |-d| 
+% followed by selected UPPERCASE or lowercase characters and eventually 
+% an asterisk '*' sign. Each character in the argument value string 
+% determines different parameter or set of parameters to export and the 
+% order of characters determine the order of columns in output ASCII file.
+% Finally, if User specifies the character(s) in lowercase, they will be
+% additionally formatted in eye-friendly manner.
+%%
+% The available characters in the argument value string and corresponding
+% parameters that are exportes is as follows:
+%
+% <html>
+% <table border=1>
+% <tr><td>character</td><td>Description</td></tr>
+% <tr><td>M</td>
+% <td>Moment tensor components in Aki's convention: M11,M12,M13,M22,M23,M33. The moment tensor components are in [Nm] units.</td></tr>
+% <tr><td>C</td>
+% <td>Moment tensor components in CMT conventions: M33,M11,M22,M13,-M23,-M12. The moment tensor components are in [Nm] units.</td></tr>
+% <tr><td>F</td>
+% <td>Fault plane solutions in format: STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB. All values are provided in degrees and follows the typical seismological convention.</td></tr>
+% <tr><td>D</td>
+% <td>Decomposition of the seismic moment tensor into Isotropic (ISO), Compensated linear vector dipole (CLVD) and double couple (DC) in format: ISO/CLVD/DC. The numbers are provided in percents and calculated according to Jost and Herrmann approach.</td></tr>
+% <tr><td>Y</td>
+% <td>Decomposition of the seismic moment tensor into Isotropic (ISO), Compensated linear vector dipole (CLVD) and double couple (DC) in format: ISO/CLVD/DC. The numbers are provided in percents and calculated according to Vavrycuk approach.</td></tr>
+% <tr><td>A</td>
+% <td>P/T/B Axes orientations in format: PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND/BPLUNGE. All values are in degrees and trends ranging 0-360 degree and plunges ranging 0-90 degrees (0 - horizontal, 90 - vertical).</td></tr>
+% <tr><td>W</td>
+% <td>Seismic moment, total seismic moment, maximum error of the seismic moment tensor estimate and the moment magnitude calculated using Hanks & Kanamori formula. The first three values are in [Nm] units.</td></tr>
+% <tr><td>Q</td>
+% <td>Quality index (used internally)</td></tr>
+% <tr><td>T</td>
+% <td>Fault type. 'SS','NF' or 'TF' will be exported depending whether the faulting style is strike-slip, normal or thrust, respectively.</td></tr>
+% <tr><td>U</td>
+% <td>Vector of synthetic displacements calculated (the number of exported numbers correspond to the number of amplitudes in the input file.</td></tr>
+% <tr><td>E</td>
+% <td>RMS Error calculated between theoretical and measured amplitudes scaled to measured values, see <doc_focimt_description.html following> page for details.</td></tr>
+% <tr><td>V</td>
+% <td>Diagonal elements of the MT covariance matrix in the following order: C11, C22, C33, C44, C55, C66</td></tr>
+% <tr><td>*</td>
+% <td>Export new line character.</td></tr>
+% </table>
+% </html>
+%
+%%%
+% As an example, specifying '-d FAD' option exports firstly fault plane 
+% solutions, then P, T and B axes directions and finally the moment tensor 
+% decomposition using ISO/CLVD/DC convention. The output ASCII file 
+% will have the following structure:                                          
+%%%
+% |STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB/PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND/BPLUNGE/ISO/CLVD/DBCP|
+%%%
+% Consider an example of seismic moment tensor inversion of two events. We
+% would like now to produce two types of moment tensor solutions: full and
+% deviatoric (option |-s FD|) and export the fault plane data (strike, dip
+% and rakes) as well as moment tensor decompositions (iso/clvd/dc) into the
+% text file. This can be achieved by calling:
+%
+!focimt -o test_export01a -i ./examples/example2_raw.txt -t SVG -s FD -d FD
+%%%
+% Six files will be generated. Four of them will be graphical
+% representations of moment tensor solutions for two events in SVG format 
+% and two types
+% of moment tensors requested. The remaining two ascii files will contain
+% the ASCII output, one for deviatoric and one for full moment tensor
+% solutions. 
+
+%% Auxiliary options of focimt application
+% |focimt| provides a simple way to generate a double-couple graphical 
+% representation of the seismic moment tensor solution in a form of 
+% _beach ball_ directly from fault plane solution parameters and
+% (optionally) station and polarity information. This can be achieved by 
+% |-f| option:
+%%% 
+% In the easiest form, the strike, dip and rake parameters is required to
+% plot a simple beach ball picture. To plot the fault plane solution of the
+% fault with strike/dip/rake = 11/60/-50[deg] an save it to a PNG file with size of 300 pixels:
+!focimt -o fault01a -f 11/60/-50 -z 300 -t PNG
+%% 
+% with the resulting beach ball
+%
+% <<fault01a.png>>
+%
+% Note the output file name does not have any prefixes or suffixes as in
+% the case of moment tensor inversion from the ASCII input file.
+%%
+% It is also possible to provide more fault plane parameters and produce a plot with
+% multiple nodal lines, similar to what is plotted when station _Jacknife
+% test_ or _Boostrap resampling_ option is used. In this case, the first
+% fault plane nodal line is painted with black color and the remaining
+% nodal lines are painted according to the sense of motion. To achieve such
+% effects, option |-fj| is used and the data from following nodal lines are
+% separated with ':' character as in the example below:
+!focimt -o fault01b -fj 11/60/-50:15/65/-42:17/55/-55 -z 300 -t PNG
+%%
+%
+% <<fault01b.png>>
+%
+% The example above draws three nodal lines in total with strike/dip/rakes
+% 11/60/-50 (main nodal line), 15/65/-42 and 17/55/-55 (auxiliary nodal lines). 
+%%
+% In addition, the stations can be plotted as an overlay in any of the
+% above two examples by using option |-fs| followed by ':'-separated
+% station information. The station information is provided in 
+% azimuth/takeoff/polarity/name format. Consider we want to add two stations
+% to the example above:
+!focimt -o fault01c -fj 11/60/-50:15/65/-42:17/55/-55 -fs 10/80/1/A:130/10/-1/B -z 300 -t PNG
+%%
+% resulting in the following beach ball:
+%
+% <<fault01c.png>>
+%
+% The azimuth of station is measured from north positive towards east. The
+% station takeoff is measured from vertical direction.
+%% Command line options
+% The full list of command line options of |focimt| can be displayed in
+% console window by calling: 
+!focimt -h
+   
+
+##### SOURCE END #####
+--></body></html>

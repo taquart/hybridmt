@@ -1,0 +1,360 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>hybridmt</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_hybridmt.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>hybridmt</h1><!--introduction--><p>Perform refinement of seismic moment tensors using Hybrid Moment Tensor approach.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#7">Additional information</a></li><li><a href="#8">Parameters</a></li><li><a href="#44">Examples</a></li><li><a href="#57">See also</a></li><li><a href="#58">References</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">hybridmt(Input)
+hybridmt(Input,<span class="string">'PropertyName'</span>,PropertyValue,<span class="keyword">...</span><span class="comment">)</span>
+Solution = hybridmt(Input, varargin)
+</pre><h2>Description<a name="2"></a></h2><p>Use <tt>hybridmt</tt> to perform the refinement of seismic moment tensor solutions forming a tight cluster using Hybrid Moment Tensor technique. The MATLAB implementation of the Hybrid Moment Tensor technique is based on the work: Andersen, L. M. (2001), "A relative moment tensor inversion technique applied to seismicity induced by mining", PhD Thesis, Univ. of the Witwatersrand, Johannesburg.</p><p><tt>hybridmt(Input)</tt> performs the refinement of seismic moment tensors provided in <tt>Input</tt> data (cell array or input file name in raw or 1D velocity model ASCII format) using the default parameters.</p><p><tt>Solution = hybridmt(Input)</tt> performs the refinement of seismic moment tensors provided in <tt>Input</tt> data (cell array or input file name in raw or 1D velocity model format) using the default parameters. The refined seismic moment tensors are returned in <tt>Solution</tt> cell array.</p><p><tt>Solution = hybridmt(Input,'PropertyName',PropertyValue,...)</tt> allows to specify additional options to control the routine execution.</p><h2>Additional information<a name="7"></a></h2><p>For an up-to-date information on software package, see the following website: <a href="http://www.induced.pl/hybridmt">http://www.induced.pl/hybridmt</a>.</p><h2>Parameters<a name="8"></a></h2><p><b>CorrectStation</b> - Allows to provide a constant multiplier factor to input amplitudes for particular station(s)</p><p><tt>cell([])</tt> (default) | {'stationname1',factor1,'stationname2',factor2,...}</p><p>Allows to provide constant multiplication factor to input seismic moments for a specific station or stations. This can be useful when one wants to correct the specific station for bad polarity or bad gain value. Also, this parameter is useful while performing the refinement of input seismic data using hybrid moment tensor inversion with updated gain values.</p><p><b>Display</b> - Display progress of the algorithm execution</p><p><tt>'on'</tt> (default) | <tt>'off'</tt></p><p>Displays progress window.</p><p><b>FigureFormat</b> - Format of output figures</p><p><tt>'PNG'</tt> (default) | | <tt>'SVG'</tt> | <tt>'PDF'</tt> | <tt>'PS'</tt></p><p>Defines default format of output figures (excluding snapshot figures)</p><p><b>IgnoreStation</b> - Ignored station(s) list</p><p><tt>{}</tt> (default) | cell array | string</p><p>Use this parameter to specify the list of stations that will be rejected from seismic moment tensor inversion. Single station can be specified as string. If multiple stations are meant to be rejected they must be provided as cell array of strings.</p><p><b>Iterations</b> - Number of iteration for hybridMT inversion</p><p><tt>40</tt> (default) | scalar &gt; 0</p><p>Number of iteration steps in hybrid moment tensor inversion. The inversion typically needs at least <tt>10</tt> iteriations to reduce the RMS error of seismic moment tensors to a reasonable level.</p><p><b>ProjectDir</b> - Project directory name</p><p><tt>'results'</tt> (default) | string (valid directory name)</p><p>Allows to specify the project directory where output files from hybrid moment tensor refinement will be stored.</p><p><b>Snapshots</b> - Store beach ball snapshots</p><p><tt>'off'</tt> (default) | <tt>'on'</tt></p><p>Determines whether at each inversion step the routine creates a set of figures containing graphical representation of the seismic moment tensor inversion (beach ball) for each event. The resulting figures are stored in subfolders of <i>project directory</i>. Turning this option on allows to trace the change in seismic moment tensors solutions with progressing iterations. Turning this option on significantly slows down the perfomance of the algorithm due to numerous pictures generated.</p><p><b>Solution</b> - Seismic moment tensor type</p><p><tt>'full'</tt> (default) | <tt>'clvd'</tt> | <tt>'dc'</tt></p><p>Determines whether the seismic moment tensor refinement should be performed for calculated <i>full</i>, <i>trace-null</i> or <i>double-couple</i> moment tensors. By default, the full seismic moment tensor inversion is performed.</p><p><b>RatioLimit</b> - Theoretical/Observed seismic moment ratio limit</p><p><tt>10</tt> (default) | floating-point value &gt; 1</p><p>In every iteration, the ratios between theoretical and observed seismic moments are calculated for all stations and all seismic events that take part in hybrid moment tensor inversion. In the following, the median theoretical-to-observed seismic moment ratios are calculated for each station separately. This parameter allows to ignore events for which the ratio exceeds certain bounds according to the scheme: <img src="doc_hybridmt_eq15195035715957271752.png" alt="$$R_j=\frac{U^{th}_{ij}}{U^{ons}_{ij}}$">$</p><p><b>Weight</b> - Correction weight in hybrid moment tensor inversion</p><p><tt>0.1</tt> (default) | 0.0 &lt; floating point &lt; 1.0</p><p>Weighting parameter</p><p><b>TestData</b> - Input data test</p><p><tt>'off'</tt> (default) | <tt>'on'</tt></p><p>This option forces program to perform only input data test.</p><p><b>VelocityModel</b> - Input 1D velocity model</p><p><tt>[]</tt> (default) | <tt>n-by-2 matrix</tt></p><p>Allows to provide a 1D velocity model as <tt>n-by-2</tt> matrix where first column corresponds to top of the layers (km) and second column reflects the widths of layers (km/s). When this parameter is specified it is assumed the input file is provided in 1D velocity model format.</p><h2>Examples<a name="44"></a></h2><p><b>Example 1</b></p><p>In this example we first generate an input data set of 50 focal mechanisms in <tt>fociMT</tt> raw format using auxilliary routine <tt>genmt_raw.m</tt>. The generated fault planes will have random fault orientations. In addition, these focal mechanism will have a certain (also random) amount of non-double-couple component controlled by tensile angle ALPHA parameter ranging from 0 degrees (pure shear) to 90 degrees (pure tensile) DC component, which is controlled by tensile angle ALPHA. The input file will be stored in <tt>input_synthetic.txt</tt> file.</p><pre class="codeinput">n = 50;
+STRIKE = round(rand(1,n) * 359);
+DIP = round(rand(1,n) * 90);
+RAKE = round(rand(1,n) * 360 - 180);
+ALPHA = round(rand(1,n) * 40 - 20);
+genmt_raw(STRIKE,DIP,RAKE,ALPHA,<span class="string">'FileName'</span>,<span class="string">'input_synthetic.txt'</span>,<span class="string">'PicksLost'</span>,0.4,<span class="string">'StationBias'</span>,[5 0.2; 10 2; 15 1/3]);
+</pre><p>In addition, we introduced some bias to synthetic dataset. First, we assumed that 40 percents of randomly selected stations will be in fact not picked successfully. Secondly, we introduced a PERSISTENT bias to amplitude readings at three stations: The amplitudes at fifth, tenth and fifteenth station will be multipled by factoes 0.2, 2 and 1/3, respectively.</p><p><b>Example 2</b></p><p>We generate a synthetic set of 50 focal mechanism using shear-tensile source model (Vavry&#269;uk, 2001) where the source kinematics is described by four parameters: strike (<img src="doc_hybridmt_eq01908532921846404702.png" alt="$\Phi$">), dip (<img src="doc_hybridmt_eq06646721004341227832.png" alt="$\delta$">), rake (<img src="doc_hybridmt_eq07657233533591063549.png" alt="$\lambda$">) of the fault plane and the tensile angle <img src="doc_hybridmt_eq14221827199139923399.png" alt="$\alpha$">. The tensile angle describe the angle between the slip vector direction and the slip vector projected on the fault plane with <img src="doc_hybridmt_eq07768168010470479564.png" alt="$\alpha=-90^\circ$">, <img src="doc_hybridmt_eq05797906909515221662.png" alt="$\alpha=-0^\circ$"> and <img src="doc_hybridmt_eq02216832287236257089.png" alt="$\alpha=90^\circ$"> corresponding to the pure tensile closing, pure shear and pure tensile opening, respectively.</p><p>The fault plane parameters were randomly sampled assuming all possible focal mechanisms:</p><pre class="codeinput">n = 50;
+STRIKE = round(rand(1,n) * 359);
+DIP = round(rand(1,n) * 90);
+RAKE = round(rand(1,n) * 360 - 180);
+ALPHA = round(rand(1,n) * 40 - 20);
+</pre><p>The tensile angle was randomly selected between <img src="doc_hybridmt_eq09166782024038824346.png" alt="$\alpha_i\in(-20,20)$">, which corresponds to the seismic moment tensors containing approximately between -20 to +20 percent of isotropic and compensated linear vector dipole components parts and up to 60 percent of the (remaining) double-couple component (the default Poisson&#8217;s ratio equal to 0.25 is used in the <tt><a href="doc_genmt_raw.html">genmt_raw.m</a></tt> routine):</p><pre class="codeinput">genmt_raw(STRIKE,DIP,RAKE,ALPHA,<span class="string">'FileName'</span>,<span class="string">'d_synthetic.txt'</span>,<span class="string">'PicksLost'</span>,0.4,<span class="string">'StationBias'</span>,[5 0.2; 10 2; 15 1/3]);
+</pre><p>It is important to note that for the shear-tensile source model the following relation holds:</p><p><img src="doc_hybridmt_eq10305136262144807743.png" alt="$$\frac{c_{iso}}{c_{clvd}}=\frac{3}{4}\frac{\lambda}{\mu}+\frac{1}{2}$$"></p><p>where <img src="doc_hybridmt_eq07657233533591063549.png" alt="$\lambda$"> and <img src="doc_hybridmt_eq05371638286043275527.png" alt="$\mu$"> are Lam&eacute;&#8217;s constants and <img src="doc_hybridmt_eq11693626179530498430.png" alt="$c_{iso}$"> and <img src="doc_hybridmt_eq02873130771580264236.png" alt="$c_{clvd}$"> are the percentages of ISO and CLVD components calculated according to Vavry&#269;uk (2001). It is also worth to note that the ratio on the left hand side of equation must be always positive, i.e. the ISO and CLVD percentages must be of the same sign.</p><p>We assumed the isotropic medium with constant P-wave velocity. For each synthetic fault plane, the expected P-wave amplitudes were calculated using radiation pattern formula (see description of <tt><a href="doc_rpgen.html">rpgen.m</a></tt>) derived in (Ou, 2008; Kwiatek and Ben-Zion, 2013) at 24 stations that were perfectly covering the focal sphere. The initial synthetic catalog was biased. First, for all events we intentionally biased the recorded first P-wave amplitudes of three stations S05, S10 and S15 by introducing a constant multiplication factor of 5, 0.5 and 10, respectively using the <i>StationBias</i> property.  The latter procedure can be perceived as introduction of a constant factor to the Green&#8217;s function observed at a certain station (e.g. site amplification or bad sensor gain value). Secondly, for each seismic event we randomly removed 40 percent of first P-wave amplitudes simulating lack of P phase arrivals on some stations using <i>PickLost</i> property. We assumed all generated earthquake formed a single cluster and we used the generated data to perform the moment tensor refinement using hybridMT algorithm.</p><p>In the following, we execute the hybrid moment tensor refinement of the synthetic data by executing the command:</p><pre class="codeinput"><span class="comment">%hybridmt('d_synthetic.txt','Snapshots','off','ProjectDir','synthetic');</span>
+</pre><p>The comparison of MTI results using initial and biased catalogs, as well as the Hybrid Moment Tensor results is presented in figure below. The source types of initial catalog on Hudson plot (left figure) are perfectly aligned as predicted from equation above. The introduction of persistent bias to amplitude readings from three stations S05, S10 and S15 resulted in scatter in estimated ISO, CLVD and DC components, as seen in the middle picture. However, the application of Hybrid Moment Tensor technique allowed to detect biased stations and suppress their effect resulting in improved quality of MT inversion, what is clearly seen while comparing the results of Hybrid Moment Tensor-refined data (right figure) with the biased catalogs.</p><p><img vspace="5" hspace="5" src="FAA_a.png" alt=""> </p><p><img vspace="5" hspace="5" src="FAA_b.png" alt=""> </p><p><img vspace="5" hspace="5" src="FAA_c.png" alt=""> </p><p>The correction factors are nearly perfectly recovered as seen in the follwing figure. Also, during the course of optimization, the RMS errors of MTs were significantly reduced.</p><p><img vspace="5" hspace="5" src="FBB_a.png" alt=""> </p><p><img vspace="5" hspace="5" src="FBB_b.png" alt=""> </p><p>The Hybrid Moment Tensor technique is capable to detect the persistent bias introduced to recording station, either in form of station (e.g. wrong gain), site (amplification) or path effects (e.g. velocity or attenuation mismodelling). It is worth to note however, that it is not capable to account for wrong station polarity. However, during the course of Hybrid Moment Tensor refinement the developed software package provide statistical information on polarity match on each station by comparing the observed and predicted polarities. This allows to detect stations with wrong polarities, stop the Hybrid Moment Tensor refinement procedure, easily introduce the corrections to amplitude readings from "bad" stations and restart the refinement.</p><h2>See also<a name="57"></a></h2><p><tt><a href="doc_focimt.html">focimt</a></tt> | <tt><a href="doc_readraw.html">readraw</a></tt> | <tt><a href="doc_readvel1d.html">readvel1d</a></tt> | <a href="matlab:doc('genmt_raw')">genmt_raw.m</a> | <a href="matlab:doc('genmt_vel1d')">genmt_vel1d.m</a> | <tt><a href="doc_rpgen.html">rpgen</a></tt></p><h2>References<a name="58"></a></h2><p>Andersen, L. M. (2001). A relative moment tensor inversion technique applied to seismicity induced by mining, Univ. of the Witwatersrand, Johannesburg.</p><p>Kwiatek, G., and Y. Ben-Zion (2013). Assessment of P and S wave energy radiated from very small shear-tensile seismic events in a deep South African mine, J. Geophys. Res. Solid Earth 118, no. 7, 3630&#8211;3641, doi 10.1002/jgrb.50274.</p><p>Ou, G. B. (2008). Seismological studies for tensile faults, Terr Atmos Ocean Sci 19, no. 5, 463&#8211;471, doi 10.3319/TAO.2008.19.5.463(T)1</p><p>Vavry&#269;uk, V. (2001). Inversion for parameters of tensile earthquakes, J Geophys Res 106, no. B8, 16339&#8211;16355, doi 10.1029/2001JB000372.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% hybridmt
+% Perform refinement of seismic moment tensors using Hybrid Moment Tensor approach.
+%% Syntax
+%   hybridmt(Input)
+%   hybridmt(Input,'PropertyName',PropertyValue,...)
+%   Solution = hybridmt(Input, varargin)
+%% Description
+% Use |hybridmt| to perform the refinement of seismic moment tensor solutions
+% forming a tight cluster using Hybrid Moment Tensor technique. 
+% The MATLAB implementation of the Hybrid Moment Tensor technique is based on
+% the work: Andersen, L. M. (2001), "A relative moment tensor inversion technique 
+% applied to seismicity induced by mining", PhD Thesis, Univ. of the 
+% Witwatersrand, Johannesburg.
+%%
+% 
+%%
+% |hybridmt(Input)| performs the refinement of seismic moment tensors 
+% provided in |Input| data (cell array or input file name in raw or 1D velocity 
+% model ASCII format) using the default parameters. 
+%%
+% |Solution = hybridmt(Input)| performs the refinement of seismic moment tensors 
+% provided in |Input| data (cell array or input file name in raw or 1D velocity 
+% model format) using the default parameters. The refined seismic moment tensors are 
+% returned in |Solution| cell array. 
+%%
+% |Solution = hybridmt(Input,'PropertyName',PropertyValue,...)| allows to specify
+% additional options to control the routine execution.
+%% Additional information
+% For an up-to-date information on software package, see the following website: 
+% <http://www.induced.pl/hybridmt>.
+%% Parameters
+% *CorrectStation* - Allows to provide a constant multiplier factor to input
+% amplitudes for particular station(s)
+%%
+% |cell([])| (default) | {'stationname1',factor1,'stationname2',factor2,...}
+%%
+% Allows to provide constant multiplication factor to input seismic moments
+% for a specific station or stations. This can be useful when one wants to
+% correct the specific station for bad polarity or bad gain value. Also, this
+% parameter is useful while performing the refinement of input seismic data using 
+% hybrid moment tensor inversion with updated gain values.
+%
+%%
+% *Display* - Display progress of the algorithm execution
+%%
+% |'on'| (default) | |'off'|
+%%
+% Displays progress window.
+%%
+% *FigureFormat* - Format of output figures 
+%%%
+% |'PNG'| (default) | | |'SVG'| | |'PDF'| | |'PS'|
+%%%
+% Defines default format of output figures (excluding snapshot figures)
+%%
+% *IgnoreStation* - Ignored station(s) list 
+%%%
+% |{}| (default) | cell array | string
+%%%
+% Use this parameter to specify the list of stations that will be rejected
+% from seismic moment tensor inversion. Single station can be specified as
+% string. If multiple stations are meant to be rejected they must be
+% provided as cell array of strings.
+%%
+% *Iterations* - Number of iteration for hybridMT inversion 
+%%
+% |40| (default) | scalar > 0
+%%
+% Number of iteration steps in hybrid moment tensor inversion. The
+% inversion typically needs at least |10| iteriations to reduce the RMS
+% error of seismic moment tensors to a reasonable level. 
+%%
+% *ProjectDir* - Project directory name 
+%%
+% |'results'| (default) | string (valid directory name)
+%%
+% Allows to specify the project directory where output files from hybrid
+% moment tensor refinement will be stored. 
+%%
+% *Snapshots* - Store beach ball snapshots 
+%%
+% |'off'| (default) | |'on'|
+%%
+% Determines whether at each inversion step the routine creates a
+% set of figures containing graphical representation of the seismic moment
+% tensor inversion (beach ball) for each event. The resulting figures are
+% stored in subfolders of _project directory_. Turning this option on
+% allows to trace the change in seismic moment tensors solutions with
+% progressing iterations. Turning this option on significantly slows down
+% the perfomance of the algorithm due to numerous pictures generated.
+%%
+% *Solution* - Seismic moment tensor type 
+%%
+% |'full'| (default) | |'clvd'| | |'dc'|
+%%
+% Determines whether the seismic moment tensor refinement should be
+% performed for calculated _full_, _trace-null_ or _double-couple_ moment
+% tensors. By default, the full seismic moment tensor inversion is performed.
+%%
+% *RatioLimit* - Theoretical/Observed seismic moment ratio limit 
+%%
+% |10| (default) | floating-point value > 1
+%%
+% In every iteration, the ratios between theoretical and observed seismic
+% moments are calculated for all stations and all seismic events that take
+% part in hybrid moment tensor inversion. In the following, the median
+% theoretical-to-observed seismic moment ratios are calculated for each 
+% station separately. This parameter allows to ignore events for which the
+% ratio exceeds certain bounds according to the scheme:
+% $$R_j=\frac{U^{th}_{ij}}{U^{ons}_{ij}}$$
+%%
+% *Weight* - Correction weight in hybrid moment tensor inversion 
+%%
+% |0.1| (default) | 0.0 < floating point < 1.0
+%%
+% Weighting parameter 
+%%
+% *TestData* - Input data test 
+%%
+% |'off'| (default) | |'on'|
+%%
+% This option forces program to perform only input data test.
+%%
+% *VelocityModel* - Input 1D velocity model 
+%%
+% |[]| (default) | |n-by-2 matrix|
+%%
+% Allows to provide a 1D velocity model as |n-by-2| matrix where first
+% column corresponds to top of the layers (km) and second column reflects
+% the widths of layers (km/s). When this parameter is specified it is assumed the
+% input file is provided in 1D velocity model format.
+%
+%% Examples
+%%
+% *Example 1*
+%%%
+% In this example we first generate an input data set of 50 focal 
+% mechanisms in |fociMT| raw format using auxilliary routine |genmt_raw.m|. 
+% The generated fault planes will have random fault orientations. In addition, 
+% these focal mechanism will have a certain (also random) amount of
+% non-double-couple component controlled by tensile angle ALPHA parameter
+% ranging from 0 degrees (pure shear) to 90 degrees (pure tensile)
+% DC component, which is controlled by tensile angle ALPHA. The input file
+% will be stored in |input_synthetic.txt| file.
+n = 50;
+STRIKE = round(rand(1,n) * 359);
+DIP = round(rand(1,n) * 90);
+RAKE = round(rand(1,n) * 360 - 180);
+ALPHA = round(rand(1,n) * 40 - 20);
+genmt_raw(STRIKE,DIP,RAKE,ALPHA,'FileName','input_synthetic.txt','PicksLost',0.4,'StationBias',[5 0.2; 10 2; 15 1/3]);
+%% 
+% In addition, we introduced some bias to synthetic dataset. First, we 
+% assumed that 40 percents of randomly selected stations will be in fact
+% not picked successfully. Secondly, we introduced a PERSISTENT bias to
+% amplitude readings at three stations: The amplitudes at fifth, tenth and
+% fifteenth station will be multipled by factoes 0.2, 2 and 1/3,
+% respectively. 
+%%
+% *Example 2*
+%%%
+% We generate a synthetic set of 50 focal mechanism using shear-tensile source 
+% model (Vavryčuk, 2001) where the source kinematics is described by four 
+% parameters: strike ($\Phi$), dip ($\delta$), rake ($\lambda$) of the fault 
+% plane and the tensile angle $\alpha$. The tensile angle describe the angle 
+% between the slip vector direction and the slip vector projected on the fault 
+% plane with $\alpha=-90^\circ$, $\alpha=-0^\circ$ and $\alpha=90^\circ$ corresponding 
+% to the pure tensile closing, pure shear and pure tensile opening, 
+% respectively. 
+%
+% The fault plane parameters were randomly sampled assuming all possible focal 
+% mechanisms:
+n = 50;
+STRIKE = round(rand(1,n) * 359);
+DIP = round(rand(1,n) * 90);
+RAKE = round(rand(1,n) * 360 - 180);
+ALPHA = round(rand(1,n) * 40 - 20);
+%%
+% The tensile angle was randomly selected between $\alpha_i\in(-20,20)$, which 
+% corresponds to the seismic moment tensors containing approximately between 
+% -20 to +20 percent of isotropic and compensated linear vector dipole 
+% components parts and up to 60 percent of the (remaining) double-couple 
+% component (the default Poisson’s ratio equal to 0.25 is used in the |<doc_genmt_raw.html genmt_raw.m>| routine):
+genmt_raw(STRIKE,DIP,RAKE,ALPHA,'FileName','d_synthetic.txt','PicksLost',0.4,'StationBias',[5 0.2; 10 2; 15 1/3]);
+%%
+% It is important to note that for the shear-tensile source model the following 
+% relation holds:
+%
+% $$\frac{c_{iso}}{c_{clvd}}=\frac{3}{4}\frac{\lambda}{\mu}+\frac{1}{2}$$
+%
+% where $\lambda$ and $\mu$ are Lamé’s constants and $c_{iso}$ and $c_{clvd}$ are 
+% the percentages of ISO and CLVD components calculated according to Vavryčuk (2001). 
+% It is also worth to note that the ratio on the left hand side of equation 
+% must be always positive, i.e. the ISO and CLVD percentages must be of the 
+% same sign.
+%% 
+% We assumed the isotropic medium with constant P-wave velocity. For each 
+% synthetic fault plane, the expected P-wave amplitudes were calculated using 
+% radiation pattern formula (see description of |<doc_rpgen.html rpgen.m>|) derived in (Ou, 2008; Kwiatek and Ben-Zion, 2013) 
+% at 24 stations that were perfectly covering the focal sphere. 
+% The initial synthetic catalog was biased. First, for all events we 
+% intentionally biased the recorded first P-wave amplitudes of three stations 
+% S05, S10 and S15 by introducing a constant multiplication factor of 5, 0.5 and 10, 
+% respectively using the _StationBias_ property.  The latter procedure can be 
+% perceived as introduction of a constant factor to the Green’s function 
+% observed at a certain station (e.g. site amplification or bad sensor gain 
+% value). Secondly, for each seismic event we randomly removed 40 percent of 
+% first P-wave amplitudes simulating lack of P phase arrivals on some stations using
+% _PickLost_ property. We assumed all generated earthquake formed a single 
+% cluster and we used the generated data to perform the moment tensor refinement 
+% using hybridMT algorithm. 
+%%
+% In the following, we execute the hybrid moment tensor refinement of the
+% synthetic data by executing the command:
+%hybridmt('d_synthetic.txt','Snapshots','off','ProjectDir','synthetic');
+%%
+% The comparison of MTI results using initial and biased catalogs, as well as 
+% the Hybrid Moment Tensor results is presented in figure below. The source types of initial 
+% catalog on Hudson plot (left figure) are perfectly aligned as predicted 
+% from equation above. The introduction of persistent bias to amplitude 
+% readings from three stations S05, S10 and S15 resulted in scatter in 
+% estimated ISO, CLVD and DC components, as seen in the middle picture. However, 
+% the application of Hybrid Moment Tensor technique allowed to detect biased stations and 
+% suppress their effect resulting in improved quality of MT inversion, what is 
+% clearly seen while comparing the results of Hybrid Moment Tensor-refined data (right figure) with 
+% the biased catalogs. 
+%
+% <<FAA_a.png>>
+%
+% <<FAA_b.png>>
+%
+% <<FAA_c.png>>
+%
+%%
+% The correction factors are nearly perfectly recovered as seen in the follwing
+% figure. Also, during the course of optimization, the RMS errors of MTs were 
+% significantly reduced. 
+%
+% <<FBB_a.png>>
+%
+% <<FBB_b.png>>
+%
+%%
+% The Hybrid Moment Tensor technique is capable to detect the persistent bias introduced to 
+% recording station, either in form of station (e.g. wrong gain), site 
+% (amplification) or path effects (e.g. velocity or attenuation mismodelling). 
+% It is worth to note however, that it is not capable to account for wrong 
+% station polarity. However, during the course of Hybrid Moment Tensor refinement the developed 
+% software package provide statistical information on polarity match on each 
+% station by comparing the observed and predicted polarities. This allows to 
+% detect stations with wrong polarities, stop the Hybrid Moment Tensor refinement procedure, easily introduce 
+% the corrections to amplitude readings from "bad" stations and restart the  
+% refinement. 
+%% See also
+% |<doc_focimt.html focimt>| | 
+% |<doc_readraw.html readraw>| | 
+% |<doc_readvel1d.html readvel1d>| |  
+% <matlab:doc('genmt_raw') genmt_raw.m> | 
+% <matlab:doc('genmt_vel1d') genmt_vel1d.m> | 
+% |<doc_rpgen.html rpgen>| 
+%
+%% References
+% Andersen, L. M. (2001). A relative moment tensor inversion technique applied to seismicity induced by mining, Univ. of the Witwatersrand, Johannesburg.
+%
+% Kwiatek, G., and Y. Ben-Zion (2013). Assessment of P and S wave energy radiated from very small shear-tensile seismic events in a deep South African mine, J. Geophys. Res. Solid Earth 118, no. 7, 3630–3641, doi 10.1002/jgrb.50274.
+% 
+% Ou, G. B. (2008). Seismological studies for tensile faults, Terr Atmos Ocean Sci 19, no. 5, 463–471, doi 10.3319/TAO.2008.19.5.463(T)1
+% 
+% Vavryčuk, V. (2001). Inversion for parameters of tensile earthquakes, J Geophys Res 106, no. B8, 16339–16355, doi 10.1029/2001JB000372.
+%
+
+
+
+##### SOURCE END #####
+--></body></html>

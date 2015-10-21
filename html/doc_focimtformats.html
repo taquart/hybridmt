@@ -1,0 +1,540 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Input focimt ASCII file formats</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_focimtformats.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Input focimt ASCII file formats</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">RAW ASCII input file</a></li><li><a href="#7">1D velocity model ASCII input file</a></li></ul></div><p><tt>focimt</tt> application, <tt><a href="doc_focimt.html">focimt.m</a></tt> as well as <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routines are capable to read two types of ASCII input files:</p><div><ul><li><b>RAW input file</b> contains all input data necessary to perform the seismic moment tensor inversion in time domain.</li><li><b>1D velocity model input file</b> uses 1D velocity model and station/even locations provided to perform the 1D ray-tracing and to calculate the auxiliary data for the seismic moment tensor inversion (takeoff and incidence angles as well as distances along the ray paths).</li></ul></div><p>Both input file formats starts with a <i>header line</i> containing information about event that is followed by <i>phase lines</i> containing phase data. User may specify multiple header-phase blocks to process or refine multiple events at once. The ASCII input file formats are described in details in the following sections. The input files can be read by auxiliary functions <tt><a href="doc_readraw.html">readraw.m</a></tt> and <tt><a href="doc_readvel1d.html">readvel1d.m</a></tt>.</p><h2>RAW ASCII input file<a name="2"></a></h2><p>Raw input file is composed of a <i>header line</i> containing basic information about the seismic event. This line is followed by a limited number of <i>phase lines</i> containing phase information necessary for the seismic moment tensor inversion. The input text file may contain multiple blocks header-phases if the user wants to process more than one earthquake at once. The latter case is actually required once User aims to refine seismic moment tensors by means of hybrid moment tensor technique and use the <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine. ASCII input file in RAW format can be read using auxillary <tt><a href="doc_readraw.html">readraw.m</a></tt> routine and converted to <a href="doc_inputformat.html">moment tensor inversion input cell array</a> used across the whole package, if necessary.</p><p>The RAW ASCII input file generally looks as follows:</p><pre class="language-matlab">fileid1 <span class="string">n</span>
+station_1 <span class="string">component_1</span> <span class="string">phase_1</span> <span class="string">omega_1</span> <span class="string">azm_1</span> <span class="string">aoi_1</span> <span class="string">tko_1</span> <span class="string">v_1</span> <span class="string">r_1</span> <span class="string">rho_1</span>
+station_2 <span class="string">component_2</span> <span class="string">phase_2</span> <span class="string">omega_2</span> <span class="string">azm_2</span> <span class="string">aoi_2</span> <span class="string">tko_2</span> <span class="string">v_2</span> <span class="string">r_2</span> <span class="string">rho_2</span>
+<span class="keyword">...</span>
+station_n <span class="string">component_n</span> <span class="string">phase_n</span> <span class="string">omega_n</span> <span class="string">azm_n</span> <span class="string">aoi_n</span> <span class="string">tko_n</span> <span class="string">v_n</span> <span class="string">r_n</span> <span class="string">rho_n</span>
+fileid2 <span class="string">n</span>
+station_1 <span class="string">component_1</span> <span class="string">phase_1</span> <span class="string">omega_1</span> <span class="string">azm_1</span> <span class="string">aoi_1</span> <span class="string">tko_1</span> <span class="string">v_1</span> <span class="string">r_1</span> <span class="string">rho_1</span>
+station_2 <span class="string">component_2</span> <span class="string">phase_2</span> <span class="string">omega_2</span> <span class="string">azm_2</span> <span class="string">aoi_2</span> <span class="string">tko_2</span> <span class="string">v_2</span> <span class="string">r_2</span> <span class="string">rho_2</span>
+<span class="keyword">...</span>
+station_n <span class="string">component_n</span> <span class="string">phase_n</span> <span class="string">omega_n</span> <span class="string">azm_n</span> <span class="string">aoi_n</span> <span class="string">tko_n</span> <span class="string">v_n</span> <span class="string">r_n</span> <span class="string">rho_n</span>
+<span class="keyword">...</span>
+</pre><p>The header line contains only two parameters:</p><p><table border=1>
+<tr><td>fileid</td><td>string</td><td>
+Event id string. The parameter contains a *UNIQUE* alphanumeric string to identify
+the seismic event. As the string may be used (depending on parameters passed
+to |hybridmt| or |focimt| programs) to create a directory where
+event-specific results will be stored, it is necessary to use only
+characters that can be used to create files/directories under specific
+file system.</td></tr>
+<tr><td>n</td><td>integer</td>
+<td>Number of following lines containing phase information data.</td>
+</tr></table></p><p>The header line is follower by <i>n</i> lines containing phase information data:</p><p><table border=1>
+<tr><td>station</td><td>string</td><td>
+Station name. As the station is used in graphical representation of
+seismic moment tensor solution, short station names are recommended.
+</td></tr>
+<tr><td>component</td><td>string</td><td>
+Station component name. Currently only vertical components are supported,
+and the column is basically ignored by either |fociMT| or |hybridmt|
+routines. However, future version of |fociMT| and |hybridMT| will use
+different phase.
+</td></tr>
+<tr><td>phase</td><td>string</td><td>
+Phase identifier. Currently only P phases are supported, therefore only
+'P' value is accepted by application. The remaining values are ignored.
+</td></tr>
+<tr><td>omega</td><td>float</td><td>
+Area below the first P-wave ground velocity pulse together with sign
+information. This value is proportional to the spectral level in Fourier
+domain, and, overall, proportional to the seismic moment.
+</td></tr>
+<tr><td>azm</td><td>float</td><td>
+Azimuth of the vector pointing from earthquake to the station. The value
+is measured in degrees, positive from north towards east.
+</td></tr>
+<tr><td>aoi</td><td>float</td><td>
+Angle of incidence to the sensor measured in degrees from down direcion
+(towards center of Earth). The seismic ray pointing directly up,
+perpendicular towards the surface has 0 degrees incidence angle.
+</td></tr>
+<tr><td>tko</td><td>float</td><td>
+Takeoff angle measured in degrees from down (towards center of Earth)
+direction. The seismic ray leaving the source purely up (towards earth
+surface) has takeoff angle of 180 degrees. The ray leaving earthquake
+source towards center of Earth has a takeoff angle of 0 degrees.
+</td></tr>
+<tr><td>vel</td><td>float</td><td>
+Phase velocity in the source area in [m/s]. This value is used to
+calculate seismic moment from omega parameter.
+</td></tr>
+<tr><td>r</td><td>float</td><td>
+Distance along the ray from the source to the station [m]. This value is used to
+calculate seismic moment from omega parameter.
+</td></tr>
+<tr><td>rho</td><td>float</td><td>
+Rock density in the source area. This value is used to
+calculate seismic moment from omega parameter.
+</td></tr>
+</table></p><p>Here is example of input in RAW ASCII format:</p><pre>testmech 20
+  W1 Z P   8.1579314473706e-007    20.0  160.0   20.0  5000 3000.00  2900
+  W2 Z P  -6.8673365691379e-007    80.0  160.0   20.0  5000 3000.00  2900
+  W3 Z P  -8.7312547285917e-007   140.0  160.0   20.0  5000 3000.00  2900
+  W4 Z P  -2.2167789675607e-007   200.0  160.0   20.0  5000 3000.00  2900
+   5 Z P   1.1069303997884e-007   260.0  160.0   20.0  5000 3000.00  2900
+   6 Z P    9.617722655266e-007   320.0  160.0   20.0  5000 3000.00  2900
+   7 Z P    5.816403152331e-007    20.0   30.0  150.0  5000 3000.00  2900
+   8 Z P   5.9484552418295e-007    80.0   30.0  150.0  5000 3000.00  2900
+  A9 Z P  -7.0384473729451e-007   140.0   30.0  150.0  5000 3000.00  2900
+ C10 Z P  -7.0656157910976e-007   200.0   30.0  150.0  5000 3000.00  2900
+ C11 Z P   1.5849903479442e-006   260.0   30.0  150.0  5000 3000.00  2900
+ C12 Z P   1.5745019808096e-006   320.0   30.0  150.0  5000 3000.00  2900
+ C13 Z P   1.9286895552236e-007    20.0  130.0   50.0  5000 3000.00  2900
+  14 Z P  -2.7763323964771e-006    80.0  130.0   50.0  5000 3000.00  2900
+ D17 Z P  -1.9406208284731e-006   260.0  130.0   50.0  5000 3000.00  2900
+ D18 Z P   -2.565372376189e-007   320.0  130.0   50.0  5000 3000.00  2900
+  21 Z P   5.1376195957182e-007   140.0   80.0  100.0  5000 3000.00  2900
+  22 Z P   1.6575456762096e-007   200.0   80.0  100.0  5000 3000.00  2900
+  23 Z P   1.1523550907002e-006   260.0   80.0  100.0  5000 3000.00  2900
+  24 Z P   6.9418020992634e-007   320.0   80.0  100.0  5000 3000.00  2900</pre><p>The examples of reading RAW input files for the purpose of the seismic moment tensor inversion with <tt>focimt</tt> application are shown in <a href="doc_focimtexe.html">Using focimt command line application</a> section.</p><h2>1D velocity model ASCII input file<a name="7"></a></h2><p>Similarly to RAW input file format, the 1D velocity model input file also starts with header line describing basic information on seismic event and it is followed by a limited number of lines describing phase information. The main difference between raw input format and 1D velocity model format is that in the latter case User do not need to specify all the geometrical parameters for the moment tensor parameters such as azimuth, takeoff angles, distances along the seismic rays or angles of incidence. Instead, these parameters are calculated using 1D velocity model provided. ASCII file in 1D velocity model format can be read using auxillary routine <tt><a href="doc_readvel1d.html">readvel1d.m</a></tt>.</p><pre class="language-matlab">The <span class="string">1D</span> <span class="string">velocity</span> <span class="string">model</span> <span class="string">ASCII</span> <span class="string">input</span> <span class="string">file</span> <span class="string">syntax</span> <span class="string">looks</span> <span class="string">as</span> <span class="string">follows:</span>
+fileid <span class="string">N</span> <span class="string">e_northing</span> <span class="string">e_easting</span> <span class="string">e_z</span> <span class="string">density</span>
+ station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
+ station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
+ <span class="keyword">...</span>
+ station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
+fileid <span class="string">N</span> <span class="string">e_northing</span> <span class="string">e_easting</span> <span class="string">e_z</span> <span class="string">density</span>
+ station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
+ station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
+ <span class="keyword">...</span>
+ station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
+<span class="keyword">...</span>
+</pre><p>The header line contains following parameters:</p><p><table border=1>
+<tr><td>fileid</td><td>string</td><td>
+Event id string. The parameter contains *UNIQUE* alphanumeric string to identify
+the seismic event. As the string may be used (depending on parameters passed
+to |hybridmt| or |focimt| programs) to create a directory where
+event-specific results will be stored, it is necessary to use only
+characters that can be used to create files/directories under specific
+file system.
+</td></tr>
+<tr><td>N</td><td>integer</td>
+<td>Number of following lines containing phase information data.
+</td></tr>
+<tr><td>e_northing</td><td>float</td><td>
+Northing component of earthquake hypocenter location in local cartesian
+coordinate system [m]. The value must increase towards north.
+</td></tr>
+<tr><td>e_easting</td><td>float</td><td>
+Easting component of earthquake hypocenter location in local cartesian
+coordinate system [m]. The value must increase towards east
+</td></tr>
+<tr><td>e_depth</td><td>float</td><td>
+Depth component of earthquake hypocenter location in local cartesian
+coordinate system [m]. The value must increase towards up (i.e. if mean
+sea level is 0 in local cartesian coordinate system chosen, the negative
+values correspond to the hypocenter below the mean sea level)
+</td></tr>
+<tr><td>density</td><td>float</td><td>
+Density in the seismic source area [kg/m3].
+</td></tr>
+</table></p><p>The header line is followed by <i>n</i> lines containing phase information data:</p><p><table border=1>
+<tr><td>station</td><td>string</td><td>
+Station name. As the station is used in graphical representation of
+seismic moment tensor solution, short station names are advisable.
+</td></tr>
+<tr><td>component</td><td>string</td><td>
+Station component name. Currently only vertical components are supported,
+and the column is basically ignored by either |fociMT| or |hybridmt|
+routines. However, future version of |fociMT| and |hybridMT| will use
+different phase.
+</td></tr>
+<tr><td>phase</td><td>string</td><td>
+Phase identifier. Currently only P phases are supported, therefore only
+'P' value is accepted by application. The remaining values are ignored.
+</td></tr>
+<tr><td>omega</td><td>float</td><td>
+Area below the first P-wave ground velocity pulse together with sign
+information. This value is proportional to the spectral level in Fourier
+domain, and, overall, proportional to the seismic moment.
+</td></tr>
+<tr><td>s_northing</td><td>float</td><td>
+Northing component of station coordinate in local cartesian coordinate
+system [m]. The station coordinate must be in the same system as
+earthquake northing coordinate provided in first line
+</td></tr>
+<tr><td>s_easting</td><td>float</td><td>
+Easting component of station coordinate in local cartesian coordinate
+system [m]. The station coordinate must be in the same system as
+earthquake northing coordinate provided in first line
+</td></tr>
+<tr><td>s_depth</td><td>float</td><td>
+Depth component of station coordinate in local cartesian coordinate
+system [m]. The station coordinate must be in the same system as
+earthquake northing coordinate provided in first line
+</td></tr>
+</table></p><p>Here is example of input file for <a href="doc_hybridmt.html">hybridmt.m</a>, <a href="doc_focimt.html">focimt.m</a> as well as for <a href="doc_focimtexe.html"><tt>focimt</tt> application</a> in 1D velocity model format:</p><pre class="language-matlab">134_044_+163 25 0 0 -1500 2700
+S01 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-3.4116906326339e-007</span>          <span class="string">-10000</span>         <span class="string">-10000</span>              <span class="string">0</span>
+S02 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-3.7814556483238e-007</span>          <span class="string">-10000</span>          <span class="string">-5000</span>              <span class="string">0</span>
+S03 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-5.0939122438081e-007</span>          <span class="string">-10000</span>              <span class="string">0</span>              <span class="string">0</span>
+S04 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-2.7462338649334e-007</span>          <span class="string">-10000</span>           <span class="string">5000</span>              <span class="string">0</span>
+S05 <span class="string">Z</span> <span class="string">P</span>   <span class="string">3.2166275730773e-007</span>          <span class="string">-10000</span>          <span class="string">10000</span>              <span class="string">0</span>
+S06 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-1.2841376369079e-007</span>           <span class="string">-5000</span>         <span class="string">-10000</span>              <span class="string">0</span>
+S07 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-6.7801192106985e-007</span>           <span class="string">-5000</span>          <span class="string">-5000</span>              <span class="string">0</span>
+S08 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-2.0756006966737e-006</span>           <span class="string">-5000</span>              <span class="string">0</span>              <span class="string">0</span>
+S09 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-4.2127683545031e-007</span>           <span class="string">-5000</span>           <span class="string">5000</span>              <span class="string">0</span>
+S10 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-4.1841523522169e-008</span>           <span class="string">-5000</span>          <span class="string">10000</span>              <span class="string">0</span>
+S11 <span class="string">Z</span> <span class="string">P</span>    <span class="string">3.905562102742e-008</span>               <span class="string">0</span>         <span class="string">-10000</span>              <span class="string">0</span>
+S12 <span class="string">Z</span> <span class="string">P</span>   <span class="string">2.0061444414936e-007</span>               <span class="string">0</span>          <span class="string">-5000</span>              <span class="string">0</span>
+S13 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-5.7225282386188e-006</span>               <span class="string">0</span>              <span class="string">0</span>              <span class="string">0</span>
+S14 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-1.6899600936722e-007</span>               <span class="string">0</span>           <span class="string">5000</span>              <span class="string">0</span>
+S15 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-1.3448018845833e-008</span>               <span class="string">0</span>          <span class="string">10000</span>              <span class="string">0</span>
+S16 <span class="string">Z</span> <span class="string">P</span>   <span class="string">3.8527723071411e-008</span>            <span class="string">5000</span>         <span class="string">-10000</span>              <span class="string">0</span>
+S17 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-4.5116743747675e-008</span>            <span class="string">5000</span>          <span class="string">-5000</span>              <span class="string">0</span>
+S18 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-1.0622893299273e-006</span>            <span class="string">5000</span>              <span class="string">0</span>              <span class="string">0</span>
+S19 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-5.0292277936872e-007</span>            <span class="string">5000</span>           <span class="string">5000</span>              <span class="string">0</span>
+S20 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-1.1584426977891e-007</span>            <span class="string">5000</span>          <span class="string">10000</span>              <span class="string">0</span>
+S21 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-1.0162790980247e-006</span>           <span class="string">10000</span>         <span class="string">-10000</span>              <span class="string">0</span>
+S22 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-1.6473470781745e-007</span>           <span class="string">10000</span>          <span class="string">-5000</span>              <span class="string">0</span>
+S23 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-3.6544904262446e-007</span>           <span class="string">10000</span>              <span class="string">0</span>              <span class="string">0</span>
+S24 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-3.0215676249735e-007</span>           <span class="string">10000</span>           <span class="string">5000</span>              <span class="string">0</span>
+S25 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-9.6393340287165e-007</span>           <span class="string">10000</span>          <span class="string">10000</span>              <span class="string">0</span>
+</pre><p>The examples of reading 1D velocity model input files for the purpose of the seismic moment tensor inversion with <tt>focimt</tt> application are shown in section <a href="doc_focimtexe.html">Using focimt command line application</a>.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Input focimt ASCII file formats
+%%
+% |focimt| application, |<doc_focimt.html focimt.m>| as well as 
+% |<doc_hybridmt.html hybridmt.m>| routines are capable to read two types of 
+% ASCII input files: 
+%
+% * *RAW input file* contains all input data necessary to perform the seismic 
+% moment tensor inversion in time domain. 
+% * *1D velocity model input file* uses 1D velocity model and station/even
+% locations provided to perform the 1D ray-tracing and to calculate the 
+% auxiliary data for the seismic moment tensor inversion (takeoff and 
+% incidence angles as well as distances along the ray paths).
+%
+% Both input file formats starts with a _header line_ containing information
+% about event that is followed by _phase lines_ containing phase data. User 
+% may specify multiple header-phase blocks to process or refine multiple 
+% events at once. The ASCII input file formats are described in details in the 
+% following sections. The input files can be read by auxiliary functions 
+% |<doc_readraw.html readraw.m>| and |<doc_readvel1d.html readvel1d.m>|.
+%
+%% RAW ASCII input file 
+% Raw input file is composed of a _header line_ containing basic information 
+% about the seismic event. This line is followed by a limited 
+% number of _phase lines_ containing phase information necessary for the 
+% seismic moment tensor inversion. The input text file may contain 
+% multiple blocks header-phases if the user wants to process
+% more than one earthquake at once. The latter case is actually required once User aims
+% to refine seismic moment tensors by means of hybrid moment tensor
+% technique and use the |<doc_hybridmt.html hybridmt.m>| routine. ASCII input file in RAW
+% format can be read using auxillary |<doc_readraw.html readraw.m>| routine and
+% converted to <doc_inputformat.html moment tensor inversion input cell array> used across the
+% whole package, if necessary.
+%
+% The RAW ASCII input file generally looks as follows:
+%
+%   fileid1 n
+%   station_1 component_1 phase_1 omega_1 azm_1 aoi_1 tko_1 v_1 r_1 rho_1
+%   station_2 component_2 phase_2 omega_2 azm_2 aoi_2 tko_2 v_2 r_2 rho_2
+%   ...
+%   station_n component_n phase_n omega_n azm_n aoi_n tko_n v_n r_n rho_n
+%   fileid2 n
+%   station_1 component_1 phase_1 omega_1 azm_1 aoi_1 tko_1 v_1 r_1 rho_1
+%   station_2 component_2 phase_2 omega_2 azm_2 aoi_2 tko_2 v_2 r_2 rho_2
+%   ...
+%   station_n component_n phase_n omega_n azm_n aoi_n tko_n v_n r_n rho_n
+%   ...
+%
+% The header line contains only two parameters:
+%
+% <html><table border=1>
+% <tr><td>fileid</td><td>string</td><td>
+% Event id string. The parameter contains a *UNIQUE* alphanumeric string to identify
+% the seismic event. As the string may be used (depending on parameters passed
+% to |hybridmt| or |focimt| programs) to create a directory where
+% event-specific results will be stored, it is necessary to use only
+% characters that can be used to create files/directories under specific
+% file system.</td></tr>
+% <tr><td>n</td><td>integer</td>
+% <td>Number of following lines containing phase information data.</td>
+% </tr></table></html>
+% 
+%%
+% The header line is follower by _n_ lines containing phase information
+% data:
+%
+% <html><table border=1>
+% <tr><td>station</td><td>string</td><td>
+% Station name. As the station is used in graphical representation of
+% seismic moment tensor solution, short station names are recommended. 
+% </td></tr>
+% <tr><td>component</td><td>string</td><td>
+% Station component name. Currently only vertical components are supported, 
+% and the column is basically ignored by either |fociMT| or |hybridmt| 
+% routines. However, future version of |fociMT| and |hybridMT| will use
+% different phase.
+% </td></tr>
+% <tr><td>phase</td><td>string</td><td>
+% Phase identifier. Currently only P phases are supported, therefore only 
+% 'P' value is accepted by application. The remaining values are ignored.
+% </td></tr>
+% <tr><td>omega</td><td>float</td><td>
+% Area below the first P-wave ground velocity pulse together with sign 
+% information. This value is proportional to the spectral level in Fourier
+% domain, and, overall, proportional to the seismic moment.
+% </td></tr>
+% <tr><td>azm</td><td>float</td><td>
+% Azimuth of the vector pointing from earthquake to the station. The value 
+% is measured in degrees, positive from north towards east.
+% </td></tr>
+% <tr><td>aoi</td><td>float</td><td>
+% Angle of incidence to the sensor measured in degrees from down direcion 
+% (towards center of Earth). The seismic ray pointing directly up,
+% perpendicular towards the surface has 0 degrees incidence angle.
+% </td></tr>
+% <tr><td>tko</td><td>float</td><td>
+% Takeoff angle measured in degrees from down (towards center of Earth) 
+% direction. The seismic ray leaving the source purely up (towards earth
+% surface) has takeoff angle of 180 degrees. The ray leaving earthquake
+% source towards center of Earth has a takeoff angle of 0 degrees.
+% </td></tr>
+% <tr><td>vel</td><td>float</td><td>
+% Phase velocity in the source area in [m/s]. This value is used to
+% calculate seismic moment from omega parameter.
+% </td></tr>
+% <tr><td>r</td><td>float</td><td>
+% Distance along the ray from the source to the station [m]. This value is used to
+% calculate seismic moment from omega parameter.
+% </td></tr>
+% <tr><td>rho</td><td>float</td><td>
+% Rock density in the source area. This value is used to
+% calculate seismic moment from omega parameter.
+% </td></tr>
+% </table></html>
+%%
+% Here is example of input in RAW ASCII format: 
+%%
+%  testmech 20
+%    W1 Z P   8.1579314473706e-007    20.0  160.0   20.0  5000 3000.00  2900
+%    W2 Z P  -6.8673365691379e-007    80.0  160.0   20.0  5000 3000.00  2900
+%    W3 Z P  -8.7312547285917e-007   140.0  160.0   20.0  5000 3000.00  2900
+%    W4 Z P  -2.2167789675607e-007   200.0  160.0   20.0  5000 3000.00  2900
+%     5 Z P   1.1069303997884e-007   260.0  160.0   20.0  5000 3000.00  2900
+%     6 Z P    9.617722655266e-007   320.0  160.0   20.0  5000 3000.00  2900
+%     7 Z P    5.816403152331e-007    20.0   30.0  150.0  5000 3000.00  2900
+%     8 Z P   5.9484552418295e-007    80.0   30.0  150.0  5000 3000.00  2900
+%    A9 Z P  -7.0384473729451e-007   140.0   30.0  150.0  5000 3000.00  2900
+%   C10 Z P  -7.0656157910976e-007   200.0   30.0  150.0  5000 3000.00  2900
+%   C11 Z P   1.5849903479442e-006   260.0   30.0  150.0  5000 3000.00  2900
+%   C12 Z P   1.5745019808096e-006   320.0   30.0  150.0  5000 3000.00  2900
+%   C13 Z P   1.9286895552236e-007    20.0  130.0   50.0  5000 3000.00  2900
+%    14 Z P  -2.7763323964771e-006    80.0  130.0   50.0  5000 3000.00  2900
+%   D17 Z P  -1.9406208284731e-006   260.0  130.0   50.0  5000 3000.00  2900
+%   D18 Z P   -2.565372376189e-007   320.0  130.0   50.0  5000 3000.00  2900
+%    21 Z P   5.1376195957182e-007   140.0   80.0  100.0  5000 3000.00  2900
+%    22 Z P   1.6575456762096e-007   200.0   80.0  100.0  5000 3000.00  2900
+%    23 Z P   1.1523550907002e-006   260.0   80.0  100.0  5000 3000.00  2900
+%    24 Z P   6.9418020992634e-007   320.0   80.0  100.0  5000 3000.00  2900
+%%
+% The examples of reading RAW input files for the purpose of the seismic
+% moment tensor inversion with |focimt| application are shown in 
+% <doc_focimtexe.html Using focimt command line application> section.
+
+%% 1D velocity model ASCII input file
+% Similarly to RAW input file format, the 1D velocity model input file also
+% starts with header line describing basic information on seismic event and
+% it is followed by a limited number of lines describing phase information.
+% The main difference between raw input format and 1D velocity model format
+% is that in the latter case User do not need to specify all the geometrical 
+% parameters for the moment tensor parameters such as azimuth, takeoff
+% angles, distances along the seismic rays or angles of incidence. Instead,
+% these parameters are calculated using 1D velocity model provided. ASCII
+% file in 1D velocity model format can be read using auxillary routine
+% |<doc_readvel1d.html readvel1d.m>|.
+%%
+%   The 1D velocity model ASCII input file syntax looks as follows:
+%   fileid N e_northing e_easting e_z density 
+%    station component phase omega s_easting s_northing s_z 
+%    station component phase omega s_easting s_northing s_z
+%    ...
+%    station component phase omega s_easting s_northing s_z
+%   fileid N e_northing e_easting e_z density
+%    station component phase omega s_easting s_northing s_z
+%    station component phase omega s_easting s_northing s_z
+%    ...
+%    station component phase omega s_easting s_northing s_z
+%   ...
+%
+%%
+% The header line contains following parameters:
+%
+% <html><table border=1>
+% <tr><td>fileid</td><td>string</td><td>
+% Event id string. The parameter contains *UNIQUE* alphanumeric string to identify
+% the seismic event. As the string may be used (depending on parameters passed
+% to |hybridmt| or |focimt| programs) to create a directory where
+% event-specific results will be stored, it is necessary to use only
+% characters that can be used to create files/directories under specific
+% file system.
+% </td></tr>
+% <tr><td>N</td><td>integer</td>
+% <td>Number of following lines containing phase information data.
+% </td></tr>
+% <tr><td>e_northing</td><td>float</td><td>
+% Northing component of earthquake hypocenter location in local cartesian 
+% coordinate system [m]. The value must increase towards north.
+% </td></tr>
+% <tr><td>e_easting</td><td>float</td><td>
+% Easting component of earthquake hypocenter location in local cartesian 
+% coordinate system [m]. The value must increase towards east
+% </td></tr>
+% <tr><td>e_depth</td><td>float</td><td>
+% Depth component of earthquake hypocenter location in local cartesian 
+% coordinate system [m]. The value must increase towards up (i.e. if mean 
+% sea level is 0 in local cartesian coordinate system chosen, the negative 
+% values correspond to the hypocenter below the mean sea level)
+% </td></tr>
+% <tr><td>density</td><td>float</td><td>
+% Density in the seismic source area [kg/m3].
+% </td></tr>
+% </table></html>
+% 
+%%
+% The header line is followed by _n_ lines containing phase information
+% data:
+%
+% <html><table border=1>
+% <tr><td>station</td><td>string</td><td>
+% Station name. As the station is used in graphical representation of
+% seismic moment tensor solution, short station names are advisable. 
+% </td></tr>
+% <tr><td>component</td><td>string</td><td>
+% Station component name. Currently only vertical components are supported, 
+% and the column is basically ignored by either |fociMT| or |hybridmt| 
+% routines. However, future version of |fociMT| and |hybridMT| will use
+% different phase.
+% </td></tr>
+% <tr><td>phase</td><td>string</td><td>
+% Phase identifier. Currently only P phases are supported, therefore only 
+% 'P' value is accepted by application. The remaining values are ignored.
+% </td></tr>
+% <tr><td>omega</td><td>float</td><td>
+% Area below the first P-wave ground velocity pulse together with sign 
+% information. This value is proportional to the spectral level in Fourier
+% domain, and, overall, proportional to the seismic moment.
+% </td></tr>
+% <tr><td>s_northing</td><td>float</td><td>
+% Northing component of station coordinate in local cartesian coordinate 
+% system [m]. The station coordinate must be in the same system as 
+% earthquake northing coordinate provided in first line
+% </td></tr>
+% <tr><td>s_easting</td><td>float</td><td>
+% Easting component of station coordinate in local cartesian coordinate 
+% system [m]. The station coordinate must be in the same system as 
+% earthquake northing coordinate provided in first line
+% </td></tr>
+% <tr><td>s_depth</td><td>float</td><td>
+% Depth component of station coordinate in local cartesian coordinate 
+% system [m]. The station coordinate must be in the same system as 
+% earthquake northing coordinate provided in first line
+% </td></tr>
+% </table></html>
+%%
+% Here is example of input file for <doc_hybridmt.html hybridmt.m>, 
+% <doc_focimt.html focimt.m> as well as for <doc_focimtexe.html |focimt| application>
+% in 1D velocity model format: 
+%%
+%
+%   134_044_+163 25 0 0 -1500 2700
+%   S01 Z P  -3.4116906326339e-007          -10000         -10000              0
+%   S02 Z P  -3.7814556483238e-007          -10000          -5000              0
+%   S03 Z P  -5.0939122438081e-007          -10000              0              0
+%   S04 Z P  -2.7462338649334e-007          -10000           5000              0
+%   S05 Z P   3.2166275730773e-007          -10000          10000              0
+%   S06 Z P  -1.2841376369079e-007           -5000         -10000              0
+%   S07 Z P  -6.7801192106985e-007           -5000          -5000              0
+%   S08 Z P  -2.0756006966737e-006           -5000              0              0
+%   S09 Z P  -4.2127683545031e-007           -5000           5000              0
+%   S10 Z P  -4.1841523522169e-008           -5000          10000              0
+%   S11 Z P    3.905562102742e-008               0         -10000              0
+%   S12 Z P   2.0061444414936e-007               0          -5000              0
+%   S13 Z P  -5.7225282386188e-006               0              0              0
+%   S14 Z P  -1.6899600936722e-007               0           5000              0
+%   S15 Z P  -1.3448018845833e-008               0          10000              0
+%   S16 Z P   3.8527723071411e-008            5000         -10000              0
+%   S17 Z P  -4.5116743747675e-008            5000          -5000              0
+%   S18 Z P  -1.0622893299273e-006            5000              0              0
+%   S19 Z P  -5.0292277936872e-007            5000           5000              0
+%   S20 Z P  -1.1584426977891e-007            5000          10000              0
+%   S21 Z P  -1.0162790980247e-006           10000         -10000              0
+%   S22 Z P  -1.6473470781745e-007           10000          -5000              0
+%   S23 Z P  -3.6544904262446e-007           10000              0              0
+%   S24 Z P  -3.0215676249735e-007           10000           5000              0
+%   S25 Z P  -9.6393340287165e-007           10000          10000              0
+%%
+% The examples of reading 1D velocity model input files for the purpose of the seismic
+% moment tensor inversion with |focimt| application are shown in section
+% <doc_focimtexe.html Using focimt command line application>.
+
+##### SOURCE END #####
+--></body></html>

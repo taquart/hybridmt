@@ -1,0 +1,165 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>drawstereonet</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_drawstereonet.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>drawstereonet</h1><!--introduction--><p>Stereonet plot</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#6">Parameters</a></li><li><a href="#27">Examples</a></li><li><a href="#30">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">drawstereonet;
+[X,Y] = drawstereonet(AZIMUTH, TAKEOFF)
+[X,Y] = drawstereonet(AZIMUTH, TAKEOFF, <span class="string">'PropertyName'</span>,PropertyValue, <span class="keyword">...</span><span class="comment">)</span>
+</pre><h2>Description<a name="2"></a></h2><p>Use <tt>drawstereonet</tt> to generate either equal-area or equal-angle stereonet plot and optionally project points onto the created stereonet.</p><p><tt>drawstereonet</tt> generates stereonet plot using default values. Use '_ParamName_'-_ParamValue_ pairs to adjust plot characteristics.</p><p><tt>[X,Y] = drawstereonet(AZIMUTH, TAKEOFF)</tt> projects matrices AZIMUTH and TAKEOFF (of the same size) and returns X and Y matrices of the same size. X and Y can be then used to plot points onto the stereonet.</p><p><tt>[X,Y] = drawstereonet(AZIMUTH, TAKEOFF, 'PropertyName',PropertyValue, ...)</tt> allows to specify additional parameters.</p><h2>Parameters<a name="6"></a></h2><p><b>Projection - Stereographic projection</b></p><p><tt>'schmidt'</tt> (default) | <tt>'wullf'</tt></p><p>Defines projection type for graphical representation of the seismic moment tensor inversion (beach ball). The user may use <tt>'schmidt'</tt> (equal area) or <tt>'wullf'</tt> (equal angle) projection to plot the beach ball.</p><p><b>Scale - Plotting scale</b></p><p><tt>1.0</tt> (default) | positive scalar value</p><p>Defines the maximum radius of created plot.</p><p><b>Grid</b> - Toggle on/off plotting of grid</p><p><tt>'on'</tt> (default) | <tt>'off'</tt></p><p>Allows to toggle on/off generation of grid.</p><p><b>GridColor</b> - Grid color</p><p><tt>colorspec</tt></p><p>Allows to specify grid color.</p><p><b>GridStepAzimuth</b> - Specify step for grid creation</p><p><tt>30</tt> (default) | positive scalar value (&lt;360)</p><p>Allows to specify step for plotted grid (along azimuth).</p><p><b>GridStepPlunge</b> - Specify step for grid creation</p><p><tt>15</tt> (default) | positive scalar value (&lt;360)</p><p>Allows to specify step for plotted grid (along plunge or takeoff angle).</p><p><b>Location</b> - Shift origin of stereonet</p><p><tt>[0 0]</tt> (default) | two-element horizontal vector</p><p>Allows to specify the relative shift of stereonet origin. This may be used to plot multiple stereonet plots in the same figure.</p><h2>Examples<a name="27"></a></h2><p>The following code produces bare stereonet plot with red gridlines that has the azimuthal span of gridlines of 10 degrees:</p><pre class="codeinput">drawstereonet(<span class="string">'GridColor'</span>,<span class="string">'r'</span>,<span class="string">'GridStepAzimuth'</span>,10);
+</pre><img vspace="5" hspace="5" src="doc_drawstereonet_01.png" alt=""> <p>The following code produces stereonet plot and projects four points onto the created plot using Schmidt (equal-area) projection:</p><pre class="codeinput">drawstereonet([10 20 30 40],[50 60 70 80],<span class="string">'Projection'</span>,<span class="string">'schmidt'</span>);
+</pre><img vspace="5" hspace="5" src="doc_drawstereonet_02.png" alt=""> <p>The following code just projects input data using default projection and return the output in <tt>[X,Y]</tt> vectors:</p><pre class="codeinput">[X,Y] = drawstereonet([10 20 30 40],[50 60 70 80]);
+</pre><h2>See also<a name="30"></a></h2><p><tt><a href="doc_drawhudsonnet.html">drawhudsonnet</a></tt> | <tt><a href="doc_project_stereonet.html">project_stereonet</a></tt></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% drawstereonet
+% Stereonet plot 
+%% Syntax
+%   drawstereonet;
+%   [X,Y] = drawstereonet(AZIMUTH, TAKEOFF)
+%   [X,Y] = drawstereonet(AZIMUTH, TAKEOFF, 'PropertyName',PropertyValue, ...)
+%
+%% Description
+% Use |drawstereonet| to generate either equal-area or equal-angle stereonet 
+% plot and optionally project points onto the created stereonet.
+%%
+% |drawstereonet| generates stereonet plot using default values. Use 
+% '_ParamName_'-_ParamValue_ pairs to adjust plot characteristics.
+%%
+% |[X,Y] = drawstereonet(AZIMUTH, TAKEOFF)| projects matrices AZIMUTH and 
+% TAKEOFF (of the same size) and returns X and Y matrices of the same
+% size. X and Y can be then used to plot points onto the stereonet.
+%%
+% |[X,Y] = drawstereonet(AZIMUTH, TAKEOFF, 'PropertyName',PropertyValue,
+% ...)| allows to specify additional parameters.
+%
+%% Parameters
+% *Projection - Stereographic projection* 
+%%
+% |'schmidt'| (default) | |'wullf'|
+%%
+% Defines projection type for graphical representation of the seismic
+% moment tensor inversion (beach ball). The user may use |'schmidt'| (equal 
+% area) or |'wullf'| (equal angle) projection to plot the beach ball. 
+%%
+% *Scale - Plotting scale* 
+%%%
+% |1.0| (default) | positive scalar value
+%%%
+% Defines the maximum radius of created plot.
+%% 
+% *Grid* - Toggle on/off plotting of grid
+%%%
+% |'on'| (default) | |'off'|
+%%%
+% Allows to toggle on/off generation of grid.
+%%
+% *GridColor* - Grid color
+%%%
+% |colorspec|
+%%%
+% Allows to specify grid color.
+%%
+% *GridStepAzimuth* - Specify step for grid creation
+%%%
+% |30| (default) | positive scalar value (<360)
+%%%
+% Allows to specify step for plotted grid (along azimuth).
+%%
+% *GridStepPlunge* - Specify step for grid creation
+%%%
+% |15| (default) | positive scalar value (<360)
+%%%
+% Allows to specify step for plotted grid (along plunge or takeoff angle).
+%%
+% *Location* - Shift origin of stereonet
+%%%
+% |[0 0]| (default) | two-element horizontal vector
+%%%
+% Allows to specify the relative shift of stereonet origin. This may be
+% used to plot multiple stereonet plots in the same figure.
+%% Examples
+% The following code produces bare stereonet plot with red gridlines that has the azimuthal 
+% span of gridlines of 10 degrees:
+drawstereonet('GridColor','r','GridStepAzimuth',10);
+%%
+% The following code produces stereonet plot and projects four points onto the 
+% created plot using Schmidt (equal-area) projection:
+drawstereonet([10 20 30 40],[50 60 70 80],'Projection','schmidt'); 
+%% 
+% The following code just projects input data using default projection 
+% and return the output in |[X,Y]| vectors:
+[X,Y] = drawstereonet([10 20 30 40],[50 60 70 80]);
+%% See also
+% |<doc_drawhudsonnet.html drawhudsonnet>| | 
+% |<doc_project_stereonet.html project_stereonet>|  
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>

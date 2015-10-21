@@ -1,0 +1,163 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>rpgen</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_rpgen.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>rpgen</h1><!--introduction--><p>Calculate radiation pattern using shear-tensile source model</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#3">Input parameters</a></li><li><a href="#7">Output parameters</a></li><li><a href="#8">References</a></li><li><a href="#11">Examples</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">[Gp, Gs, Gsh, Gsv] = rpgen(strike, dip, rake, gamma, sigma, TKO, AZM);
+</pre><h2>Description<a name="2"></a></h2><p>Use <tt>rpgen</tt> to calculate radiation pattern using shear-tensile source model following ref. [2,3]. The derived formula are supplementary material from paper [1].</p><p><tt>rpgen(strike,dip,rake,gamma,sigma, TKO, AZM)</tt> calculates P-wave, S-wave, SH-wave and SV-wave radiation pattern using shear-tensile source model presented [see references 1, 2, 3 for details]. All input angles (<tt>strike</tt>, <tt>dip</tt>, <tt>rake</tt> of the fault, tensile angle <tt>gamma</tt>, takeoff angle matrix <tt>TKO</tt> and azimuth from the source to the observation point <tt>AZM</tt>) should be in degrees. The takeoff angle is measure from bottom. The function returns matrices of the same size as input TKO and AZM matrices.</p><h2>Input parameters<a name="3"></a></h2><p><tt>strike</tt>, <tt>dip</tt>, <tt>rake</tt> - scalar values corresponding to fault plane parameters (degrees)</p><p><tt>gamma</tt> - tensile angle in degrees (0 degrees for pure shear faulting and 90 degrees for pure tensile opening). For detailed description of tensile angle see ref. [3].</p><p><tt>sigma</tt> - Poisson's ratio.</p><p><tt>TKO</tt> - matrix of takeoff angles for which the corresponding radiation pattern coefficients will be calculated. The takeoff angles are measured in degrees from bottom direction upwards, i.e. they follow standard seismological convention. The takeoff angle 0 corresponds to downgoing seismic ray, 90 for horizontally going ray and 180 for upgoing ray. <tt>AZM</tt> - matrix of azimuths (in degrees) between source and receiver(s) measured from north towards east.</p><h2>Output parameters<a name="7"></a></h2><p><tt>Gp</tt>, <tt>Gs</tt>, <tt>Gsh</tt>, <tt>Gsv</tt> - P-wave, S-wave, SH-wave, and SV-wave radiation pattern coefficients calculated for corresponding takeoff angles and azimuths specified in input <tt>TKO</tt> and <tt>AZM</tt> matrices.</p><h2>References<a name="8"></a></h2><p>[1] Kwiatek, G. and Y. Ben-Zion (2013). Assessment of P and S wave energy radiated from very small shear-tensile seismic events in a deep South African mine. J. Geophys. Res. 118, 3630-3641, doi: 10.1002/jgrb.50274</p><p>[2] Ou, G.-B., 2008, Seismological Studies for Tensile Faults. Terrestrial, Atmospheric and Oceanic Sciences 19, 463.</p><p>[3] Vavry&#269;uk, V., 2001. Inversion for parameters of tensile earthquakes.&#8221; J. Geophys. Res. 106 (B8): 16339&#8211;16355. doi: 10.1029/2001JB000372.</p><h2>Examples<a name="11"></a></h2><p>The following script creates a double-couple radiation pattern for a specific fault and creates a 3D representation of the radiation pattern:</p><pre class="codeinput">AZIMUTH = (0:4:360)*pi/180;
+TAKEOFF = (0:2:180)*pi/180;
+[AZIMUTH,TAKEOFF] = meshgrid(AZIMUTH,TAKEOFF);
+
+strike = 50;
+dip = 60;
+rake = -90;
+sigma = 0.25;
+gamma = 0;
+
+[GP, GS, GSH, GSV] = rpgen(strike,dip,rake,gamma,sigma, TAKEOFF*180/pi, AZIMUTH*180/pi);
+scale = abs(GP);
+YP = scale.*cos(AZIMUTH) .* sin(TAKEOFF);
+XP = scale.*sin(AZIMUTH) .* sin(TAKEOFF);
+ZP = scale.*-cos(TAKEOFF);
+
+surf(XP,YP,ZP,GP,<span class="string">'EdgeColor'</span>,<span class="string">'none'</span>,<span class="string">'FaceAlpha'</span>,0.9,<span class="string">'AmbientStrength'</span>,0.7,<span class="string">'EdgeColor'</span>,<span class="string">'k'</span>,<span class="string">'EdgeAlpha'</span>,0.1);
+axis <span class="string">equal</span>; box <span class="string">on</span>;
+</pre><img vspace="5" hspace="5" src="doc_rpgen_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% rpgen
+% Calculate radiation pattern using shear-tensile source model
+%% Syntax
+%   [Gp, Gs, Gsh, Gsv] = rpgen(strike, dip, rake, gamma, sigma, TKO, AZM);
+%
+%% Description
+% Use |rpgen| to calculate radiation pattern using shear-tensile source model
+% following ref. [2,3]. The derived formula are supplementary material from
+% paper [1].
+%
+% |rpgen(strike,dip,rake,gamma,sigma, TKO, AZM)| calculates P-wave, S-wave,
+% SH-wave and SV-wave radiation pattern using shear-tensile source model
+% presented [see references 1, 2, 3 for details]. All input angles (|strike|, 
+% |dip|, |rake| of the fault, tensile angle |gamma|, takeoff angle matrix |TKO| 
+% and azimuth from the source to the observation point |AZM|) should be in 
+% degrees. The takeoff angle is measure from bottom. The function returns 
+% matrices of the same size as input TKO and AZM matrices.
+%
+%% Input parameters
+% |strike|, |dip|, |rake| - scalar values corresponding to fault plane 
+% parameters (degrees)
+%%%
+% |gamma| - tensile angle in degrees (0 degrees for pure shear faulting and 
+% 90 degrees for pure tensile opening). For detailed description of tensile
+% angle see ref. [3].
+%%%
+% |sigma| - Poisson's ratio.
+%%%
+% |TKO| - matrix of takeoff angles for which the corresponding 
+% radiation pattern coefficients will be calculated. The takeoff angles are 
+% measured in degrees from bottom direction upwards, i.e. they follow standard 
+% seismological convention. The takeoff angle 0 corresponds to downgoing
+% seismic ray, 90 for horizontally going ray and 180 for upgoing ray.
+% |AZM| - matrix of azimuths (in degrees) between source and receiver(s)
+% measured from north towards east. 
+%% Output parameters
+% |Gp|, |Gs|, |Gsh|, |Gsv| - P-wave, S-wave, SH-wave, and SV-wave radiation
+% pattern coefficients calculated for corresponding takeoff angles and azimuths 
+% specified in input |TKO| and |AZM| matrices.
+%% References
+% [1] Kwiatek, G. and Y. Ben-Zion (2013). Assessment of P and S wave energy 
+% radiated from very small shear-tensile seismic events in a deep South 
+% African mine. J. Geophys. Res. 118, 3630-3641, doi: 10.1002/jgrb.50274
+%%%
+% [2] Ou, G.-B., 2008, Seismological Studies for Tensile Faults. Terrestrial, 
+% Atmospheric and Oceanic Sciences 19, 463.
+%%%
+% [3] Vavryčuk, V., 2001. Inversion for parameters of tensile earthquakes.” 
+% J. Geophys. Res. 106 (B8): 16339–16355. doi: 10.1029/2001JB000372.
+%% Examples
+% The following script creates a double-couple radiation pattern for a
+% specific fault and creates a 3D representation of the radiation pattern:
+AZIMUTH = (0:4:360)*pi/180; 
+TAKEOFF = (0:2:180)*pi/180; 
+[AZIMUTH,TAKEOFF] = meshgrid(AZIMUTH,TAKEOFF);
+
+strike = 50; 
+dip = 60; 
+rake = -90; 
+sigma = 0.25; 
+gamma = 0; 
+
+[GP, GS, GSH, GSV] = rpgen(strike,dip,rake,gamma,sigma, TAKEOFF*180/pi, AZIMUTH*180/pi);
+scale = abs(GP); 
+YP = scale.*cos(AZIMUTH) .* sin(TAKEOFF); 
+XP = scale.*sin(AZIMUTH) .* sin(TAKEOFF); 
+ZP = scale.*-cos(TAKEOFF);
+
+surf(XP,YP,ZP,GP,'EdgeColor','none','FaceAlpha',0.9,'AmbientStrength',0.7,'EdgeColor','k','EdgeAlpha',0.1); 
+axis equal; box on;
+
+
+##### SOURCE END #####
+--></body></html>

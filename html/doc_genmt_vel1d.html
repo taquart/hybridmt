@@ -1,0 +1,237 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>genmt_vel1d</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_genmt_vel1d.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>genmt_vel1d</h1><!--introduction--><p>Generate synthetic event/phase data for focimt in 1D velocity model ASCII format</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#6">Parameters</a></li><li><a href="#40">Examples</a></li><li><a href="#41">See also</a></li><li><a href="#42">References</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">genmt_vel1d(STRIKE, DIP, RAKE)
+genmt_vel1d(STRIKE, DIP, RAKE, TENSILE_ANGLE)
+genmt_vel1d(STRIKE, DIP, RAKE, <span class="keyword">...</span><span class="comment">)</span>
+</pre><h2>Description<a name="2"></a></h2><pre class="codeinput"><span class="comment">%	Use |genmt_vel1d| to generate a synthetic amplitude data for the purpose of</span>
+<span class="comment">% seismic moment inversion with focimt. The point source is assumed and the</span>
+<span class="comment">% radiation formula of shear-tensile source model are used to calculate the</span>
+<span class="comment">% expected amplitudes of first P-wave phase located at certain AZIMUTH and</span>
+<span class="comment">% TAKEOFF angle from the source.</span>
+</pre><p><tt>genmt_vel1d(STRIKE, DIP, RAKE)</tt> generates synthetic event and phase data for double-couple event(s) with focal mechanism(s) specified by STRIKE, DIP and RAKE vectors. The input vectors must be of the same size and the provided angles must follow standard seismological convention with respect to fault plane parameters.</p><p><tt>genmt_vel1d(STRIKE, DIP, RAKE, TENSILE_ANGLE)</tt> allows to specify the tensile angle for every fault plane [see refs 1,2,3 for details]. The negative tensile angles correspond to shear-compaction (with -90 degrees corresponding to MODE-I closing) whereas posivitive angles correspond to shear-opening (with +90 degrees corresponds to MODE-I opening). The tensile angle 0 degrees correspond to pure shear motion.</p><p><tt>genmt_vel1d(STRIKE, DIP, RAKE, ...)</tt> allows to specify additional parameters in a form of '_ParamName_', <i>ParamValue</i> pairs.</p><h2>Parameters<a name="6"></a></h2><p><b>Density</b> - Rock density in hypocenter</p><p><tt>2700</tt> (default) | <tt>positive scalar value</tt></p><p>Density of rocks in the source in <img src="doc_genmt_vel1d_eq05671342733164225756.png" alt="$kg/m^3$">. This value is used to calculate actual ground motions at a certain distance from the source.</p><p><b>Easting</b> - Locations of stations</p><p><tt>meshgrid(-10000:5000:10000)</tt> | <tt>floating point matrix</tt></p><p>Allows to specify the <i>Easting</i> components of recording station locations in local Cartesian coordinate system. The stations are by default located at the surface (altitude = 0m). The values are provided in meters.</p><p><b>EventDepth</b> - Hypocentral depth</p><p><tt>1500</tt> | <tt>positive scalar value</tt></p><p>Allows to specify hypocenter depth (in meters, measured from the Earth surface). The epicentral location is fixed to Northing = 0 m and Easting = 0 m.</p><p><b>FileFormat</b> - Output format file</p><p><tt>'vel1d'</tt> | <tt>'raw'</tt></p><p>Allows to determine the output file format. By default, the synthetic phase data are saves in <a href="doc_focimtformats.html">1D velocity model ASCII</a> format. However, it is also possible to generate the output file in RAW format, similarly to the one that can be generated using <a href="doc_genmt_raw.html">genmt_raw</a> routine.</p><p><b>FileName</b> - Output file name</p><p><tt>'default.txt'</tt> | <tt>string</tt></p><p>Allows to specify output file name.</p><p><b>MomentMagnitude</b> - Moment magnitude</p><p><tt>pi</tt> | <tt>positive scalar</tt></p><p>Allows to specify the moment magnitude of generated synthetic earthquakes.</p><p><b>Northing</b> - Locations of stations</p><p><tt>meshgrid(-10000:5000:10000)</tt> | <tt>floating point matrix</tt></p><p>Allows to specify the <i>Northing</i> components of recording station locations in local Cartesian coordinate system. The stations are by default located at the surface (altitude = 0m). The values are provided in meters.</p><p><b>PickLost</b> - Pick ratio</p><p><tt>0.0</tt> | <tt>scalar value 0.0-1.0</tt></p><p>The percentage of phase data that will be removed from randomly generated input dataset.</p><p><b>PoissonRatio</b> - Poisson's ratio</p><p><tt>0.25</tt> | <tt>positive scalar value</tt></p><p>The Poisson's ratio of rocks in the hypocentral area.</p><p><b>StationBias</b> - Station bias factor(s)</p><p><tt>empty matrix</tt> | <tt>n-by-2 matrix</tt></p><p>Allows to apply constant gain factors to particular station or stations. The parameter value is <tt>n-by-2</tt> matrix where elements in first column correspond to index of stations and elements in second column determine their corresponding gains. This parameter may be used to simulate a persistent bias in amplitude readings at particular station or stations including polarity switch.</p><p><b>VelocityModel</b> - P-wave velocity model</p><p><tt>[0.00 3.00 8.00 20.00 22.00; 4.10 5.47 5.75 6.02 7.90]'</tt> | <tt>n-by-2 matrix</tt></p><p>Allows to specify P-wave velocity velocity model for 1D ray-tracing routine. The elements in the first column and the second column correspond the tops of layers (km) and P-wave velocities (km/s), respectively.</p><h2>Examples<a name="40"></a></h2><p>The following example will generate synthetic phase data for two events using two different ASCII formats readable by focimt application:</p><pre class="codeinput">n = 2;
+STRIKE = round(rand(1,n) * 359);
+DIP = round(rand(1,n) * 90);
+RAKE = round(rand(1,n) * 360 - 180);
+ALPHA = round(rand(1,n) * 40 - 20);
+genmt_vel1d(STRIKE,DIP,RAKE,ALPHA,<span class="string">'FileName'</span>,<span class="string">'example2_1d.txt'</span>);
+genmt_vel1d(STRIKE,DIP,RAKE,ALPHA,<span class="string">'FileName'</span>,<span class="string">'example2_raw.txt'</span>,<span class="string">'FileFormat'</span>,<span class="string">'raw'</span>);
+</pre><pre class="codeoutput">Warning: File 'input.txt' not found. 
+Warning: File 'output.txt' not found. 
+Warning: File 'input.txt' not found. 
+Warning: File 'output.txt' not found. 
+</pre><h2>See also<a name="41"></a></h2><p><tt><a href="doc_rpgen.html">rpgen</a></tt> | <tt><a href="doc_readvel1d.html">readraw</a></tt> | <tt><a href="doc_focimt.html">focimt</a></tt></p><h2>References<a name="42"></a></h2><p>[1] Kwiatek, G. and Y. Ben-Zion (2013). Assessment of P and S wave energy radiated from very small shear-tensile seismic events in a deep South African mine. J. Geophys. Res. 118, 3630-3641, doi: 10.1002/jgrb.50274</p><p>[2] Ou, G.-B., 2008, Seismological Studies for Tensile Faults. Terrestrial, Atmospheric and Oceanic Sciences 19, 463.</p><p>[3] Vavry&#269;uk, V., 2001. Inversion for parameters of tensile earthquakes.&#8221; J. Geophys. Res. 106 (B8): 16339&#8211;16355. doi: 10.1029/2001JB000372.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% genmt_vel1d
+% Generate synthetic event/phase data for focimt in 1D velocity model ASCII format
+%% Syntax
+%   genmt_vel1d(STRIKE, DIP, RAKE)
+%   genmt_vel1d(STRIKE, DIP, RAKE, TENSILE_ANGLE)
+%   genmt_vel1d(STRIKE, DIP, RAKE, ...)
+%% Description
+%	Use |genmt_vel1d| to generate a synthetic amplitude data for the purpose of 
+% seismic moment inversion with focimt. The point source is assumed and the 
+% radiation formula of shear-tensile source model are used to calculate the 
+% expected amplitudes of first P-wave phase located at certain AZIMUTH and 
+% TAKEOFF angle from the source. 
+%%%
+% |genmt_vel1d(STRIKE, DIP, RAKE)| generates synthetic event and phase data for 
+% double-couple event(s) with focal mechanism(s) specified by STRIKE, DIP and
+% RAKE vectors. The input vectors must be of the same size and the provided 
+% angles must follow standard seismological convention with respect to
+% fault plane parameters.
+%%%
+% |genmt_vel1d(STRIKE, DIP, RAKE, TENSILE_ANGLE)| allows to specify the 
+% tensile angle for every fault plane [see refs 1,2,3 for details]. The 
+% negative tensile angles correspond to shear-compaction (with -90 degrees 
+% corresponding to MODE-I closing) whereas posivitive angles correspond 
+% to shear-opening (with +90 degrees corresponds to MODE-I opening). 
+% The tensile angle 0 degrees correspond to pure shear motion.
+%%%
+% |genmt_vel1d(STRIKE, DIP, RAKE, ...)| allows to 
+% specify additional parameters in a form of '_ParamName_', _ParamValue_ pairs. 
+%% Parameters
+%%
+% *Density* - Rock density in hypocenter
+%%
+% |2700| (default) | |positive scalar value|
+%%
+% Density of rocks in the source in $kg/m^3$. This value is used to
+% calculate actual ground motions at a certain distance from the source.
+%%
+% *Easting* - Locations of stations
+%%
+% |meshgrid(-10000:5000:10000)| | |floating point matrix|
+%%
+% Allows to specify the _Easting_ components of recording station locations 
+% in local Cartesian coordinate system. The stations are by default located 
+% at the surface (altitude = 0m). The values are provided in meters.
+%%
+% *EventDepth* - Hypocentral depth
+%%
+% |1500| | |positive scalar value|
+%%
+% Allows to specify hypocenter depth (in meters, measured from the Earth 
+% surface). The epicentral location is fixed to Northing = 0 m and Easting
+% = 0 m. 
+%%
+% *FileFormat* - Output format file
+%%
+% |'vel1d'| | |'raw'|
+%%
+% Allows to determine the output file format. By default, the synthetic
+% phase data are saves in <doc_focimtformats.html 1D velocity model ASCII> 
+% format. However, it is also possible to generate the output file
+% in RAW format, similarly to the one that can be generated using
+% <doc_genmt_raw.html genmt_raw> routine. 
+%% 
+% *FileName* - Output file name
+%%
+% |'default.txt'| | |string|
+%%
+% Allows to specify output file name.
+%%
+% *MomentMagnitude* - Moment magnitude 
+%%
+% |pi| | |positive scalar|
+%%
+% Allows to specify the moment magnitude of generated synthetic
+% earthquakes. 
+%%
+% *Northing* - Locations of stations
+%%
+% |meshgrid(-10000:5000:10000)| | |floating point matrix|
+%%
+% Allows to specify the _Northing_ components of recording station locations 
+% in local Cartesian coordinate system. The stations are by default located 
+% at the surface (altitude = 0m). The values are provided in meters.
+%%
+% *PickLost* - Pick ratio
+%%
+% |0.0| | |scalar value 0.0-1.0|
+%%
+% The percentage of phase data that will be removed from randomly generated
+% input dataset. 
+%%
+% *PoissonRatio* - Poisson's ratio
+%%
+% |0.25| | |positive scalar value|
+%%
+% The Poisson's ratio of rocks in the hypocentral area.  
+%% 
+% *StationBias* - Station bias factor(s)
+%%
+% |empty matrix| | |n-by-2 matrix|
+%%
+% Allows to apply constant gain factors to particular station or stations.
+% The parameter value is |n-by-2| matrix where elements in first column 
+% correspond to index of stations and elements in second column determine
+% their corresponding gains. This parameter may be used to simulate a
+% persistent bias in amplitude readings at particular station or stations
+% including polarity switch.
+%%
+% *VelocityModel* - P-wave velocity model
+%%
+% |[0.00 3.00 8.00 20.00 22.00; 4.10 5.47 5.75 6.02 7.90]'| | |n-by-2 matrix|
+%%
+% Allows to specify P-wave velocity velocity model for 1D ray-tracing routine. 
+% The elements in the first column and the second column correspond the 
+% tops of layers (km) and P-wave velocities (km/s), respectively.  
+%% Examples
+% The following example will generate synthetic phase data for two events
+% using two different ASCII formats readable by focimt application:
+n = 2;
+STRIKE = round(rand(1,n) * 359);
+DIP = round(rand(1,n) * 90);
+RAKE = round(rand(1,n) * 360 - 180);
+ALPHA = round(rand(1,n) * 40 - 20);
+genmt_vel1d(STRIKE,DIP,RAKE,ALPHA,'FileName','example2_1d.txt');
+genmt_vel1d(STRIKE,DIP,RAKE,ALPHA,'FileName','example2_raw.txt','FileFormat','raw');
+%% See also
+% |<doc_rpgen.html rpgen>| | 
+% |<doc_readvel1d.html readraw>| | 
+% |<doc_focimt.html focimt>| 
+%% References
+% [1] Kwiatek, G. and Y. Ben-Zion (2013). Assessment of P and S wave energy 
+% radiated from very small shear-tensile seismic events in a deep South 
+% African mine. J. Geophys. Res. 118, 3630-3641, doi: 10.1002/jgrb.50274
+%%%
+% [2] Ou, G.-B., 2008, Seismological Studies for Tensile Faults. Terrestrial, 
+% Atmospheric and Oceanic Sciences 19, 463.
+%%%
+% [3] Vavryčuk, V., 2001. Inversion for parameters of tensile earthquakes.” 
+% J. Geophys. Res. 106 (B8): 16339–16355. doi: 10.1029/2001JB000372.
+
+
+
+
+
+
+
+##### SOURCE END #####
+--></body></html>
