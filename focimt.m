@@ -9,7 +9,7 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 %   Copyright 2015 Grzegorz Kwiatek <taquart@gmail.com>
 %                  Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.9 $  $Date: 2015.11.10 $
+%   $Revision: 1.0.10 $  $Date: 2015.11.10 $
 
 % Parse input parameters.
 p = inputParser;
@@ -27,10 +27,12 @@ p.addParamValue('MinimumPhases', 8, @(x) isscalar(x) && x > 6);
 p.addParamValue('Bootstrap', [], @(x ) all(size(x) == [1 2]) || all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('CorrectStation', cell(0), @(x) iscell(x));
 p.addParamValue('ProjectDir', '', @(x) ischar(x) );
-p.addParamValue('PlotCross', 'on', @(x)any(strcmpi(x,{'on','off'}))); 
-p.addParamValue('PlotStations', 'on', @(x)any(strcmpi(x,{'on','off'}))); 
-p.addParamValue('PlotAxes', 'on', @(x)any(strcmpi(x,{'on','off'}))); 
-p.addParamValue('PlotDC', 'on', @(x)any(strcmpi(x,{'on','off'}))); 
+p.addParamValue('PlotCross', 'on', @(x)any(strcmpi(x,{'on','off'})));
+p.addParamValue('PlotStations', 'on', @(x)any(strcmpi(x,{'on','off'})));
+p.addParamValue('PlotAxes', 'on', @(x)any(strcmpi(x,{'on','off'})));
+p.addParamValue('PlotDC', 'on', @(x)any(strcmpi(x,{'on','off'})));
+%
+p.addParamValue('Solutions', 'FTD', @(x) ischar(x));
 p.parse(INPUT,varargin{:});
 
 % Interpret input parameters.
@@ -48,6 +50,8 @@ end
 if strcmpi(p.Results.PlotDC,'on')
   ball = [ball 'D'];
 end
+
+solutions = p.Results.Solutions;
 
 jacknife = '';
 if strcmpi(p.Results.Jacknife,'on')
@@ -204,7 +208,7 @@ else
   vmodel = '';
 end
 
-commandline = ['-i ' temp '.txt -d DWAFTUMVE -o ' temp ' -s FTD -n ' normfunc ' ' bbsize ' ' bbformat ' ' bbproj ' ' jacknife ' ' bootstrap ' ' vmodel ' ' ball];
+commandline = ['-i ' temp '.txt -d DWAFTUMVE -o ' temp ' -s ' solutions ' -n ' normfunc ' ' bbsize ' ' bbformat ' ' bbproj ' ' jacknife ' ' bootstrap ' ' vmodel ' ' ball];
 
 % Prepare input file for focimt application.
 writeinput([temp '.txt'], Input);
@@ -217,7 +221,7 @@ end
 focimt_path = mfilename('fullpath');
 focimt_path = fileparts(focimt_path);
 status = system(['"' focimt_path '/focimt.exe" ' commandline]);
-if status ~= 0 
+if status ~= 0
   warning('FOCIMT:exec_status','fociMT binary exited with status: %d', status);
 elseif verbose
   fprintf('fociMT finished with exit code: %d\n',status);
@@ -225,12 +229,18 @@ end
 
 % Read output files.
 Solution = cell(1);
-if verbose, disp('Reading full MT solution output file'); end
-Solution = readsolution([temp '-full'], 'full', Solution,true);
-if verbose, disp('Reading deviatoric MT solution output file'); end
-Solution = readsolution([temp '-deviatoric'], 'deviatoric', Solution,true);
-if verbose, disp('Reading double-couple MT solution output file'); end
-Solution = readsolution([temp '-dc'], 'dc', Solution,true);
+if ~isempty(strfind(solutions,'F'))
+  if verbose, disp('Reading full MT solution output file'); end
+  Solution = readsolution([temp '-full'], 'full', Solution,true);
+end
+if ~isempty(strfind(solutions,'T'))
+  if verbose, disp('Reading deviatoric MT solution output file'); end
+  Solution = readsolution([temp '-deviatoric'], 'deviatoric', Solution,true);
+end
+if ~isempty(strfind(solutions,'D'))
+  if verbose, disp('Reading double-couple MT solution output file'); end
+  Solution = readsolution([temp '-dc'], 'dc', Solution,true);
+end
 
 % Delete unnecessary files.
 if verbose, disp('Deleting unnecessary files'); end
