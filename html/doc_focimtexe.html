@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Using focimt command line application</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_focimtexe.m"><style type="text/css">
+      --><title>Using focimt command line application</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-10"><meta name="DC.source" content="doc_focimtexe.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Using focimt command line application</h1><!--introduction--><p><tt>focimt</tt> application can be either used directly in shell mode or via <tt><a href="doc_focimt.html">focimt.m</a></tt> routine, depending on whether the User is outside or inside of MATLAB environment. It is also worth to note that MATLAB environment allows to call batch programs directly from command window by preceeding the application name ('focimt') with exclamation mark. In this section we will use the latter option to present the features of <tt>focimt</tt> application and most important command line options. The full list of available command line options is presented later in this section. User can invoke the full list of command line options directly from MATLAB environment by typing <tt>focimt -h</tt>. Note that NOT all options of <tt>focimt</tt> are available within <tt><a href="doc_focimt.html">focimt.m</a></tt> routine.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Basic usage</a></li><li><a href="#8">Moment tensor inversion parameters</a></li><li><a href="#32">Outputting inversion results to ASCII file</a></li><li><a href="#38">Auxiliary options of focimt application</a></li><li><a href="#45">Command line options</a></li></ul></div><h2>Basic usage<a name="1"></a></h2><p>To perform the seismic moment tensor inversion in time domain using amplitude data stored in RAW ASCII format in <tt>example1.txt</tt> file stored in <tt>/examples</tt> directory and output the graphical representation of the solution to PNG and PDF formats:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG,PDF -o test01a</span>
+  </style></head><body><div class="content"><h1>Using focimt command line application</h1><!--introduction--><p><tt>focimt</tt> application can be either used directly in shell mode or via <tt><a href="doc_focimt.html">focimt.m</a></tt> routine, depending on whether the User is outside or inside of MATLAB environment. It is also worth to note that MATLAB environment allows to call batch programs directly from command window by preceeding the application name ('focimt') with exclamation mark. In this section we will use the latter option to present the features of <tt>focimt</tt> application and most important command line options. The full list of available command line options is presented later in this section. User can invoke the full list of command line options directly from MATLAB environment by typing <tt>focimt -h</tt>. Note that NOT all options of <tt>focimt</tt> are available within <tt><a href="doc_focimt.html">focimt.m</a></tt> routine.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Basic usage</a></li><li><a href="#8">Moment tensor inversion parameters</a></li><li><a href="#43">Outputting inversion results to ASCII file</a></li><li><a href="#49">Auxiliary options of focimt application</a></li><li><a href="#56">Command line options</a></li></ul></div><h2>Basic usage<a name="1"></a></h2><p>To perform the seismic moment tensor inversion in time domain using amplitude data stored in RAW ASCII format in <tt>example1.txt</tt> file stored in <tt>/examples</tt> directory and output the graphical representation of the solution to PNG and PDF formats:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG,PDF -o test01a</span>
 </pre><p>This will perform the constrained double-couple moment tensor inversion and the resulst will be stored with in files with <i>test01a</i> prefix. The call should result in creation of two files (beach balls) in PDF and PNG formats:</p><p><img vspace="5" hspace="5" src="test01a-example1_ev01-dc.png" alt=""> </p><p>The <tt>focimt</tt> application is capable to generate four types of output files: one raster format PNG and three vector formats SVG, PS and PDF. Note the vector formats are suitable for high-quality publishing.</p><p>By default, only double-couple constrained moment tensor is calculated. To calculate full, deviatoric and double-couple constrained moment tensors at once for a particular event or events, option <tt>-s FTD</tt> must be used, where <tt>[F]</tt>, <tt>[T]</tt>, and <tt>[D]</tt> corresponds to full, deviatoric and double-couple solutions, respectively, as in the example below:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s FTD -o test01b</span>
 </pre><p>The successful execution results in generation of 3 PNG files with filename suffixes <tt>-full</tt>, <tt>-deviatoric</tt>, and <tt>-dc</tt> and corresponding to the [F]ull moment tensor solution (ISO+CLVD+DC), deviatoric or [T]race-null constrained solution (ISO=0,CLVD+DC) and [D]ouble-couple constrained solution (ISO=0,CLVD=0,DC).</p><p><img vspace="5" hspace="5" src="test01b-example1_ev01-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test01b-example1_ev01-deviatoric.png" alt=""> </p><p><img vspace="5" hspace="5" src="test01b-example1_ev01-dc.png" alt=""> </p><p>The graphical representation of seismic moment tensor solution and image size can adjusted with <tt>-b</tt> and <tt>-z</tt> options. Also, the stereographic projection type can be modifieid using <tt>-p</tt> option. For example, to calculate the deviatoric solution only and create an upper-hemisphere, equal angle projection of the moment tensor solution without center cross and station polarity markers and with size of 300 pixels, one can call:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s T -p WU -b ACD -z 300 -o test01c</span>
 </pre><p>which results in the following picture:</p><p><img vspace="5" hspace="5" src="test01c-example1_ev01-deviatoric.png" alt=""> </p><h2>Moment tensor inversion parameters<a name="8"></a></h2><p>By default, the moment tensor inversion is performed using <i>L2</i> norm. This sometimes may NOT be an optimal case, especially in situations where one expect to have input data with large outlayers. In this case, the program allows to perform the inversion with <i>L1</i> norm, which is less sensitive to large errors in the input data. However, this results in radically increased computation time.</p><p>In axample below we perform the full moment tensor inversion using <i>L1</i> norm and export the result to PNG file. This can be achieved by option <tt>-n</tt>:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -z 300 -s F -n L1 -o test01d</span>
@@ -74,8 +74,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </pre><p>This will result in 50 PNG files being generated in the current directory. Here is example of 10 of them:</p><p><img vspace="5" hspace="5" src="test03a-004-03781-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03884-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03949-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03964-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03982-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-03994-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04002-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04047-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04053-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04059-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test03a-004-04061-full.png" alt=""> </p><p><b>Handling 1D velocity model input files</b></p><p>By default, the program expects data in <a href="doc_focimtformats.html">RAW ASCII format</a>. However, the user is capable to provide input data for the moment tensor inversion in <a href="doc_focimtformats.html">1D velocity model format</a> as well. However, this type of data must by provided together with input 1D velocity model. It is important to mention that the stations should be located above the sea level for the ray-tracing routine to work correctly.</p><p>The 1D velocity model is provided using <tt>-m</tt> option followed by the path to ASCII file containing the model. The sample 1D velocity model file is located in <tt>./examples</tt> directory.</p><p>The <tt>./examples</tt> directory contains two files <tt>example2_raw.txt</tt> and <tt>example2_raw.txt</tt> with input data for the seismic moment tensor inversion. Both files have in fact the same input data, however the first one is in the RAW format and the second one is provided in 1D velocity model format. We can test now whether they both result in the same moment tensor solutions:</p><p>First, calculate the full moment tensor solutions of two earthquakes using the RAW input file:</p><pre class="codeinput"><span class="syscmd">!focimt -o test02a_raw -t PNG -s F -z 300 -i ./examples/example2_raw.txt</span>
 </pre><p>This results in the following graphical representation of the moment tensor solution:</p><p><img vspace="5" hspace="5" src="test02a_raw-344_014_+165-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test02a_raw-346_087_-05-full.png" alt=""> </p><p>Secondly, we calculate the same moment tensor solutions using the 1D velocity model input file. In this case we have to provide the additional 1D velocity model that will be used by ray-tracing routine:</p><pre class="codeinput"><span class="syscmd">!focimt -o test02a_1d -t PNG -s F -z 300 -i ./examples/example2_1d.txt -m ./examples/vmodel.txt</span>
 </pre><p>This results in the following beach balls for two earthquakes:</p><p><img vspace="5" hspace="5" src="test02a_1d-344_014_+165-full.png" alt=""> </p><p><img vspace="5" hspace="5" src="test02a_1d-346_087_-05-full.png" alt=""> </p><p>As one can see, both solutions are identical regardles of input file format chosen. To create input data in for the examples above, the auxiliary function <a href="matlab:doc('genmt_vel1d')">genmt_vel1d.m</a> from the package has been used. The detailed description of both input file formats is presented <a href="doc_focimtformats.html">here</a>.</p><p><b>Station Jacknife test</b></p><p>The station <i>Jacknife test</i> can be performed by adding the <tt>-j</tt> option to the command line. When this option is specified, the moment tensor inversion is firstly performed as usual with all amplitude information provided by the User. In the following, a series of <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> moment tensor inversions will be <i>additionally</i> performed, when <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> is a number of phase data for a particular earthquake, but now all but one station will be removed from input data. This tests aims to visualize the potential problem if one input station has a strong influence on moment tensor solution.</p><p>Again, we used the example ASCII file above to test the stability of full moment tensor inversion:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s F -j -z 300 -o test01e</span>
-</pre><p>The graphical representation of moment tensor inversion while using a <i>Jacknife test</i> looks as follows:</p><p><img vspace="5" hspace="5" src="test01e-example1_ev01-full.png" alt=""> </p><p>The shading corresponds to the original full moment tensor solution where all stations were used. The additional blue, green and red lines (the latter is not seen in the case above) corresponds to nodal planes of <i>Jacknife</i> solutions with the color corresponding to the sense of motion of the fault planes. The blue, green and red color of nodal planes corresponds to norma, strike-slip and thrust fault.</p><p><b>Bootstrap resampling</b></p><p>The bootstrap resampling of the original dataset may be performed using <tt>-rp</tt> option followed by the number of bootstrap samples. Again, similarly to the <i>Jacknife test</i>, a series of <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> additional moment tensor inversions will be performed in addition to the regular inversion with an actual set of stations provided in the input file. For each elements of bootstrap sample specified percentage of randomly selected polarities will be reversed.</p><p>For example, to perform the 100 bootstrap resampling of the original dataset assuming that 1% of input phase data has reverted polarities, the following code should be executed:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s D -rp 100/0.01 -z 300 -o test01f</span>
-</pre><p>This result in following double-couple constrained moment tensor:</p><p><img vspace="5" hspace="5" src="test01f-example1_ev01-dc.png" alt=""> </p><h2>Outputting inversion results to ASCII file<a name="32"></a></h2><p><tt>focimt</tt> is capable to export output moment tensor data to a customizable ASCII output text files. The option governing text output is <tt>-d</tt> followed by selected UPPERCASE or lowercase characters and eventually an asterisk '*' sign. Each character in the argument value string determines different parameter or set of parameters to export and the order of characters determine the order of columns in output ASCII file. Finally, if User specifies the character(s) in lowercase, they will be additionally formatted in eye-friendly manner.</p><p>The available characters in the argument value string and corresponding parameters that are exportes is as follows:</p><p>
+</pre><p>The graphical representation of moment tensor inversion while using a <i>Jacknife test</i> looks as follows:</p><p><img vspace="5" hspace="5" src="test01e-example1_ev01-full.png" alt=""> </p><p>The shading corresponds to the original full moment tensor solution where all stations were used. The additional blue, green and red lines (the latter is not seen in the case above) corresponds to nodal planes of <i>Jacknife</i> solutions with the color corresponding to the sense of motion of the fault planes. The blue, green and red color of nodal planes corresponds to norma, strike-slip and thrust fault.</p><p><b>Polarity resampling</b></p><p>This option performs additional seismic moment tensor inversions on <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> resampled input datasets with randomly reverted polarities. The polarity resampling of the original dataset may be performed using <tt>-rp</tt> option followed by the number of resamplings <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> and maximum fraction of stations with expected reversed polarity <img src="doc_focimtexe_eq09941021013676836398.png" alt="$p$">. Similarly to the <i>Jacknife test</i>, a series of <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> additional moment tensor inversions will be performed in addition to the regular moment tensor inversion. For each polarity resampled input dataset the algorithm reverse the polarity of stations with the probability of <img src="doc_focimtexe_eq11691028277057717040.png" alt="$p*100$"> percents.</p><p>For example, to perform the 100 bootstrap resamplings of the original dataset assuming that on average 1% of stations have reversed polarity, the following code should be executed:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s D -rp 100/0.01 -z 300 -o test01f</span>
+</pre><p>This result in following double-couple constrained moment tensor:</p><p><img vspace="5" hspace="5" src="test01f-example1_ev01-dc.png" alt=""> </p><p>NOTE: Polarity resampling may be combined with other types of resampling procedures: <i>Phase rejection resampling</i> and <i>Amplitude resampling</i>.</p><p><b>Phase rejection resampling</b></p><p>This option performs additional seismic moment tensor inversions on <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> resampled input datasets with randomly removed stations. Station rejection resampling is performed using <tt>-rr</tt> option followed by two numbers <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$">/$p$. In this type of resampling, a series of <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> additional moment tensor inversions is performed in addition to the regular seismic moment tensor inversion. For each resampled input dataset the algorithm remove stations with <img src="doc_focimtexe_eq11691028277057717040.png" alt="$p*100$"> percent probability.</p><p>For example, to perform the 200 resamplings of the original dataset assuming on average 2% of stations is not operational, the following code should be executed:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s D -rr 200/0.02 -o test01k</span>
+</pre><p>This result in following double-couple constrained moment tensor:</p><p><img vspace="5" hspace="5" src="test01k-example1_ev01-dc.png" alt=""> </p><p>NOTE: Phase rejection resampling may be combined with other types of resampling procedures: <i>Polarity resampling</i> and <i>Amplitude resampling</i>.</p><p><b>Amplitude resampling</b></p><p>This option performs additional seismic moment tensor inversions on <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> resampled input datasets with randomly modified input amplitude data. The amplitude resampling is performed using <tt>-ra</tt> option followed by two numbers <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$">/$x$. A series of <img src="doc_focimtexe_eq08984225997457563733.png" alt="$n$"> additional seismic moment tensor inversions is performed in addition to the regular seismic momente tensor inversion using original input data. For each resampled dataset, the input phase amplitudes <img src="doc_focimtexe_eq07515804179761612057.png" alt="$u_i$"> recorded at station <img src="doc_focimtexe_eq05671228016298599287.png" alt="$i$"> is modified according to <img src="doc_focimtexe_eq10509419109036075302.png" alt="$u_i^*=u_i+x*u_i*N(0,1)/3.0$"> where <img src="doc_focimtexe_eq09235286880098453239.png" alt="$N(0,1)$"> is a random value drawn from a normal distribution with mean 0 and standard deviation 1.</p><p>For example, to perfome the 300 resamplings of the original dataset assuming that amplitudes may change by a factor of 2, the following code should be executed:</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -s D -ra 300/1.0 -o test01m</span>
+</pre><p>This result in following double-couple constrained moment tensor:</p><p><img vspace="5" hspace="5" src="test01m-example1_ev01-dc.png" alt=""> </p><p>NOTE: Amplitude resampling may be combined with other types of resampling procedures: <i>Phase rejection resampling</i> and <i>Polarity resampling</i>.</p><h2>Outputting inversion results to ASCII file<a name="43"></a></h2><p><tt>focimt</tt> is capable to export output moment tensor data to a customizable ASCII output text files. The option governing text output is <tt>-d</tt> followed by selected UPPERCASE or lowercase characters and eventually an asterisk '*' sign. Each character in the argument value string determines different parameter or set of parameters to export and the order of characters determine the order of columns in output ASCII file. Finally, if User specifies the character(s) in lowercase, they will be additionally formatted in eye-friendly manner.</p><p>The available characters in the argument value string and corresponding parameters that are exportes is as follows:</p><p>
 <table border=1>
 <tr><td>character</td><td>Description</td></tr>
 <tr><td>M</td>
@@ -106,10 +108,10 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <td>Export new line character.</td></tr>
 </table>
 </p><p>As an example, specifying '-d FAD' option exports firstly fault plane solutions, then P, T and B axes directions and finally the moment tensor decomposition using ISO/CLVD/DC convention. The output ASCII file will have the following structure:</p><p><tt>STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB/PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND/BPLUNGE/ISO/CLVD/DBCP</tt></p><p>Consider an example of seismic moment tensor inversion of two events. We would like now to produce two types of moment tensor solutions: full and deviatoric (option <tt>-s FD</tt>) and export the fault plane data (strike, dip and rakes) as well as moment tensor decompositions (iso/clvd/dc) into the text file. This can be achieved by calling:</p><pre class="codeinput"><span class="syscmd">!focimt -o test_export01a -i ./examples/example2_raw.txt -t SVG -s FD -d FD</span>
-</pre><p>Six files will be generated. Four of them will be graphical representations of moment tensor solutions for two events in SVG format and two types of moment tensors requested. The remaining two ascii files will contain the ASCII output, one for deviatoric and one for full moment tensor solutions.</p><h2>Auxiliary options of focimt application<a name="38"></a></h2><p><tt>focimt</tt> provides a simple way to generate a double-couple graphical representation of the seismic moment tensor solution in a form of <i>beach ball</i> directly from fault plane solution parameters and (optionally) station and polarity information. This can be achieved by <tt>-f</tt> option:</p><p>In the easiest form, the strike, dip and rake parameters is required to plot a simple beach ball picture. To plot the fault plane solution of the fault with strike/dip/rake = 11/60/-50[deg] an save it to a PNG file with size of 300 pixels:</p><pre class="codeinput"><span class="syscmd">!focimt -o fault01a -f 11/60/-50 -z 300 -t PNG</span>
+</pre><p>Six files will be generated. Four of them will be graphical representations of moment tensor solutions for two events in SVG format and two types of moment tensors requested. The remaining two ascii files will contain the ASCII output, one for deviatoric and one for full moment tensor solutions.</p><h2>Auxiliary options of focimt application<a name="49"></a></h2><p><tt>focimt</tt> provides a simple way to generate a double-couple graphical representation of the seismic moment tensor solution in a form of <i>beach ball</i> directly from fault plane solution parameters and (optionally) station and polarity information. This can be achieved by <tt>-f</tt> option:</p><p>In the easiest form, the strike, dip and rake parameters is required to plot a simple beach ball picture. To plot the fault plane solution of the fault with strike/dip/rake = 11/60/-50[deg] an save it to a PNG file with size of 300 pixels:</p><pre class="codeinput"><span class="syscmd">!focimt -o fault01a -f 11/60/-50 -z 300 -t PNG</span>
 </pre><p>with the resulting beach ball</p><p><img vspace="5" hspace="5" src="fault01a.png" alt=""> </p><p>Note the output file name does not have any prefixes or suffixes as in the case of moment tensor inversion from the ASCII input file.</p><p>It is also possible to provide more fault plane parameters and produce a plot with multiple nodal lines, similar to what is plotted when station <i>Jacknife test</i> or <i>Boostrap resampling</i> option is used. In this case, the first fault plane nodal line is painted with black color and the remaining nodal lines are painted according to the sense of motion. To achieve such effects, option <tt>-fj</tt> is used and the data from following nodal lines are separated with ':' character as in the example below:</p><pre class="codeinput"><span class="syscmd">!focimt -o fault01b -fj 11/60/-50:15/65/-42:17/55/-55 -z 300 -t PNG</span>
 </pre><p><img vspace="5" hspace="5" src="fault01b.png" alt=""> </p><p>The example above draws three nodal lines in total with strike/dip/rakes 11/60/-50 (main nodal line), 15/65/-42 and 17/55/-55 (auxiliary nodal lines).</p><p>In addition, the stations can be plotted as an overlay in any of the above two examples by using option <tt>-fs</tt> followed by ':'-separated station information. The station information is provided in azimuth/takeoff/polarity/name format. Consider we want to add two stations to the example above:</p><pre class="codeinput"><span class="syscmd">!focimt -o fault01c -fj 11/60/-50:15/65/-42:17/55/-55 -fs 10/80/1/A:130/10/-1/B -z 300 -t PNG</span>
-</pre><p>resulting in the following beach ball:</p><p><img vspace="5" hspace="5" src="fault01c.png" alt=""> </p><p>The azimuth of station is measured from north positive towards east. The station takeoff is measured from vertical direction.</p><h2>Command line options<a name="45"></a></h2><p>The full list of command line options of <tt>focimt</tt> can be displayed in console window by calling:</p><pre class="codeinput"><span class="syscmd">!focimt -h</span>
+</pre><p>resulting in the following beach ball:</p><p><img vspace="5" hspace="5" src="fault01c.png" alt=""> </p><p>The azimuth of station is measured from north positive towards east. The station takeoff is measured from vertical direction.</p><h2>Command line options<a name="56"></a></h2><p>The full list of command line options of <tt>focimt</tt> can be displayed in console window by calling:</p><pre class="codeinput"><span class="syscmd">!focimt -h</span>
 </pre><pre class="codeoutput">Usage: focimt [options [args]] 
  
   --help,	-h	  Displays this information 
@@ -206,7 +208,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
  
   --jacknife,	-j        Performs station Jacknife test. 
  
-  --amplitude,	-a &lt;args&gt; Perform amplitude test.                               
+  --amplitude,	-a &lt;args&gt; Perform amplitude resampling.                         
  
     Arguments: x[/y] where x is a floating-point positive number that describes 
     the level of noise applied to each amplitude: A+x*A*N(0,1)/3 where N is a   
@@ -233,12 +235,34 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
  
     Size of the beach ball figure in pixels.                                    
  
-  --resampling,	-rp &lt;args&gt; Perform bootstrap resampling of the input dataset     
+  --resampling_polarity,	-rp &lt;args&gt; Perform phase polarities resampling                   
  
-    Arguments: x/y where x is the maximum number of polarity mismatches and     
-    y is the number of bootstrap resamplings performed.                         
+    Performs additional MT inversions on resampled input data with randomly     
+    toggled polarities.                                                         
+    Arguments: x/y where x is the number of resamplings of the original dataset 
+    and y is the fraction of reversed amplitudes.                               
  
-  --version,	-v        Display fociMT version info 
+  --resampling_rejection,	-rr &lt;args&gt; Perform station rejection resampling                
+ 
+    Performs additional MT inversions on resampled input data with randomly     
+    rejected stations.                                                          
+    Arguments: x/y where x is the number of resamplings of the original         
+    dataset and y is the fraction of rejected stations                          
+ 
+  --resampling_amplitude,	-ra &lt;args&gt; Perform amplitude resampling                        
+ 
+    Performs additional MT inversions on resampled input data with randomly     
+    modified input amplitude data.                                              
+    Arguments: x/y where x is the number of resamplings of the original         
+    dataset and y is the amplitude variation factor (see option -a for details) 
+ 
+  --modeltakeoff,	-mt &lt;args&gt; Export raytracing data                                
+ 
+    Procedure export raytracing data for specific set of epicentral distances   
+    and epicentral depths for 1D velocity model file specified with option -m   
+    Arguments: dstart/dstep/dend/estart/estep/eend in [km]                      
+ 
+  --version,	-v        Display focimt version info 
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Using focimt command line application
@@ -447,18 +471,19 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % of the fault planes. The blue, green and red color of nodal planes
 % corresponds to norma, strike-slip and thrust fault. 
 %%
-% *Bootstrap resampling*
+% *Polarity resampling*
 %%%
-% The bootstrap resampling of the original dataset may be performed using
-% |-rp| option followed by the number of bootstrap samples. Again, similarly
-% to the _Jacknife test_, a series of $n$ additional moment tensor 
-% inversions will be performed in addition to the regular inversion with an
-% actual set of stations provided in the input file. For each elements of 
-% bootstrap sample specified percentage of randomly selected polarities 
-% will be reversed.
+% This option performs additional seismic moment tensor inversions on $n$ resampled input datasets 
+% with randomly reverted polarities. The polarity resampling of the original dataset may be 
+% performed using
+% |-rp| option followed by the number of resamplings $n$ and maximum fraction of stations with 
+% expected reversed polarity $p$. Similarly to the _Jacknife test_, a series of $n$ additional 
+% moment tensor inversions will be performed in addition to the regular moment tensor inversion.
+% For each polarity resampled input dataset the algorithm reverse the polarity of stations 
+% with the probability of $p*100$ percents.
 %%%
-% For example, to perform the 100 bootstrap resampling of the original dataset 
-% assuming that 1% of input phase data has reverted polarities, the following 
+% For example, to perform the 100 bootstrap resamplings of the original dataset 
+% assuming that on average 1% of stations have reversed polarity, the following 
 % code should be executed: 
 !focimt -i ./examples/example1.txt -t PNG -s D -rp 100/0.01 -z 300 -o test01f
 %%%
@@ -466,6 +491,51 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %
 % <<test01f-example1_ev01-dc.png>>
 %
+%%%
+% NOTE: Polarity resampling may be combined with other types of resampling procedures: _Phase rejection resampling_
+% and _Amplitude resampling_. 
+%%
+% *Phase rejection resampling*
+%%%
+% This option performs additional seismic moment tensor inversions on $n$ resampled input datasets 
+% with randomly removed stations. Station rejection resampling is performed using |-rr| option 
+% followed by two numbers $n$/$p$. In this type of resampling, a series of $n$ additional moment 
+% tensor inversions is performed in addition to the regular seismic moment tensor inversion. For 
+% each resampled input dataset the algorithm remove stations with $p*100$ percent probability.
+%%%
+% For example, to perform the 200 resamplings of the original dataset assuming on average 2% of 
+% stations is not operational, the following code should be executed:
+!focimt -i ./examples/example1.txt -t PNG -s D -rr 200/0.02 -o test01k
+%%%
+% This result in following double-couple constrained moment tensor:
+%
+% <<test01k-example1_ev01-dc.png>>
+%
+%%%
+% NOTE: Phase rejection resampling may be combined with other types of resampling procedures: _Polarity resampling_
+% and _Amplitude resampling_.
+%%
+% *Amplitude resampling*
+%%%
+% This option performs additional seismic moment tensor inversions on $n$ resampled input datasets 
+% with randomly modified input amplitude data. The amplitude resampling is performed using |-ra| 
+% option followed by two numbers $n$/$x$. A series of $n$ additional seismic moment tensor inversions
+% is performed in addition to the regular seismic momente tensor inversion using original input data.
+% For each resampled dataset, the input phase amplitudes $u_i$ recorded at station $i$ is
+% modified according to $u_i^*=u_i+x*u_i*N(0,1)/3.0$ where $N(0,1)$ is a random value
+% drawn from a normal distribution with mean 0 and standard deviation 1.
+%%%
+% For example, to perfome the 300 resamplings of the original dataset assuming  
+% that amplitudes may change by a factor of 2, the following code should be executed:
+!focimt -i ./examples/example1.txt -t PNG -s D -ra 300/1.0 -o test01m
+%%%
+% This result in following double-couple constrained moment tensor:
+%
+% <<test01m-example1_ev01-dc.png>>
+%
+%%%
+% NOTE: Amplitude resampling may be combined with other types of resampling procedures: _Phase rejection resampling_
+% and _Polarity resampling_.
 %% Outputting inversion results to ASCII file
 % |focimt| is capable to export output moment tensor data to a customizable
 % ASCII output text files. The option governing text output is |-d| 

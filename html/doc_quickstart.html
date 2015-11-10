@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Quick start guide</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-21"><meta name="DC.source" content="doc_quickstart.m"><style type="text/css">
+      --><title>Quick start guide</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-10"><meta name="DC.source" content="doc_quickstart.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Quick start guide</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Installation</a></li><li><a href="#2">Getting help/documentation</a></li><li><a href="#7">Moment tensor inversion</a></li><li><a href="#11">Getting parametric output data</a></li><li><a href="#15">Quality assessment</a></li><li><a href="#23">Handling multiple events at once</a></li><li><a href="#32">Refinement of moment tensors using Hybrid Moment Tensor</a></li></ul></div><h2>Installation<a name="1"></a></h2><p>The downloaded package should be firstly unpacked to a separate directory. In the following, it is recommended to add the location of the directory with the content of <b>hybridMT</b> package to MATLAB path. One can either do it through MATLAB interface (Home&gt;Set Path in R2014b) or by calling the script <tt>hybridmt_install.m</tt> located in the root folder of <b>hybridMT</b> package. The script will add the location of root folder to MATLAB search path and also update the help search database with the documentation of <b>hybridMT</b> package.</p><h2>Getting help/documentation<a name="2"></a></h2><p>The package integrates with MATLAB help system and search database. Accessing <tt>hybridMT</tt> package help system may vary with different versions of MATLAB. In newest releases, the documentation is accessible by opening the MATLAB help system and clicking on <i>Supplemental Software</i> link located in the bottom part of the help homescreen:</p><p><img vspace="5" hspace="5" src="help_supplementary.png" alt=""> </p><p>resulting in opening the package help system:</p><p><img vspace="5" hspace="5" src="help_package.png" alt=""> </p><p>Alternatively, the following command may be executed when current MATLAB folder is set to the directory where the package was installed:</p><pre class="codeinput">doc <span class="string">-classic</span>;
+  </style></head><body><div class="content"><h1>Quick start guide</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Installation</a></li><li><a href="#2">Getting help/documentation</a></li><li><a href="#7">Moment tensor inversion</a></li><li><a href="#11">Getting parametric output data</a></li><li><a href="#15">Quality assessment</a></li><li><a href="#23">Handling multiple events at once</a></li></ul></div><h2>Installation<a name="1"></a></h2><p>The downloaded package should be firstly unpacked to a separate directory. In the following, it is recommended to add the location of the directory with the content of <b>hybridMT</b> package to MATLAB path. One can either do it through MATLAB interface (Home&gt;Set Path in R2014b) or by calling the script <tt>hybridmt_install.m</tt> located in the root folder of <b>hybridMT</b> package. The script will add the location of root folder to MATLAB search path and also update the help search database with the documentation of <b>hybridMT</b> package.</p><h2>Getting help/documentation<a name="2"></a></h2><p>The package integrates with MATLAB help system and search database. Accessing <tt>hybridMT</tt> package help system may vary with different versions of MATLAB. In newest releases, the documentation is accessible by opening the MATLAB help system and clicking on <i>Supplemental Software</i> link located in the bottom part of the help homescreen:</p><p><img vspace="5" hspace="5" src="help_supplementary.png" alt=""> </p><p>resulting in opening the package help system:</p><p><img vspace="5" hspace="5" src="help_package.png" alt=""> </p><p>Alternatively, the following command may be executed when current MATLAB folder is set to the directory where the package was installed:</p><pre class="codeinput">doc <span class="string">-classic</span>;
 </pre><p>Older versions of MATLAB may integrate the <b>hybridMT</b> help with MATLAB documentation.</p><p>The help is also provided in a form of HTML files accompanying each function. For example, typing down:</p><pre class="codeinput">help <span class="string">focimt</span>;
 </pre><pre class="codeoutput"> FOCIMT Perform seismic full moment tensor inversion using fociMT software.
     Use FOCIMT to perform the seismic moment tensor inversion using fociMT
@@ -111,7 +111,7 @@ ans =
 
           event_id: '71761660'
           n_trials: 1
-    calculation_dt: 7.3626e+05
+    calculation_dt: 7.3628e+05
               full: [1x1 struct]
         deviatoric: [1x1 struct]
                 dc: [1x1 struct]
@@ -156,7 +156,7 @@ ans =
 
 </pre><p>The package allows to perform two other types of quality assessment of the seismic moment tensors:</p><div><ul><li>Station Jacknife test</li><li>Bootstrap resampling</li></ul></div><p>In <i>Station Jacknife Test</i> the seismic moment tensor inversion is firstly performed with all phases available. In the second step, the inversion is repeated with one phase removed from the input data. The second stage is repeated for every phase. The resulting moment tensor contains one solution with all phases used and <i>n</i> auxiliary solutions (where <i>n</i> is the number of phases). This procedure allows to detect potential bias introduced by a single phase (or station) to the moment tensor solution (for example bad gain or bad polarity of the station).</p><p>The <i>Station Jacknife test</i> mayb be toggle on by modyfication of the <i>Jacknife</i> property of <a href="doc_focimt.html">focimt</a> routine. In the following example we perform the station Jacknife test using the same input file as before:</p><pre class="codeinput">JacknifeSol = focimt(<span class="string">'examples/example6a.txt'</span>,<span class="string">'VelocityModel'</span>,VELOCITYMODEL, <span class="keyword">...</span>
   <span class="string">'BeachBallFormat'</span>,<span class="string">'PNG'</span>,<span class="string">'Jacknife'</span>,<span class="string">'on'</span>,<span class="string">'ProjectDir'</span>,<span class="string">'jtest'</span>);
-</pre><p>This time we stored the results in the project folder specified by <i>ProjectDir</i> parameter and we additionally turned on the <i>Jacknife station test</i>.</p><p>The generated graphical representation of the seismic moment tensors for full, deviatoric and double-couple moment tensors look as follows:</p><p>Double-couple solution (ISO = 0%, CLVD = 0%):</p><p><img vspace="5" hspace="5" src="jtest/71761660-dc.png" alt=""> </p><p>Deviatoric solution (ISO = 0%):</p><p><img vspace="5" hspace="5" src="jtest/71761660-deviatoric.png" alt=""> </p><p>Full solution:</p><p><img vspace="5" hspace="5" src="jtest/71761660-full.png" alt=""> </p><p>The tensor shading and black nodal lines corresponds to the moment tensor solution calculated with all phases (stations). The blue lines correspond to nodal lines calculated with <i>Jacknife</i> method. The color of the <i>Jacknife</i> lines depicts the sense of fault motion. Blue, green and red nodal lines correspond to the normal, strike-slip and thrust faulting. In the example above the moment tensor solution is very stable and removing of random one station in general does not affect the solution nearly at all.</p><p>The second type of uncertainty assessment is <i>bootstrap resampling</i> of the original catalog. In bootstrap resampling, the original input phase data is used to generate <tt>n</tt> derived input phase data. For each bootstrap sample, up to <tt>m</tt> percent of randomly selected phases will have polarity reversed. The bootstrap resampling parameters is handled by <i>Bootstrap</i> option followed by a 1-by-2 elements vector where first number correspond to the number of bootstrap resamplings and second number specifies what is the percentage polarities to be reversed.</p><p>In the following example we generate and then pefrorm the seismic moment tensor inversion of 100-elements bootstrap resample of the input dataset generated under the assumption that up to 1% of input phases may have wrongly picked polarity:</p><pre class="codeinput">BootstrapSol = focimt(<span class="string">'examples/example6a.txt'</span>,<span class="string">'VelocityModel'</span>,VELOCITYMODEL, <span class="keyword">...</span>
+</pre><p>This time we stored the results in the project folder specified by <i>ProjectDir</i> parameter and we additionally turned on the <i>Jacknife station test</i>.</p><p>The generated graphical representation of the seismic moment tensors for full, deviatoric and double-couple moment tensors look as follows:</p><p>Double-couple solution (ISO = 0%, CLVD = 0%):</p><p><img vspace="5" hspace="5" src="jtest/71761660-dc.png" alt=""> </p><p>Deviatoric solution (ISO = 0%):</p><p><img vspace="5" hspace="5" src="jtest/71761660-deviatoric.png" alt=""> </p><p>Full solution:</p><p><img vspace="5" hspace="5" src="jtest/71761660-full.png" alt=""> </p><p>The tensor shading and black nodal lines corresponds to the moment tensor solution calculated with all phases (stations). The blue lines correspond to nodal lines calculated with <i>Jacknife</i> method. The color of the <i>Jacknife</i> lines depicts the sense of fault motion. Blue, green and red nodal lines correspond to the normal, strike-slip and thrust faulting. In the example above the moment tensor solution is very stable and removing of random one station in general does not affect the solution nearly at all.</p><p>The second type of uncertainty assessment is possible throught <i>bootstrap resampling</i> of the original catalog. In bootstrap resampling, the original input phase data is used to generate <tt>n</tt> derived input phase data. For each bootstrap sample the user may specify three different procedures that will randomly modify input phase data: 1) Phase polarity resampling, 2) station rejection resampling and 3) amplitude resampling. In the following example we focus on <i>phase polarity resampling</i>. In this type of resampling, on average <tt>m*100</tt> percent of randomly selected phases in each bootstrap-resampled input phase data will have polarity reversed. The bootstrap resampling parameters are handled by <i>Bootstrap</i> option followed by a <tt>1-by-2</tt> to <tt>1-by-4</tt> elements vector where first number correspond to the number of bootstrap resamplings and second number specifies what is the average fraction of polarities to be reversed in each randomly resampled input dataset. For more details on other resampling procedures, see the description of <a href="doc_focimt.html">focimt.m</a> routine.</p><p>In the following example we generate 100 bootstrap resamplings of the input phase dataset assuming that about 1% of input phase data in each bootstrap sample may have reversed polarities:</p><pre class="codeinput">BootstrapSol = focimt(<span class="string">'examples/example6a.txt'</span>,<span class="string">'VelocityModel'</span>,VELOCITYMODEL, <span class="keyword">...</span>
   <span class="string">'BeachBallFormat'</span>,<span class="string">'PNG'</span>,<span class="string">'Bootstrap'</span>,[100 0.01],<span class="string">'ProjectDir'</span>,<span class="string">'btest_n01'</span>);
 </pre><p>This results in the following distribution of uncertainties of the fault plane estimation:</p><p>Double-couple solution (ISO = 0%, CLVD = 0%):</p><p><img vspace="5" hspace="5" src="btest_n01/71761660-dc.png" alt=""> </p><p>Deviatoric solution (ISO = 0%):</p><p><img vspace="5" hspace="5" src="btest_n01/71761660-deviatoric.png" alt=""> </p><p>Full solution:</p><p><img vspace="5" hspace="5" src="btest_n01/71761660-full.png" alt=""> </p><p>Both <i>Station Jacknife Test</i> and <i>Bootstrap resampling</i> generate a set of seismic moment tensor solutions. This set is obviously returned in output cell array. For example, while accessing the full moment tensor solution from bootstrap resampling method one can realize that the output parameters are now matrices with the number of rows corresponding to the total number of bootstrap resamplings plus one additional row corresponding to the original solution with original input data:</p><pre class="codeinput">BootstrapSol{1}.full
 </pre><pre class="codeoutput">
@@ -232,13 +232,13 @@ ans =
 
           event_id: '004-03781'
           n_trials: 1
-    calculation_dt: 7.3626e+05
+    calculation_dt: 7.3628e+05
               full: [1x1 struct]
         deviatoric: [1x1 struct]
                 dc: [1x1 struct]
 
 </pre><p>Finally, the routine works also for general output data. For example, to extract all ID numbers, the following code may be used:</p><pre class="codeinput">ids = getsolution(MultipleEventsSolution,<span class="string">'deviatoric'</span>,<span class="string">'event_id'</span>);
-</pre><p>In this case, the second parameter (<tt>'deviatoric'</tt>) is of no use, but still it must be set up to either <tt>'full'</tt>, <tt>'deviatoric'</tt>, or <tt>'dc'</tt>.</p><h2>Refinement of moment tensors using Hybrid Moment Tensor<a name="32"></a></h2><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+</pre><p>In this case, the second parameter (<tt>'deviatoric'</tt>) is of no use, but still it must be set up to either <tt>'full'</tt>, <tt>'deviatoric'</tt>, or <tt>'dc'</tt>.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Quick start guide
 % 
@@ -492,19 +492,25 @@ JacknifeSol = focimt('examples/example6a.txt','VelocityModel',VELOCITYMODEL, ...
 % of random one station in general does not affect the solution nearly at
 % all.
 %
-% The second type of uncertainty assessment is _bootstrap resampling_ of the
+% The second type of uncertainty assessment is possible throught _bootstrap resampling_ of the
 % original catalog. In bootstrap resampling, the original input phase data 
 % is used to generate |n| derived input phase data. For each bootstrap
-% sample, up to |m| percent of randomly selected phases will have polarity reversed. 
-% The bootstrap resampling parameters is handled by
-% _Bootstrap_ option followed by a 1-by-2 elements vector where first
+% sample the user may specify three different procedures that will
+% randomly modify input phase data: 1) Phase polarity resampling, 2) station rejection
+% resampling and 3) amplitude resampling. In the following example we focus
+% on _phase polarity resampling_. In this type of resampling, on average |m*100| 
+% percent of randomly selected phases in each bootstrap-resampled input phase
+% data will have polarity reversed. The bootstrap resampling parameters are handled by
+% _Bootstrap_ option followed by a |1-by-2| to |1-by-4| elements vector where first
 % number correspond to the number of bootstrap resamplings and second
-% number specifies what is the percentage polarities to be reversed.
+% number specifies what is the average fraction of polarities to be
+% reversed in each randomly resampled input dataset. For more details on
+% other resampling procedures, see the description of <doc_focimt.html
+% focimt.m> routine.
 % 
-% In the following example we generate and then pefrorm the seismic moment tensor
-% inversion of 100-elements bootstrap resample of the input
-% dataset generated under the assumption that up to 1% of input phases 
-% may have wrongly picked polarity:
+% In the following example we generate 100 bootstrap resamplings of the input 
+% phase dataset assuming that about 1% of input phase data in each bootstrap 
+% sample may have reversed polarities:
 BootstrapSol = focimt('examples/example6a.txt','VelocityModel',VELOCITYMODEL, ...
   'BeachBallFormat','PNG','Bootstrap',[100 0.01],'ProjectDir','btest_n01');
 %%
@@ -614,7 +620,6 @@ ids = getsolution(MultipleEventsSolution,'deviatoric','event_id');
 % In this case, the second parameter (|'deviatoric'|) is of no use, but still
 % it must be set up to either |'full'|, |'deviatoric'|, or |'dc'|. 
 
-%% Refinement of moment tensors using Hybrid Moment Tensor 
 
 ##### SOURCE END #####
 --></body></html>

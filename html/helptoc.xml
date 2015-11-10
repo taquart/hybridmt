@@ -20,6 +20,7 @@
             <tocitem target="doc_readraw.html">readraw</tocitem>
             <tocitem target="doc_readsolution.html">readsolution</tocitem>
             <tocitem target="doc_readvel1d.html">readvel1d</tocitem>
+            <tocitem target="doc_rpgen.html">rpgen</tocitem>
             <tocitem target="doc_writeinput.html">writeinput</tocitem>
         </tocitem>
     </tocitem>
