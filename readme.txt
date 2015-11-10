@@ -1,7 +1,7 @@
-fociMT/hybridMT
+hybridMT
 Seismic moment tensor inversion and moment tensor refinement package
-version 1.0.0
-last update: 2015.10.20
+version 1.0.1
+last update: 2015.11.10
 
 AUTHORS
 
@@ -10,7 +10,7 @@ Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 
 DOWNLOAD
 
-The newest version of the fociMT/hybridMT toolbox together with 
+The newest version of the hybridMT package together with 
 installation instructions, quick start guide, documentation and examples 
 are available at: http://www.induced.pl/hybridmt and 
 http://www.induced.pl/focimt.
@@ -26,20 +26,26 @@ help help system.
 
 ACQUIRING HELP
 
-1) The toolbox is provided with HTML help system that integrates 
+1) The package is provided with HTML help system that integrates 
    with MATLAB environment once hybridmt_install.m script is called. To 
-   access the toolbox help system press F1 (this will open the MATLAB  
+   access the package help system press F1 (this will open the MATLAB  
    documentation HOME page. Proceed downwards through the page and click  
    the "Supplemental Software" at the bottom of the page. This should  
-   result in fociMT/hybridMT toolbox help system openened.
+   result in opening of hybridMT package help system. In older versions of 
+   MATLAB (<2014a) the help system of hybriMT package may be integrated 
+   within MATLAB documentation. In this case search for "hybridMT" package
+   in the list of topics of MATLAB documentation or write "hybridMT" in the 
+   search box.
 
-2) The description of fociMT/hybridMT toolbox is available online through
+2) Short description of hybridMT package is available online through
    http://www.induced.pl/hybridmt and http://www.induced.pl/focimt web 
    pages.
 
 3) The HTML help files are stored in /html subdirectory of your local 
    installation of the toolbox. You can open index.html file to open the 
    help in your web browser. 
+   
+4) The package contains documentation in PDF format.
 
 WEBSITE
 

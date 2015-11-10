@@ -9,7 +9,7 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 %   Copyright 2015 Grzegorz Kwiatek <taquart@gmail.com>
 %                  Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.8 $  $Date: 2015.10.20 $
+%   $Revision: 1.0.9 $  $Date: 2015.11.10 $
 
 % Parse input parameters.
 p = inputParser;
@@ -24,7 +24,7 @@ p.addParamValue('Hemisphere', 'lower', @(x)any(strcmpi(x,{'lower','upper'})));
 p.addParamValue('IgnoreStation', cell(0), @(x) iscell(x) || ischar(x));
 p.addParamValue('VelocityModel', [], @(x) isnumeric(x) && size(x,2) == 2);
 p.addParamValue('MinimumPhases', 8, @(x) isscalar(x) && x > 6);
-p.addParamValue('Bootstrap', [], @(x ) all(size(x) == [1 2]));
+p.addParamValue('Bootstrap', [], @(x ) all(size(x) == [1 2]) || all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('CorrectStation', cell(0), @(x) iscell(x));
 p.addParamValue('ProjectDir', '', @(x) ischar(x) );
 p.addParamValue('PlotCross', 'on', @(x)any(strcmpi(x,{'on','off'}))); 
@@ -55,7 +55,16 @@ if strcmpi(p.Results.Jacknife,'on')
 end
 bootstrap = '';
 if ~isempty(p.Results.Bootstrap)
-  bootstrap = ['-rp ' num2str(p.Results.Bootstrap(1)) '/' num2str(p.Results.Bootstrap(2))];
+  B = p.Results.Bootstrap;
+  if numel(B) >= 2
+    bootstrap = ['-rp ' num2str(B(1)) '/' num2str(B(2))];
+  end
+  if numel(B) >= 3
+    bootstrap = [bootstrap ' -rr ' num2str(B(1)) '/' num2str(B(3))];
+  end
+  if numel(B) >= 4
+    bootstrap = [bootstrap ' -ra ' num2str(B(1)) '/' num2str(B(4))];
+  end
 end
 normfunc = p.Results.Norm;
 bbsize = ['-z ' num2str(p.Results.BeachBallSize)];
@@ -236,8 +245,10 @@ end
 if verbose, disp('Saving inversion parameters to Params.mat'); end
 if exist(projectdir,'dir')
   save(['./' projectdir '/Params.mat'],'Params');
+  save(['./' projectdir '/Solution.mat'],'Solution');
 else
   save(['Params.mat'],'Params');
+  save(['Solution.mat'],'Solution');
 end
 
 if verbose
