@@ -7,7 +7,7 @@ function hybridmt_show(projectdir, mt_solution_type,picformat)
 %   Copyright 2015 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
 %                  Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.3 $  $Date: 2015.10.02 $
+%   $Revision: 1.0.4 $  $Date: 2016.02.02 $
 
 d = dir([projectdir '/']);
 
@@ -122,8 +122,8 @@ end
 
 %---- Generate figures for each iteration.
 
-if ~exist([projectdir '/iterations'],'dir')
-  mkdir(projectdir,'iterations');
+if ~exist([projectdir '/!iterations'],'dir')
+  mkdir(projectdir,'!iterations');
 end
 
 rmsg = '';
@@ -160,7 +160,7 @@ for i=1:n_iter
   axis equal;
   set(gca,'Visible','off');
   text(0,1.05,titletext,'HorizontalAlignment','center','Interpreter','none','VerticalAlignment','bottom');
-  saveas(gcf,sprintf('%s/iterations/ptb-stereonet-%03d.%s',projectdir,i,picformat));
+  saveas(gcf,sprintf('%s/!iterations/ptb-stereonet-%03d.%s',projectdir,i,picformat));
   close(f);
   
   % Hudson plot.
@@ -170,7 +170,7 @@ for i=1:n_iter
   plot(U,V,'ok','MarkerSize',5,'MarkerFaceColor','r');
   hold off;
   set(gca,'Visible','off');
-  saveas(gcf,sprintf('%s/iterations/hudson-stereonet-%03d.%s',projectdir,i,picformat));
+  saveas(gcf,sprintf('%s/!iterations/hudson-stereonet-%03d.%s',projectdir,i,picformat));
   close(f);
   
   pause(0.01);
