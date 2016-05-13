@@ -1,7 +1,7 @@
 hybridMT
 Seismic moment tensor inversion and moment tensor refinement package
-version 1.0.1
-last update: 2015.11.10
+version 1.0.3
+last update: 2016.05.13
 
 AUTHORS
 
@@ -13,7 +13,7 @@ DOWNLOAD
 The newest version of the hybridMT package together with 
 installation instructions, quick start guide, documentation and examples 
 are available at: http://www.induced.pl/hybridmt and 
-http://www.induced.pl/focimt.
+http://www.gfz-potdam.de/hybridmt.
 
 INSTALLATION
 
@@ -51,6 +51,7 @@ WEBSITE
 
    http://www.induced.pl/hybridmt
    http://www.induced.pl/focimt
+   http://www.gfz-potsdam.de/hybridmt
 
 LICENSE
 
