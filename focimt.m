@@ -6,10 +6,10 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 %   part of hybridMT package
 %   <a href="matlab:open('html/doc_focimt.html')">Reference page for focimt</a>
 
-%   Copyright 2015 Grzegorz Kwiatek <taquart@gmail.com>
-%                  Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
+%   Copyright 2015-2016 Grzegorz Kwiatek <taquart@gmail.com>
+%                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.10 $  $Date: 2015.11.10 $
+%   $Revision: 1.0.11 $  $Date: 2016.06.03 $
 
 % Parse input parameters.
 p = inputParser;
@@ -33,6 +33,7 @@ p.addParamValue('PlotAxes', 'on', @(x)any(strcmpi(x,{'on','off'})));
 p.addParamValue('PlotDC', 'on', @(x)any(strcmpi(x,{'on','off'})));
 %
 p.addParamValue('Solutions', 'FTD', @(x) ischar(x));
+p.addParamValue('Decomposition', 'JostHerrmann', @(x)any(strcmpi(x,{'JostHerrmann','Vavrycuk'})));
 p.parse(INPUT,varargin{:});
 
 % Interpret input parameters.
@@ -49,6 +50,12 @@ if strcmpi(p.Results.PlotCross,'on')
 end
 if strcmpi(p.Results.PlotDC,'on')
   ball = [ball 'D'];
+end
+
+if strcmpi(p.Results.Decomposition,'JostHerrmann')
+  decomposition = 'D';
+else
+  decomposition = 'Y';
 end
 
 solutions = p.Results.Solutions;
@@ -208,7 +215,7 @@ else
   vmodel = '';
 end
 
-commandline = ['-i ' temp '.txt -d DWAFTUMVE -o ' temp ' -s ' solutions ' -n ' normfunc ' ' bbsize ' ' bbformat ' ' bbproj ' ' jacknife ' ' bootstrap ' ' vmodel ' ' ball];
+commandline = ['-i ' temp '.txt -d ' decomposition 'WAFTUMVE -o ' temp ' -s ' solutions ' -n ' normfunc ' ' bbsize ' ' bbformat ' ' bbproj ' ' jacknife ' ' bootstrap ' ' vmodel ' ' ball];
 
 % Prepare input file for focimt application.
 writeinput([temp '.txt'], Input);
