@@ -39,8 +39,8 @@ function [u,v] = drawhudsonnet(varargin)
 %   correspond to pure positive Isotropic, double-couple and negative CLVD
 %   moment tensor.
 
-%   Copyright 2015 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
-%   $Revision: 1.0.1 $  $Date: 2015.09.11 $
+%   Copyright 2015-2016 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
+%   $Revision: 1.0.2 $  $Date: 2016.06.03 $
 
 
 if nargin == 1
@@ -116,7 +116,7 @@ end
 function [k,T] = ae_srctype(M)
 
 % Hudson and Bowers transformation, 1999
-[~,DD] = eig(M);
+[dummy,DD] = eig(M); %#ok<ASGLU>
 EGV = DD([1 5 9]);
 EGV = sort(EGV,'descend');
 MM = mean(EGV);

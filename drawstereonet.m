@@ -24,10 +24,10 @@ function [X, Y] = drawstereonet(varargin)
 %   [X,Y] = drawstereonet([10 20 30 40],[50 60 70 80]) just projects input data
 %   using default projection and returns [X,Y] vector. 
 
-%   Copyright 2015 Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
-%                  Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
+%   Copyright 2015-2016 Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
+%                       Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
 %                  
-%   $Revision: 1.0.2 $  $Date: 2015.09.11 $
+%   $Revision: 1.0.3 $  $Date: 2016.06.03 $
 
 % Parse input parameters.
 p = inputParser;
