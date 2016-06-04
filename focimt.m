@@ -9,7 +9,7 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 %   Copyright 2015-2016 Grzegorz Kwiatek <taquart@gmail.com>
 %                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.11 $  $Date: 2016.06.03 $
+%   $Revision: 1.0.12 $  $Date: 2016.06.04 $
 
 % Parse input parameters.
 p = inputParser;
@@ -34,6 +34,16 @@ p.addParamValue('PlotDC', 'on', @(x)any(strcmpi(x,{'on','off'})));
 %
 p.addParamValue('Solutions', 'FTD', @(x) ischar(x));
 p.addParamValue('Decomposition', 'JostHerrmann', @(x)any(strcmpi(x,{'JostHerrmann','Vavrycuk'})));
+p.addParamValue('NormalFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('StrikeSlipFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('ThrustFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('DoubleCoupleColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('TShadingColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('PShadingColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('PlusColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('MinusColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+p.addParamValue('LabelColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
+
 p.parse(INPUT,varargin{:});
 
 % Interpret input parameters.
@@ -50,6 +60,18 @@ if strcmpi(p.Results.PlotCross,'on')
 end
 if strcmpi(p.Results.PlotDC,'on')
   ball = [ball 'D'];
+end
+
+% Interpratation of colors
+colors_text = '';
+colorvars = {'NormalFaultColor','StrikeSlipFaultColor','ThrustFaultColor', ...
+  'DoubleCoupleColor','TShadingColor','PShadingColor','PlusColor','MinusColor',...
+  'LabelColor'};
+colorpars = {'n','s','r','d','t','p','+','-','l'};
+for i=1:numel(colorvars)
+  if ~isempty(eval(['p.Results.' colorvars{i}]))
+    colors_text = [colors_text prncolor(colorpars{i},eval(['p.Results.' colorvars{i}]))]; %#ok<AGROW>
+  end
 end
 
 if strcmpi(p.Results.Decomposition,'JostHerrmann')
@@ -215,7 +237,7 @@ else
   vmodel = '';
 end
 
-commandline = ['-i ' temp '.txt -d ' decomposition 'WAFTUMVE -o ' temp ' -s ' solutions ' -n ' normfunc ' ' bbsize ' ' bbformat ' ' bbproj ' ' jacknife ' ' bootstrap ' ' vmodel ' ' ball];
+commandline = ['-i ' temp '.txt ' colors_text ' -d ' decomposition 'WAFTUMVE -o ' temp ' -s ' solutions ' -n ' normfunc ' ' bbsize ' ' bbformat ' ' bbproj ' ' jacknife ' ' bootstrap ' ' vmodel ' ' ball];
 
 % Prepare input file for focimt application.
 writeinput([temp '.txt'], Input);
@@ -264,8 +286,8 @@ if exist(projectdir,'dir')
   save(['./' projectdir '/Params.mat'],'Params');
   save(['./' projectdir '/Solution.mat'],'Solution');
 else
-  save(['Params.mat'],'Params');
-  save(['Solution.mat'],'Solution');
+  save('Params.mat','Params');
+  save('Solution.mat','Solution');
 end
 
 if verbose
@@ -290,6 +312,16 @@ for i=1:numel(Files)
   if exist(filename,'file');
     error(['Cannot delete file (' filename '. File locked outside of MATLAB?']);
   end
+end
+
+function colorvector = prncolor(ctype,colorvector)
+
+if all(size(colorvector) == [1 3])
+  colorvector = sprintf('-c%s %1.3f/%1.3f/%1.3f ',ctype,colorvector);
+elseif all(size(colorvector) == [1 4])
+  colorvector = sprintf('-c%s %1.3f/%1.3f/%1.3f/%1.3f ',ctype,colorvector);
+else
+  error('Color vector must be either of [1,3] or [1,4] size [R/G/B[/A]]');
 end
 
 
