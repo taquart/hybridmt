@@ -1,7 +1,7 @@
 hybridMT
 Seismic moment tensor inversion and moment tensor refinement package
-version 1.0.3
-last update: 2016.05.13
+version 1.1.1
+last update: 2016.06.08
 
 AUTHORS
 

@@ -19,10 +19,10 @@ function [Solution, History] = hybridmt(Input, varargin)
 %   part of hybridMT package 
 %   <a href="matlab:open('html/doc_hybridmt.html')">Reference page for hybridmt</a>
 
-%   Copyright 2015 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
-%                  Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
+%   Copyright 2015-2016 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
+%                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.3 $  $Date: 2015.10.02 $
+%   $Revision: 1.0.4 $  $Date: 2016.06.08 $
 
 % Parse input parameters.
 p = inputParser;
@@ -39,6 +39,9 @@ p.addParamValue('IgnoreStation', cell(0), @(x) iscell(x)); % passthrough to foci
 p.addParamValue('CorrectStation', cell(0), @(x) iscell(x));
 p.addParamValue('VelocityModel', [], @(x) ismatrix(x)); % passthrough to focimt.m
 p.addParamValue('FigureFormat', 'PNG', @(x)any(strcmpi(x,{'PNG','PS','SVG','PDF'})));
+
+p.addParamValue('AuxiliaryFigures', 'on', @(x)any(strcmpi(x,{'off','on'}))); %#ok<*NVREPL>
+
 p.parse(Input,varargin{:});
 
 % Interpret input parameters.
@@ -254,8 +257,10 @@ for iteration = 1:n_iter
   % Transfer figures and output data project folder.
   if ~exist(output_dir,'dir')
     mkdir(output_dir);
-    for i=1:numel(Solution)
-      mkdir(output_dir,Solution{i}.event_id);
+    if snapshots || strcmp(p.Results.AuxiliaryFigures,'on')
+      for i=1:numel(Solution)
+        mkdir(output_dir,Solution{i}.event_id);
+      end
     end
     if snapshots
       for i=1:numel(Solution)
@@ -504,7 +509,9 @@ saveas(gcf,sprintf('%s/!iterations/!amplitude_correction.%s',output_dir,picforma
 close(f);
 
 % Plot additional figures.
-hybridmt_show(output_dir,mt_solution_type,picformat);
+if strcmp(p.Results.AuxiliaryFigures,'on')
+  hybridmt_show(output_dir,mt_solution_type,picformat);
+end
 
 disp('hybridMT finished successfully');
 
