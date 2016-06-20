@@ -259,6 +259,10 @@ else
   error('Platform is not supported.');
 end
 
+if ~exist(execstring,'file')
+  error('Cannot locate ./focimt binaries. Please follow the guidelines on how to compile focimt application and place the compiled binaries in the folder where focimt.m script exists (see ./src/howto_compile_focimt.txt file for details)');
+end
+
 status = system([execstring commandline]);
 
 if status ~= 0
