@@ -249,7 +249,18 @@ end
 % Execute focimt program.
 focimt_path = mfilename('fullpath');
 focimt_path = fileparts(focimt_path);
-status = system(['"' focimt_path '/focimt.exe" ' commandline]);
+
+archstr = computer('arch');
+if strcmp(archstr,'win32') || strcmp(archstr,'win64')
+  execstring = ['"' focimt_path '/focimt.exe" '];
+elseif strcmp(archstr,'glnx86') || strcmp(archstr,'glnxa64') || strcmp(archstr,'maci64')
+  execstring = [focimt_path '/focimt '];
+else
+  error('Platform is not supported.');
+end
+
+status = system([execstring commandline]);
+
 if status ~= 0
   warning('FOCIMT:exec_status','fociMT binary exited with status: %d', status);
 elseif verbose
