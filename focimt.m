@@ -255,13 +255,13 @@ if strcmp(archstr,'win32') || strcmp(archstr,'win64')
   execstring = ['"' focimt_path '/focimt.exe" '];
 elseif strcmp(archstr,'glnx86') || strcmp(archstr,'glnxa64') || strcmp(archstr,'maci64')
   execstring = [focimt_path '/focimt '];
+  if ~exist(execstring,'file')
+    error('Cannot locate ./focimt binaries. Please follow the guidelines on how to compile focimt application and place the compiled binaries in the folder where focimt.m script exists (see ./src/howto_compile_focimt.txt file for details)');
+  end
 else
   error('Platform is not supported.');
 end
 
-if ~exist(execstring,'file')
-  error('Cannot locate ./focimt binaries. Please follow the guidelines on how to compile focimt application and place the compiled binaries in the folder where focimt.m script exists (see ./src/howto_compile_focimt.txt file for details)');
-end
 
 status = system([execstring commandline]);
 
