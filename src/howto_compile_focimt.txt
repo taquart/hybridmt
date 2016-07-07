@@ -1,45 +1,72 @@
 -------------------------------------------------------------------------------
-How to compile focimt under different environments
+How to compile focimt under different operating systems
 -------------------------------------------------------------------------------
 
 Author: Grzegorz Kwiatek
-Last changed: 2016-06-21
+Last changed: 2016-07-07
 
--------------
-Linux systems
--------------
 
-I. Compilation
 
-1. Program requires CAIRO library to compile. It is likely you have this library
-   already installed. If this is not the case, the development package can
+I. Compilation under Linux 
+
+1. Program requires CAIRO library to compile. It is likely you already have 
+   this library installed. If it is not the case, the development package may
    be downloaded from https://cairographics.org/.
-   Following the guidlines located in https://cairographics.org/download/, it's
-   enough to open the terminal and execute:
+   
+   Following the guidelines located in https://cairographics.org/download/, 
+   it's enough to open the terminal and execute:
    
    For Debian (including Ubuntu):
    
-     sudo apt-get install libcairo2-dev
+      sudo apt-get install libcairo2-dev
    
    For Fedora:
    
-     sudo yum install cairo-devel
+      sudo yum install cairo-devel
    
    For openSUSE:
    
-     zypper install cairo-devel   
+      zypper install cairo-devel   
     
-2. Enter the focimt-x.x.x and execute command 'make'. 
+2. Enter the focimt-x.x.x folder and execute command 'make'.
+ 
 3. If everything goes well, the 'focimt' binary should be created in the above
    folder. Just copy the newly created file to the directory where focimt.m 
-   exists. If you are in the folder focimt-x.x.x, you can just type:
+   exists (note the compiled file has NO extension which is correct!). If you 
+   are in the folder focimt-x.x.x, you can just type:
    
-     mv focimt ../..
+      mv focimt ../..
    
-II. Troubleshooting
+   
+   
+II. Compilation under OSX 
 
-   Calling compiled focimt binary by focimt.m in MATLAB sometimes results in 
-   a weird MATLAB error with the following message which looks similar to this:
+1. The compilation under OS X systems is fairly similar to that described 
+   previously for Linux systems. The application requires CAIRO library to
+   be compiled successfully. This library is typically already a part of 
+   OS X system.     
+   
+   Following the guidelines located in https://cairographics.org/download/, 
+   it's enough to open the terminal and execute (while using MacPorts): 
+   
+      sudo port install cairo
+      
+2. Enter the focimt-x.x.x folder and execute command 'make'.
+ 
+3. If everything goes well, the 'focimt' binary should be created in the above
+   folder. Just copy the newly created file to the directory where focimt.m 
+   exists (note the compiled file has NO extension which is correct!). If you 
+   are in the folder focimt-x.x.x, you can just type:
+   
+      mv focimt ../..      
+   
+   
+   
+III. Troubleshooting
+
+   Calling compiled focimt binary by focimt.m in MATLAB under Linux systems 
+   sometimes results in a weird MATLAB error with the following message 
+   which looks similar to this:
    
      'MATLAB error: libstdc++.so: version `GLIBCXX_3.4.15′ not found'
    
@@ -55,17 +82,17 @@ II. Troubleshooting
    system library path. 
    
    The build-in library of MATLAB is somehow (reads: ALWAYS - G.K.) slightly 
-   out-of-date, and the version GLIBCXX_3.4.15 simply doesn’t exist in the 
+   out-of-date, and the version GLIBCXX_3.4.15 simply doesn't exist in the 
    old library. 
    
    The simple solution is to link the current version of libstdc++ library 
-   (with which the focimt was just compiled) with an 'old' library file 
+   (with which the focimt was compiled) with the old library file 
    using simple command:
    
-     sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.16 /usr/local/MATLAB/R2012a/bin/glnxa64/libstdc++.so.6
+      sudo ln -sf /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.16 /usr/local/MATLAB/R2012a/bin/glnxa64/libstdc++.so.6
    
    (please note the locations of directories may be slightly different, but 
    you should be able to figure out how it works).
    
-   -------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
    

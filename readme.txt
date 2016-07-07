@@ -24,6 +24,13 @@ hybridmt_install.m script from command window. The script will add/refresh
 path to the directory where the toolbox is placed and create the searchable
 help help system. 
 
+USING UNDER LINUX/OSX systems
+
+To use program under Linux/OSX systems you firstly have to compile the focimt
+binary following the guidelines located in ./src/howto_compile_focimt.txt file.
+The compiled binary file focimt. should be moved to the location where 
+focimt.m (or focimt.exe) script reside.
+
 ACQUIRING HELP
 
 1) The package is provided with HTML help system that integrates 
