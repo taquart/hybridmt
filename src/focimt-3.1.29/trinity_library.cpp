@@ -5,6 +5,7 @@
  *      Author: gregus
  */
 
+#include <stdlib.h>
 #include "trinity_library.h"
 using namespace Taquart;
 

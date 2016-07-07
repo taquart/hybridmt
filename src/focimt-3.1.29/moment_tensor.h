@@ -47,14 +47,6 @@
 #include <vector>
 
 #include "trinity_library.h"
-/*
-#include <triexceptions/exceptions.h>
-#include <trilib/fortranmath.h>
-#include <trilib/georoutines.h>
-#include <trilib/string.h>
-#include <trilib/tristat.h>
-#include <tricairo/tricairo_meca.h>
-*/
 
 //---------------------------------------------------------------------------
 namespace Taquart {

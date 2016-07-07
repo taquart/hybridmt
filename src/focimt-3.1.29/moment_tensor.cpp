@@ -204,7 +204,7 @@ int main(int argc, char* argv[]) {
             ColorSelection(Temp, switchInt - 19); // Intepret color string
             break;
           case 28:
-            std::cout << "focimt\nrev. 3.1.28 (2016.06.04)\n"
+            std::cout << "focimt\nrev. 3.1.29 (2016.06.14)\n"
                 "(c) 2013-2016 Grzegorz Kwiatek and Patricia Martinez-Garzon"
                 << std::endl;
             break;
