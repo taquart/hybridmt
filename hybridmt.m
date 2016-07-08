@@ -63,18 +63,18 @@ polarity_match_ratio = 0.8;
 
 %---- Setup properties for fociMT.
 cmdline = {};
-% if ~isempty(StIgnored)
-%   cmdline = [cmdline 'IgnoreStation' StIgnored];
-% end
-% if snapshots
-%   cmdline = [cmdline 'BeachBallFormat' 'PNG'];
-% end
+if ~isempty(StIgnored)
+  cmdline = [cmdline 'IgnoreStation' StIgnored];
+end
+if snapshots
+  cmdline = [cmdline 'BeachBallFormat' 'PNG'];
+end
 if ~isempty(p.Results.VelocityModel)
   cmdline = [cmdline 'VelocityModel' p.Results.VelocityModel];
 end
-% if ~isempty(CoStation)
-%   cmdline = [cmdline 'CorrectStation' {CoStation}];
-% end
+if ~isempty(CoStation)
+  cmdline = [cmdline 'CorrectStation' {CoStation}];
+end
 
 disp('Preparing data for hybridMT inversion');
 
