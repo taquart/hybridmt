@@ -63,6 +63,7 @@ polarity_match_ratio = 0.8;
 
 %---- Setup properties for fociMT.
 cmdline = {};
+cmdline2 = {};
 if ~isempty(StIgnored)
   cmdline = [cmdline 'IgnoreStation' StIgnored];
 end
@@ -71,15 +72,16 @@ if snapshots
 end
 if ~isempty(p.Results.VelocityModel)
   cmdline = [cmdline 'VelocityModel' p.Results.VelocityModel];
+  cmdline2 = [cmdline2 'VelocityModel' p.Results.VelocityModel];
 end
-if ~isempty(CoStation)
-  cmdline = [cmdline 'CorrectStation' {CoStation}];
-end
+% if ~isempty(CoStation)
+%   cmdline = [cmdline 'CorrectStation' {CoStation}];
+% end
 
 disp('Preparing data for hybridMT inversion');
 
 % Calculate first MT solution.
-[Solution, Input] = focimt(Input,cmdline{:}); % Calculate initial solution in order to get basic information.
+[Solution, Input] = focimt(Input,cmdline2{:}); % Calculate initial solution in order to get basic information.
 
 % Prepare matrices for hybrid moment tensor by analysis of the MT solution.
 n_events = numel(Solution); % Number of events.
