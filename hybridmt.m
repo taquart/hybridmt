@@ -22,7 +22,7 @@ function [Solution, History] = hybridmt(Input, varargin)
 %   Copyright 2015-2016 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
 %                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.4 $  $Date: 2016.06.08 $
+%   $Revision: 1.0.5 $  $Date: 2016.07.08 $
 
 % Parse input parameters.
 p = inputParser;
