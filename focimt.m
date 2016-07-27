@@ -9,11 +9,11 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 %   Copyright 2015-2016 Grzegorz Kwiatek <taquart@gmail.com>
 %                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.12 $  $Date: 2016.06.04 $
+%   $Revision: 1.0.13 $  $Date: 2016.07.27 $
 
 % Parse input parameters.
 p = inputParser;
-p.addRequired('INPUT', @(x) ischar(x) || iscell(x));
+p.addRequired('INPUT', @(x) ischar(x) || iscell(x) || (isnumeric(x) && all(size(x) == [1 3]) || all(size(x) == [1 6])) );
 p.addParamValue('Jacknife', 'off', @(x)any(strcmpi(x,{'on','off'}))); %#ok<*NVREPL>
 p.addParamValue('Verbose', 'off', @(x)any(strcmpi(x,{'on','off'}))); %#ok<*NVREPL>
 p.addParamValue('Norm', 'L2', @(x)any(strcmpi(x,{'L1','L2'})));
@@ -44,6 +44,8 @@ p.addParamValue('PlusColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 
 p.addParamValue('MinusColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('LabelColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 
+p.addParamValue('DrawSolution', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 6]));
+
 p.parse(INPUT,varargin{:});
 
 % Interpret input parameters.
@@ -62,7 +64,7 @@ if strcmpi(p.Results.PlotDC,'on')
   ball = [ball 'D'];
 end
 
-% Interpratation of colors
+% Interpretation of colors
 colors_text = '';
 colorvars = {'NormalFaultColor','StrikeSlipFaultColor','ThrustFaultColor', ...
   'DoubleCoupleColor','TShadingColor','PShadingColor','PlusColor','MinusColor',...
@@ -129,6 +131,41 @@ projectdir = p.Results.ProjectDir;
 if verbose
   tic;
 end
+
+% Prepare already a path to exe file.
+focimt_path = mfilename('fullpath');
+focimt_path = fileparts(focimt_path);
+
+archstr = computer('arch');
+if strcmp(archstr,'win32') || strcmp(archstr,'win64')
+  execstring = ['"' focimt_path '/focimt.exe" '];
+elseif strcmp(archstr,'glnx86') || strcmp(archstr,'glnxa64') || strcmp(archstr,'maci64')
+  execstring = [focimt_path '/focimt '];
+  if ~exist(execstring,'file')
+    error('Cannot locate ./focimt binaries. Please follow the guidelines on how to compile focimt application and place the compiled binaries in the folder where focimt.m script exists (see ./src/howto_compile_focimt.txt file for details)');
+  end
+else
+  error('Platform is not supported.');
+end
+
+% If DrawSolution option is turned on, we stop the processing here and
+% just plot the moment tensor solution provided.
+if ~isempty(p.Results.DrawSolution) ...
+    || ( isnumeric(INPUT) && all(size(INPUT) == [1 3]) || all(size(INPUT) == [1 6]) )
+  if ( isnumeric(INPUT) && all(size(INPUT) == [1 3]) || all(size(INPUT) == [1 6]) )
+    M = INPUT;
+  else
+    M = p.Results.DrawSolution;
+  end
+  if size(M,2) == 3 % strike/dip/rake
+    commandline = sprintf(' -f %f/%f/%f', M);
+  elseif size(M,2) == 6 % moment tensor components
+    commandline = sprintf(' -f %f/%f/%f/%f/%f/%f', M);
+  end
+  system([execstring commandline]);
+  return;
+end
+
 
 
 % Check if project directory exists.
@@ -250,22 +287,6 @@ if verbose
 end
 
 % Execute focimt program.
-focimt_path = mfilename('fullpath');
-focimt_path = fileparts(focimt_path);
-
-archstr = computer('arch');
-if strcmp(archstr,'win32') || strcmp(archstr,'win64')
-  execstring = ['"' focimt_path '/focimt.exe" '];
-elseif strcmp(archstr,'glnx86') || strcmp(archstr,'glnxa64') || strcmp(archstr,'maci64')
-  execstring = [focimt_path '/focimt '];
-  if ~exist(execstring,'file')
-    error('Cannot locate ./focimt binaries. Please follow the guidelines on how to compile focimt application and place the compiled binaries in the folder where focimt.m script exists (see ./src/howto_compile_focimt.txt file for details)');
-  end
-else
-  error('Platform is not supported.');
-end
-
-
 status = system([execstring commandline]);
 
 if status ~= 0
