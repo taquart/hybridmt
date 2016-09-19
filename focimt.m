@@ -9,7 +9,7 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 %   Copyright 2015-2016 Grzegorz Kwiatek <taquart@gmail.com>
 %                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.13 $  $Date: 2016.07.27 $
+%   $Revision: 1.0.14 $  $Date: 2016.09.19 $
 
 % Parse input parameters.
 p = inputParser;
@@ -24,7 +24,8 @@ p.addParamValue('Hemisphere', 'lower', @(x)any(strcmpi(x,{'lower','upper'})));
 p.addParamValue('IgnoreStation', cell(0), @(x) iscell(x) || ischar(x));
 p.addParamValue('VelocityModel', [], @(x) isnumeric(x) && size(x,2) == 2);
 p.addParamValue('MinimumPhases', 8, @(x) isscalar(x) && x > 6);
-p.addParamValue('Bootstrap', [], @(x ) all(size(x) == [1 2]) || all(size(x) == [1 3]) || all(size(x) == [1 4]) || all(size(x) == [1 5]));
+p.addParamValue('Bootstrap', [], @(x ) all(size(x) == [1 2]) || all(size(x) == [1 3]) || all(size(x) == [1 4]) || all(size(x) == [1 5])); % Obsolete (kept for compatibility)
+p.addParamValue('Resample', [], @(x ) all(size(x) == [1 2]) || all(size(x) == [1 3]) || all(size(x) == [1 4]) || all(size(x) == [1 5]));
 p.addParamValue('CorrectStation', cell(0), @(x) iscell(x));
 p.addParamValue('ProjectDir', '', @(x) ischar(x) );
 p.addParamValue('PlotCross', 'on', @(x)any(strcmpi(x,{'on','off'})));
@@ -89,8 +90,14 @@ if strcmpi(p.Results.Jacknife,'on')
   jacknife = '-j';
 end
 bootstrap = '';
+B = [];
 if ~isempty(p.Results.Bootstrap)
   B = p.Results.Bootstrap;
+end
+if ~isempty(p.Results.Resample)
+  B = p.Results.Resample;
+end
+if ~isempty(B)
   if numel(B) >= 2
     bootstrap = ['-rp ' num2str(B(1)) '/' num2str(B(2))];
   end
