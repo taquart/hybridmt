@@ -32,9 +32,9 @@ p.addParamValue('PlotCross', 'on', @(x)any(strcmpi(x,{'on','off'})));
 p.addParamValue('PlotStations', 'on', @(x)any(strcmpi(x,{'on','off'})));
 p.addParamValue('PlotAxes', 'on', @(x)any(strcmpi(x,{'on','off'})));
 p.addParamValue('PlotDC', 'on', @(x)any(strcmpi(x,{'on','off'})));
-%
-p.addParamValue('Solutions', 'FTD', @(x) ischar(x));
 p.addParamValue('Decomposition', 'JostHerrmann', @(x)any(strcmpi(x,{'JostHerrmann','Vavrycuk'})));
+p.addParamValue('Solutions', 'FTD', @(x) ischar(x));
+p.addParamValue('DrawSolution', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 6]));
 p.addParamValue('NormalFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('StrikeSlipFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('ThrustFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
@@ -45,7 +45,6 @@ p.addParamValue('PlusColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 
 p.addParamValue('MinusColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('LabelColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 
-p.addParamValue('DrawSolution', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 6]));
 
 p.parse(INPUT,varargin{:});
 
