@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>getsolution</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-10"><meta name="DC.source" content="doc_getsolution.m"><style type="text/css">
+      --><title>getsolution</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-22"><meta name="DC.source" content="doc_getsolution.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -74,22 +74,22 @@ ans =
 
           Type: {'N'}
     STATION_ID: 0
-           ISO: -41.123
-          CLVD: -31.527
-            DC: 27.35
+           ISO: -41.1231
+          CLVD: -31.5271
+            DC: 27.3498
             M0: 5.6378e+14
             MT: 7.3059e+14
       M0ERRMAX: 2.4521e+13
             MW: 3.8041
-             P: [329.94 58.774]
-             T: [154.38 31.15]
-             B: [63.19 1.9677]
-            F1: [62.706 76.178 -92.026]
-            F2: [251.13 13.967 -81.821]
+             P: [329.9410 58.7743]
+             T: [154.3800 31.1495]
+             B: [63.1899 1.9677]
+            F1: [62.7056 76.1782 -92.0264]
+            F2: [251.1300 13.9667 -81.8213]
          Fault: {'NF'}
            MXX: [1x6 double]
            CXX: [1x6 double]
-      RMSERROR: 0.33807
+      RMSERROR: 0.3381
        Station: {1x14 cell}
      UMEASURED: [1x14 double]
            UTH: [1x14 double]
@@ -97,20 +97,20 @@ ans =
 </pre><p>provide us with results of FULL moment tensor inversion for the 5th seismic event.</p><p>Consider a scenario when the user wants to extract values of isotropic component from full moment tensor for all events in bulk. This can be easily achieved by using the <tt>getsolution function</tt>:</p><pre class="codeinput">ISO = getsolution(Solution,<span class="string">'full'</span>,<span class="string">'ISO'</span>);
 </pre><p>This will result in a vector composed of 90 elements where each element corresponds to the amount of ISOTROPIC component from all 90 earthquakes for which the full seismic moment tensor was calculated. This can be used for plotting the statistics of various parameters for the inverted dataset, e.g.:</p><pre class="codeinput">hist(ISO)
 <span class="comment">% display the distribution of isotropic components in the analyzed dataset.</span>
-</pre><img vspace="5" hspace="5" src="doc_getsolution_01.png" alt=""> <p>More parameters can be extracted in at once. For example, to extract moment magnitude and orientation of P axes for DEVIATORIC moment tensor solutions, the following code may be executed:</p><pre class="codeinput">[MW,P] = getsolution(Solution,<span class="string">'deviatoric'</span>,<span class="string">'MW'</span>,<span class="string">'P'</span>);
+</pre><img vspace="5" hspace="5" src="doc_getsolution_01.png" style="width:560px;height:420px;" alt=""> <p>More parameters can be extracted in at once. For example, to extract moment magnitude and orientation of P axes for DEVIATORIC moment tensor solutions, the following code may be executed:</p><pre class="codeinput">[MW,P] = getsolution(Solution,<span class="string">'deviatoric'</span>,<span class="string">'MW'</span>,<span class="string">'P'</span>);
 </pre><p>It is important to note that the order of input parameters ('MW','P' in the example above determines the order of output parameters localted on the left side of the formula. Also, the names of input parameters to extract must correspond to the names of variables in the structure array.</p><p>The function may be also used to extract general output data outside of 'full', 'deviatoric', and 'dc' structures inside of each cell array element. For example, the general data contains the ID number of events:</p><pre class="codeinput">Solution{1}
 </pre><pre class="codeoutput">
 ans = 
 
           event_id: '004-03781'
           n_trials: 1
-    calculation_dt: 7.3628e+05
+    calculation_dt: 7.3660e+05
               full: [1x1 struct]
         deviatoric: [1x1 struct]
                 dc: [1x1 struct]
 
 </pre><p>To extract all ID numbers, the following code may be used:</p><pre class="codeinput">ids = getsolution(Solution,<span class="string">'deviatoric'</span>,<span class="string">'event_id'</span>);
-</pre><p>In this case, the second parameter (<tt>'deviatoric'</tt>) is of no used, but still it must be set up to either 'full', 'deviatoric', or 'dc'.</p><h2>See also<a name="13"></a></h2><p><tt><a href="doc_focimt.html">focimt</a></tt> | <tt><a href="doc_hybridmt.html">hybridmt</a></tt></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+</pre><p>In this case, the second parameter (<tt>'deviatoric'</tt>) is of no used, but still it must be set up to either 'full', 'deviatoric', or 'dc'.</p><h2>See also<a name="13"></a></h2><p><tt><a href="doc_focimt.html">focimt</a></tt> | <tt><a href="doc_hybridmt.html">hybridmt</a></tt></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% getsolution
 % Extract parameter(s) from moment tensor solution output cell array

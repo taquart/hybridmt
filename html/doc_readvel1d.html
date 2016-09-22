@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>readvel1d</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-10"><meta name="DC.source" content="doc_readvel1d.m"><style type="text/css">
+      --><title>readvel1d</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-22"><meta name="DC.source" content="doc_readvel1d.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -68,7 +68,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
   </style></head><body><div class="content"><h1>readvel1d</h1><!--introduction--><p>Read input ASCII file in fociMT 1D velocity model format</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Syntax</a></li><li><a href="#2">Description</a></li><li><a href="#4">Examples</a></li><li><a href="#5">See also</a></li></ul></div><h2>Syntax<a name="1"></a></h2><pre class="language-matlab">Input = readvel1d(filename)
 </pre><h2>Description<a name="2"></a></h2><p>Use <tt>readvel1d(filename)</tt> to read ASCII file in fociMT 1D velocity format containing input data for the seismic moment tensor inversion. The resulting <tt>Input</tt> cell array contains input data organized in a cell array. The cell array may be used as input parameter for the following seismic moment tensor inversion with <tt><a href="doc_focimt.html">focimt.m</a></tt> or seismic moment tensor refinement procedure <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt>.</p><p>The full description of ASCII input file in 1D velocity model focimt format is available <a href="doc_focimtformats.html">here</a>.</p><h2>Examples<a name="4"></a></h2><p>This example reads input data in fociMT 1D velocity format and stores them in <tt>Input</tt> cell array:</p><pre class="codeinput">Input = readvel1d(<span class="string">'./examples/example2_1d.txt'</span>);
-</pre><h2>See also<a name="5"></a></h2><p><tt><a href="doc_readraw.html">readraw</a></tt> | <tt><a href="doc_focimt.html">focimt</a></tt> | <tt><a href="doc_hybridmt.html">hybridmt</a></tt></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+</pre><h2>See also<a name="5"></a></h2><p><tt><a href="doc_readraw.html">readraw</a></tt> | <tt><a href="doc_focimt.html">focimt</a></tt> | <tt><a href="doc_hybridmt.html">hybridmt</a></tt></p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% readvel1d
 % Read input ASCII file in fociMT 1D velocity model format

@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Input focimt ASCII file formats</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-10"><meta name="DC.source" content="doc_focimtformats.m"><style type="text/css">
+      --><title>Input focimt ASCII file formats</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-22"><meta name="DC.source" content="doc_focimtformats.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Input focimt ASCII file formats</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">RAW ASCII input file</a></li><li><a href="#7">1D velocity model ASCII input file</a></li></ul></div><p><tt>focimt</tt> application, <tt><a href="doc_focimt.html">focimt.m</a></tt> as well as <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routines are capable to read two types of ASCII input files:</p><div><ul><li><b>RAW input file</b> contains all input data necessary to perform the seismic moment tensor inversion in time domain.</li><li><b>1D velocity model input file</b> uses 1D velocity model and station/even locations provided to perform the 1D ray-tracing and to calculate the auxiliary data for the seismic moment tensor inversion (takeoff and incidence angles as well as distances along the ray paths).</li></ul></div><p>Both input file formats starts with a <i>header line</i> containing information about event that is followed by <i>phase lines</i> containing phase data. User may specify multiple header-phase blocks to process or refine multiple events at once. The ASCII input file formats are described in details in the following sections. The input files can be read by auxiliary functions <tt><a href="doc_readraw.html">readraw.m</a></tt> and <tt><a href="doc_readvel1d.html">readvel1d.m</a></tt>.</p><h2>RAW ASCII input file<a name="2"></a></h2><p>Raw input file is composed of a <i>header line</i> containing basic information about the seismic event. This line is followed by a limited number of <i>phase lines</i> containing phase information necessary for the seismic moment tensor inversion. The input text file may contain multiple blocks header-phases if the user wants to process more than one earthquake at once. The latter case is actually required once User aims to refine seismic moment tensors by means of hybrid moment tensor technique and use the <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine. ASCII input file in RAW format can be read using auxillary <tt><a href="doc_readraw.html">readraw.m</a></tt> routine and converted to <a href="doc_inputformat.html">moment tensor inversion input cell array</a> used across the whole package, if necessary.</p><p>The RAW ASCII input file generally looks as follows:</p><pre class="language-matlab">fileid1 <span class="string">n</span>
+  </style></head><body><div class="content"><h1>Input focimt ASCII file formats</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#2">RAW ASCII input file</a></li><li><a href="#9">1D velocity model ASCII input file</a></li></ul></div><p><tt>focimt</tt> application, <tt><a href="doc_focimt.html">focimt.m</a></tt> as well as <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routines are capable to read two types of ASCII input files:</p><div><ul><li><b>RAW input file</b> contains all input data necessary to perform the seismic moment tensor inversion in time domain.</li><li><b>1D velocity model input file</b> uses 1D velocity model and station/event locations provided in Cartesian coordinate system to perform the 1D ray-tracing and to calculate the auxiliary phase data for the seismic moment tensor inversion (takeoff angle, incidence angle, azimuth as well as distance along the ray path for each phase).</li></ul></div><p>Both input file formats starts with a <i>header line</i> containing information about earthquake that is followed by <i>phase lines</i> containing phase data. User may specify multiple header-phase blocks to process or refine multiple events at once. The ASCII input file formats are described in details in the following sections. The input files can be read by auxiliary functions <tt><a href="doc_readraw.html">readraw.m</a></tt> and <tt><a href="doc_readvel1d.html">readvel1d.m</a></tt>.</p><h2>RAW ASCII input file<a name="2"></a></h2><p>Raw input file is composed of a <i>header line</i> containing basic information about the seismic event. This line is followed by a limited number of <i>phase lines</i> containing phase information necessary for the seismic moment tensor inversion. The input text file may contain multiple blocks header-phases if the user wants to process more than one earthquake at once. The latter type of file containing multiple seismic events is actually required once User aims to refine seismic moment tensors by means of the hybrid moment tensor technique and use the <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine. ASCII input file in RAW format can be read using auxillary <tt><a href="doc_readraw.html">readraw.m</a></tt> routine and converted to <a href="doc_inputformat.html">moment tensor inversion input cell array</a> used across the whole package, if necessary.</p><p>The RAW ASCII input file generally looks as follows:</p><pre class="language-matlab">fileid1 <span class="string">n</span>
 station_1 <span class="string">component_1</span> <span class="string">phase_1</span> <span class="string">omega_1</span> <span class="string">azm_1</span> <span class="string">aoi_1</span> <span class="string">tko_1</span> <span class="string">v_1</span> <span class="string">r_1</span> <span class="string">rho_1</span>
 station_2 <span class="string">component_2</span> <span class="string">phase_2</span> <span class="string">omega_2</span> <span class="string">azm_2</span> <span class="string">aoi_2</span> <span class="string">tko_2</span> <span class="string">v_2</span> <span class="string">r_2</span> <span class="string">rho_2</span>
 <span class="keyword">...</span>
@@ -81,7 +81,7 @@ station_n <span class="string">component_n</span> <span class="string">phase_n</
 <tr><td>fileid</td><td>string</td><td>
 Event id string. The parameter contains a *UNIQUE* alphanumeric string to identify
 the seismic event. As the string may be used (depending on parameters passed
-to |hybridmt| or |focimt| programs) to create a directory where
+to hybridmt or focimt programs) to create a directory where
 event-specific results will be stored, it is necessary to use only
 characters that can be used to create files/directories under specific
 file system.</td></tr>
@@ -103,16 +103,19 @@ Phase identifier. Currently only P phases are supported, therefore only
 'P' value is accepted by application. The remaining values are ignored.
 </td></tr>
 <tr><td>omega</td><td>float</td><td>
-Area below the first P-wave ground velocity pulse together with sign
+Area below the first P-wave ground displacement pulse together with sign
 information. This value is proportional to the spectral level in Fourier
-domain, and, overall, proportional to the seismic moment.
+domain, and, overall, proportional to the seismic moment observed at a certain
+station including additional sign information about amplitude polarity. The
+unit of omega is [m * s] (meter times seconds). The detailed
+explanation of omega parameter is shown below.
 </td></tr>
 <tr><td>azm</td><td>float</td><td>
 Azimuth of the vector pointing from earthquake to the station. The value
 is measured in degrees, positive from north towards east.
 </td></tr>
 <tr><td>aoi</td><td>float</td><td>
-Angle of incidence to the sensor measured in degrees from down direcion
+Angle of incidence to the sensor measured in degrees from down direction
 (towards center of Earth). The seismic ray pointing directly up,
 perpendicular towards the surface has 0 degrees incidence angle.
 </td></tr>
@@ -134,7 +137,7 @@ calculate seismic moment from omega parameter.
 Rock density in the source area. This value is used to
 calculate seismic moment from omega parameter.
 </td></tr>
-</table></p><p>Here is example of input in RAW ASCII format:</p><pre>testmech 20
+</table></p><p>The key parameter in phase input data is <i>omega</i>. This parameter is the <i>area</i> of the first P-wave GROUND DISPLACEMENT pulse (in time domain), or equivalently the <i>spectral level</i> taken from the amplitude spectrum of ground displacement waveform of P-wave. <b>The unit of <i>omega</i> is [m * s], i.e. meter times second</b>. The <i>omega</i> parameter contains additional information on the <b>SIGN of first P-wave pulse</b> (<i>omega</i> is positive for ground motions away from the source and negative for motions towards the seismic source). The absolute value of <i>omega</i> provided in ASCII input files is therefore somehow proportional to the <i>seismic moment</i> observed at a particular station <img src="doc_focimtformats_eq05671228016298599287.png" alt="$i$" style="width:4px;height:11px;"> (we neglect here many important effects related to station-receiver geometricy and radiation - we just aim to emphasize general meaning of <i>omega</i>!):</p><p><img src="doc_focimtformats_eq03521255642305987784.png" alt="$$M_0^i\propto 4\pi\rho V^3r\Omega^i$$" style="width:102px;height:18px;"></p><p>As indicated above, <i>omega</i> must be calculated from <b>GROUND DISPLACEMENT</b> waveform calibrated to the unit of meters [m]. This can be achieved by integrating the ground displacement pulse starting from P-wave onset time to first zero crossing after the maximum amplitude (yellow shaded area in the figure below). However, in case of simple impulsive source time functions it is typically not necessary to calculate the integral. Instead, the amplitude of first P-wave pulse <b>D</b> in meters [m] (including sign information) may be taken easily from ground displacement seismogram and multiplied by the rise time (i.e. the time interval between the P-wave onset and P-wave amplitude, t_max-t_ons in seconds [s] in the figure below). In this case, the integral of the P-wave pulse is simply replaced by the area of the triangle (blue lines in the figure below). Please <b>note once again the unit of <i>omega</i> is [m * s]</b>, as we multiply the amplitude in [m] by the duration in [s].</p><p>The sign of "omega" is in accordance with the seismological convention, i.e. it is positive for the positive first P-wave ground displacement amplitude (i.e. ground motion AWAY from the seismic source) and negative otherwise (ground motion TOWARDS the seismic source).</p><p><img vspace="5" hspace="5" src="focimt_seismogram.png" alt=""> </p><p>Takeoff angle and angle of incidence follow the typical seismological conventions. The schematic figure presenting both angles is shown below:</p><p><img vspace="5" hspace="5" src="focimt_coordinates.png" alt=""> </p><p>The example of input file in RAW ASCII format:</p><pre>testmech 20
   W1 Z P   8.1579314473706e-007    20.0  160.0   20.0  5000 3000.00  2900
   W2 Z P  -6.8673365691379e-007    80.0  160.0   20.0  5000 3000.00  2900
   W3 Z P  -8.7312547285917e-007   140.0  160.0   20.0  5000 3000.00  2900
@@ -154,7 +157,7 @@ calculate seismic moment from omega parameter.
   21 Z P   5.1376195957182e-007   140.0   80.0  100.0  5000 3000.00  2900
   22 Z P   1.6575456762096e-007   200.0   80.0  100.0  5000 3000.00  2900
   23 Z P   1.1523550907002e-006   260.0   80.0  100.0  5000 3000.00  2900
-  24 Z P   6.9418020992634e-007   320.0   80.0  100.0  5000 3000.00  2900</pre><p>The examples of reading RAW input files for the purpose of the seismic moment tensor inversion with <tt>focimt</tt> application are shown in <a href="doc_focimtexe.html">Using focimt command line application</a> section.</p><h2>1D velocity model ASCII input file<a name="7"></a></h2><p>Similarly to RAW input file format, the 1D velocity model input file also starts with header line describing basic information on seismic event and it is followed by a limited number of lines describing phase information. The main difference between raw input format and 1D velocity model format is that in the latter case User do not need to specify all the geometrical parameters for the moment tensor parameters such as azimuth, takeoff angles, distances along the seismic rays or angles of incidence. Instead, these parameters are calculated using 1D velocity model provided. ASCII file in 1D velocity model format can be read using auxillary routine <tt><a href="doc_readvel1d.html">readvel1d.m</a></tt>.</p><pre class="language-matlab">The <span class="string">1D</span> <span class="string">velocity</span> <span class="string">model</span> <span class="string">ASCII</span> <span class="string">input</span> <span class="string">file</span> <span class="string">syntax</span> <span class="string">looks</span> <span class="string">as</span> <span class="string">follows:</span>
+  24 Z P   6.9418020992634e-007   320.0   80.0  100.0  5000 3000.00  2900</pre><p>The examples of reading RAW input files for the purpose of the seismic moment tensor inversion with <tt>focimt</tt> application are shown in <a href="doc_focimtexe.html">Using focimt command line application</a> section.</p><h2>1D velocity model ASCII input file<a name="9"></a></h2><p>Similarly to the RAW input file format, 1D velocity model input file also starts with a header line describing basic information on seismic event and it is followed by limited number of lines describing phase information. The main difference between RAW input format and 1D velocity model format is that in the latter case the User do not need to specify all geometrical parameters such as azimuth, takeoff angle, distances along the seismic ray or the angles of incidence. Instead, these parameters are calculated using 1D velocity model provided. ASCII file in 1D velocity model format can be read using auxillary routine <tt><a href="doc_readvel1d.html">readvel1d.m</a></tt>.</p><pre class="language-matlab">The <span class="string">1D</span> <span class="string">velocity</span> <span class="string">model</span> <span class="string">ASCII</span> <span class="string">input</span> <span class="string">file</span> <span class="string">syntax</span> <span class="string">looks</span> <span class="string">as</span> <span class="string">follows:</span>
 fileid <span class="string">N</span> <span class="string">e_northing</span> <span class="string">e_easting</span> <span class="string">e_z</span> <span class="string">density</span>
  station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
  station <span class="string">component</span> <span class="string">phase</span> <span class="string">omega</span> <span class="string">s_easting</span> <span class="string">s_northing</span> <span class="string">s_z</span>
@@ -179,17 +182,17 @@ file system.
 <td>Number of following lines containing phase information data.
 </td></tr>
 <tr><td>e_northing</td><td>float</td><td>
-Northing component of earthquake hypocenter location in local cartesian
+Northing component of earthquake hypocenter location in the local Cartesian
 coordinate system [m]. The value must increase towards north.
 </td></tr>
 <tr><td>e_easting</td><td>float</td><td>
-Easting component of earthquake hypocenter location in local cartesian
+Easting component of earthquake hypocenter location in the local Cartesian
 coordinate system [m]. The value must increase towards east
 </td></tr>
 <tr><td>e_depth</td><td>float</td><td>
 Depth component of earthquake hypocenter location in local cartesian
 coordinate system [m]. The value must increase towards up (i.e. if mean
-sea level is 0 in local cartesian coordinate system chosen, the negative
+sea level is 0 in the local Cartesian coordinate system chosen, the negative
 values correspond to the hypocenter below the mean sea level)
 </td></tr>
 <tr><td>density</td><td>float</td><td>
@@ -211,24 +214,27 @@ Phase identifier. Currently only P phases are supported, therefore only
 'P' value is accepted by application. The remaining values are ignored.
 </td></tr>
 <tr><td>omega</td><td>float</td><td>
-Area below the first P-wave ground velocity pulse together with sign
+Area below the first P-wave ground displacement pulse together with sign
 information. This value is proportional to the spectral level in Fourier
-domain, and, overall, proportional to the seismic moment.
+domain, and, overall, proportional to the seismic moment observed at a certain
+station including additional sign information about amplitude polarity. The
+unit of omega is [m * s] (meter times seconds). The detailed
+explanation of omega parameter is shown above.
 </td></tr>
 <tr><td>s_northing</td><td>float</td><td>
-Northing component of station coordinate in local cartesian coordinate
+Northing component of station coordinate in the local Cartesian coordinate
 system [m]. The station coordinate must be in the same system as
-earthquake northing coordinate provided in first line
+earthquake northing coordinate provided in the event header line
 </td></tr>
 <tr><td>s_easting</td><td>float</td><td>
-Easting component of station coordinate in local cartesian coordinate
+Easting component of station coordinate in the local Cartesian coordinate
 system [m]. The station coordinate must be in the same system as
-earthquake northing coordinate provided in first line
+earthquake northing coordinate provided in the event header line
 </td></tr>
 <tr><td>s_depth</td><td>float</td><td>
-Depth component of station coordinate in local cartesian coordinate
+Depth component of station coordinate in the local Cartesian coordinate
 system [m]. The station coordinate must be in the same system as
-earthquake northing coordinate provided in first line
+earthquake northing coordinate provided in the event header line
 </td></tr>
 </table></p><p>Here is example of input file for <a href="doc_hybridmt.html">hybridmt.m</a>, <a href="doc_focimt.html">focimt.m</a> as well as for <a href="doc_focimtexe.html"><tt>focimt</tt> application</a> in 1D velocity model format:</p><pre class="language-matlab">134_044_+163 25 0 0 -1500 2700
 S01 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-3.4116906326339e-007</span>          <span class="string">-10000</span>         <span class="string">-10000</span>              <span class="string">0</span>
@@ -256,7 +262,7 @@ S22 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 S23 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-3.6544904262446e-007</span>           <span class="string">10000</span>              <span class="string">0</span>              <span class="string">0</span>
 S24 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-3.0215676249735e-007</span>           <span class="string">10000</span>           <span class="string">5000</span>              <span class="string">0</span>
 S25 <span class="string">Z</span> <span class="string">P</span>  <span class="string">-9.6393340287165e-007</span>           <span class="string">10000</span>          <span class="string">10000</span>              <span class="string">0</span>
-</pre><p>The examples of reading 1D velocity model input files for the purpose of the seismic moment tensor inversion with <tt>focimt</tt> application are shown in section <a href="doc_focimtexe.html">Using focimt command line application</a>.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+</pre><p>The examples of reading 1D velocity model input files for the purpose of the seismic moment tensor inversion with <tt>focimt</tt> application are shown in section <a href="doc_focimtexe.html">Using focimt command line application</a>.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Input focimt ASCII file formats
 %%
@@ -266,13 +272,13 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 %
 % * *RAW input file* contains all input data necessary to perform the seismic 
 % moment tensor inversion in time domain. 
-% * *1D velocity model input file* uses 1D velocity model and station/even
-% locations provided to perform the 1D ray-tracing and to calculate the 
-% auxiliary data for the seismic moment tensor inversion (takeoff and 
-% incidence angles as well as distances along the ray paths).
+% * *1D velocity model input file* uses 1D velocity model and station/event
+% locations provided in Cartesian coordinate system to perform the 1D ray-tracing 
+% and to calculate the auxiliary phase data for the seismic moment tensor inversion 
+% (takeoff angle, incidence angle, azimuth as well as distance along the ray path for each phase).
 %
 % Both input file formats starts with a _header line_ containing information
-% about event that is followed by _phase lines_ containing phase data. User 
+% about earthquake that is followed by _phase lines_ containing phase data. User 
 % may specify multiple header-phase blocks to process or refine multiple 
 % events at once. The ASCII input file formats are described in details in the 
 % following sections. The input files can be read by auxiliary functions 
@@ -284,8 +290,9 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 % number of _phase lines_ containing phase information necessary for the 
 % seismic moment tensor inversion. The input text file may contain 
 % multiple blocks header-phases if the user wants to process
-% more than one earthquake at once. The latter case is actually required once User aims
-% to refine seismic moment tensors by means of hybrid moment tensor
+% more than one earthquake at once. The latter type of file containing multiple 
+% seismic events is actually required once User aims
+% to refine seismic moment tensors by means of the hybrid moment tensor
 % technique and use the |<doc_hybridmt.html hybridmt.m>| routine. ASCII input file in RAW
 % format can be read using auxillary |<doc_readraw.html readraw.m>| routine and
 % converted to <doc_inputformat.html moment tensor inversion input cell array> used across the
@@ -311,7 +318,7 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 % <tr><td>fileid</td><td>string</td><td>
 % Event id string. The parameter contains a *UNIQUE* alphanumeric string to identify
 % the seismic event. As the string may be used (depending on parameters passed
-% to |hybridmt| or |focimt| programs) to create a directory where
+% to hybridmt or focimt programs) to create a directory where
 % event-specific results will be stored, it is necessary to use only
 % characters that can be used to create files/directories under specific
 % file system.</td></tr>
@@ -339,16 +346,19 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 % 'P' value is accepted by application. The remaining values are ignored.
 % </td></tr>
 % <tr><td>omega</td><td>float</td><td>
-% Area below the first P-wave ground velocity pulse together with sign 
+% Area below the first P-wave ground displacement pulse together with sign 
 % information. This value is proportional to the spectral level in Fourier
-% domain, and, overall, proportional to the seismic moment.
+% domain, and, overall, proportional to the seismic moment observed at a certain
+% station including additional sign information about amplitude polarity. The
+% unit of omega is [m * s] (meter times seconds). The detailed 
+% explanation of omega parameter is shown below.
 % </td></tr>
 % <tr><td>azm</td><td>float</td><td>
 % Azimuth of the vector pointing from earthquake to the station. The value 
 % is measured in degrees, positive from north towards east.
 % </td></tr>
 % <tr><td>aoi</td><td>float</td><td>
-% Angle of incidence to the sensor measured in degrees from down direcion 
+% Angle of incidence to the sensor measured in degrees from down direction 
 % (towards center of Earth). The seismic ray pointing directly up,
 % perpendicular towards the surface has 0 degrees incidence angle.
 % </td></tr>
@@ -371,8 +381,47 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 % calculate seismic moment from omega parameter.
 % </td></tr>
 % </table></html>
+%
 %%
-% Here is example of input in RAW ASCII format: 
+% The key parameter in phase input data is _omega_. This parameter is 
+% the _area_ of the first P-wave GROUND DISPLACEMENT pulse (in time domain), 
+% or equivalently the _spectral level_ taken from the amplitude spectrum of 
+% ground displacement waveform of P-wave. *The unit of _omega_ is [m * s], 
+% i.e. meter times second*. The _omega_ parameter contains additional information
+% on the *SIGN of first P-wave pulse* (_omega_ is positive for ground motions away from the source
+% and negative for motions towards the seismic source). The absolute value of 
+% _omega_ provided in ASCII input files is therefore somehow proportional to the _seismic moment_ observed 
+% at a particular station $i$ (we neglect here many important effects related to 
+% station-receiver geometricy and radiation - we just aim to emphasize general meaning of _omega_!):
+%
+% $$M_0^i\propto 4\pi\rho V^3r\Omega^i$$
+%
+% As indicated above, _omega_ must be calculated from *GROUND DISPLACEMENT* 
+% waveform calibrated to the unit of meters [m]. This can be achieved by 
+% integrating the ground displacement pulse starting from P-wave onset time to first 
+% zero crossing after the maximum amplitude (yellow shaded area in the figure below). 
+% However, in case of simple impulsive source time functions it is typically not necessary to 
+% calculate the integral. Instead, the amplitude of first P-wave pulse *D* in meters [m] 
+% (including sign information) may be taken easily from ground displacement seismogram 
+% and multiplied by the rise time (i.e. the time interval between the P-wave onset 
+% and P-wave amplitude, t_max-t_ons in seconds [s] in the figure below). In this case, the integral 
+% of the P-wave pulse is simply replaced by the area of the triangle (blue lines in the figure below). Please *note once
+% again the unit of _omega_ is [m * s]*, as we multiply the amplitude in [m] by the duration in [s].
+%%%
+% The sign of "omega" is in accordance with the seismological convention, 
+% i.e. it is positive for the positive first P-wave ground displacement 
+% amplitude (i.e. ground motion AWAY from the seismic source) and negative 
+% otherwise (ground motion TOWARDS the seismic source).
+%
+% <<focimt_seismogram.png>>
+%
+% Takeoff angle and angle of incidence follow the typical seismological conventions. 
+% The schematic figure presenting both angles is shown below:
+%
+% <<focimt_coordinates.png>>
+%
+%%
+% The example of input file in RAW ASCII format: 
 %%
 %  testmech 20
 %    W1 Z P   8.1579314473706e-007    20.0  160.0   20.0  5000 3000.00  2900
@@ -401,15 +450,15 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 % <doc_focimtexe.html Using focimt command line application> section.
 
 %% 1D velocity model ASCII input file
-% Similarly to RAW input file format, the 1D velocity model input file also
-% starts with header line describing basic information on seismic event and
-% it is followed by a limited number of lines describing phase information.
-% The main difference between raw input format and 1D velocity model format
-% is that in the latter case User do not need to specify all the geometrical 
-% parameters for the moment tensor parameters such as azimuth, takeoff
-% angles, distances along the seismic rays or angles of incidence. Instead,
-% these parameters are calculated using 1D velocity model provided. ASCII
-% file in 1D velocity model format can be read using auxillary routine
+% Similarly to the RAW input file format, 1D velocity model input file also
+% starts with a header line describing basic information on seismic event and
+% it is followed by limited number of lines describing phase information.
+% The main difference between RAW input format and 1D velocity model format
+% is that in the latter case the User do not need to specify all geometrical 
+% parameters such as azimuth, takeoff angle, distances along the seismic ray 
+% or the angles of incidence. Instead, these parameters are calculated 
+% using 1D velocity model provided. ASCII file in 1D velocity model format 
+% can be read using auxillary routine
 % |<doc_readvel1d.html readvel1d.m>|.
 %%
 %   The 1D velocity model ASCII input file syntax looks as follows:
@@ -441,17 +490,17 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 % <td>Number of following lines containing phase information data.
 % </td></tr>
 % <tr><td>e_northing</td><td>float</td><td>
-% Northing component of earthquake hypocenter location in local cartesian 
+% Northing component of earthquake hypocenter location in the local Cartesian 
 % coordinate system [m]. The value must increase towards north.
 % </td></tr>
 % <tr><td>e_easting</td><td>float</td><td>
-% Easting component of earthquake hypocenter location in local cartesian 
+% Easting component of earthquake hypocenter location in the local Cartesian 
 % coordinate system [m]. The value must increase towards east
 % </td></tr>
 % <tr><td>e_depth</td><td>float</td><td>
 % Depth component of earthquake hypocenter location in local cartesian 
 % coordinate system [m]. The value must increase towards up (i.e. if mean 
-% sea level is 0 in local cartesian coordinate system chosen, the negative 
+% sea level is 0 in the local Cartesian coordinate system chosen, the negative 
 % values correspond to the hypocenter below the mean sea level)
 % </td></tr>
 % <tr><td>density</td><td>float</td><td>
@@ -479,24 +528,27 @@ S25 <span class="string">Z</span> <span class="string">P</span>  <span class="st
 % 'P' value is accepted by application. The remaining values are ignored.
 % </td></tr>
 % <tr><td>omega</td><td>float</td><td>
-% Area below the first P-wave ground velocity pulse together with sign 
+% Area below the first P-wave ground displacement pulse together with sign 
 % information. This value is proportional to the spectral level in Fourier
-% domain, and, overall, proportional to the seismic moment.
+% domain, and, overall, proportional to the seismic moment observed at a certain
+% station including additional sign information about amplitude polarity. The
+% unit of omega is [m * s] (meter times seconds). The detailed 
+% explanation of omega parameter is shown above.
 % </td></tr>
 % <tr><td>s_northing</td><td>float</td><td>
-% Northing component of station coordinate in local cartesian coordinate 
+% Northing component of station coordinate in the local Cartesian coordinate 
 % system [m]. The station coordinate must be in the same system as 
-% earthquake northing coordinate provided in first line
+% earthquake northing coordinate provided in the event header line
 % </td></tr>
 % <tr><td>s_easting</td><td>float</td><td>
-% Easting component of station coordinate in local cartesian coordinate 
+% Easting component of station coordinate in the local Cartesian coordinate 
 % system [m]. The station coordinate must be in the same system as 
-% earthquake northing coordinate provided in first line
+% earthquake northing coordinate provided in the event header line
 % </td></tr>
 % <tr><td>s_depth</td><td>float</td><td>
-% Depth component of station coordinate in local cartesian coordinate 
+% Depth component of station coordinate in the local Cartesian coordinate 
 % system [m]. The station coordinate must be in the same system as 
-% earthquake northing coordinate provided in first line
+% earthquake northing coordinate provided in the event header line
 % </td></tr>
 % </table></html>
 %%

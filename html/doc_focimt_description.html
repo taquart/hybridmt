@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Package overview</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-10"><meta name="DC.source" content="doc_focimt_description.m"><style type="text/css">
+      --><title>Package overview</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-09-22"><meta name="DC.source" content="doc_focimt_description.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,9 +66,9 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Package overview</h1><!--introduction--><p><b>hybridMT</b> package is composed of two major parts: seismic moment tensor inversion application <tt><a href="doc_focimtexe.html">focimt</a></tt> accompanied by <tt><a href="doc_focimt.html">focimt.m</a></tt> MATLAB wrapper and <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine performing the refinement of seismic moment tensor using Hybrid Moment Tensor technique. These core functions are accompanied by various auxilliary functions, documentation and sample files.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Moment tensor inversion (focimt + focimt.m)</a></li><li><a href="#10">Moment tensor refinement (hybridmt.m)</a></li></ul></div><h2>Moment tensor inversion (focimt + focimt.m)<a name="1"></a></h2><p>The moment tensor inversion in <b>hybridMT</b> package may be performed either by using the command line tool <tt><a href="doc_focimtexe.html">focimt</a></tt>. Additionally, in MATLAB environment, the moment tensor inverion may be performed using <tt><a href="doc_focimt.html">focimt.m</a></tt> routine.</p><p><tt><a href="doc_focimtexe.html">focimt</a></tt> is the stand-alone command line application performing seismic moment tensor inversion in time domain optimized for local-to-regional applications and seismic networks (Cartesian coordinate system is used). The core of the program is based on the formal description presented in Fitch et al., (1980) and its fortran implementation (Wiejacz, 1992). The precompiled binaries are available for both Windows/Linux platforms. More detailed description of algorithm used is provided in separate <a href="doc_method.html">section</a>.</p><p><tt><a href="doc_focimtexe.html">focimt</a></tt> command line tool is accompanied by MATLAB wrapper function <tt><a href="doc_focimt.html">focimt.m</a></tt> to handle the input and output parameters of <tt><a href="doc_focimtexe.html">focimt</a></tt> directly in the MATLAB environment. Numerous parameters can be specified to maintain input data, define the seismic moment tensor inversion and optimization parameters as well as to handle the properties of the graphical and text output by MATLAB properties.</p><p><b>Input data</b></p><p>The input data for the seismic moment tensor inversion, regardles of whether it is performed in a shell mode by using <tt><a href="doc_focimtexe.html">focimt</a></tt> application or whether the <tt><a href="doc_focimt.html">focimt.m</a></tt> function is used in MATLAB environment include information on amplitudes of the first P-wave motions and rise times, i.e. the program assumes that the area below the first P-wave ground displacement pulse is proportional to the seismic moment and this information is the main input parameters for the moment tensor inversion. In addition the User provides earthquake-station geometry data and rock medium parameters at the source. The input data is provided as ASCII file or MATLAB cell array.</p><p>Two different ASCII input data formats are available. In the first one, the geometry data (takeoff angles, angles of incidence, azimuths and distances between earthquake and sensors) is directly provided in the <a href="doc_focimtformats.html">ASCII input file</a>. In the second input data format, earthquake hypocenter, station locations as well as 1D velocity model are used to perform the 1D ray-tracing resulting in geometrical parameters calculation.</p><p><b>Inversion</b></p><p>Using <tt><a href="doc_focimtexe.html">focimt</a></tt> or equivalently <tt><a href="doc_focimt.html">focimt.m</a></tt> is very easy. Having the input file, the moment tensor inversion may be started from directly from console window (or from MATLAB command prompt by starting the line with exclamation mark):</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -p SU -z 300 -o test</span>
-</pre><p>The moment tensor inversion results in generation of output ASCII file <tt>test</tt> containing moment tensor inversion results and graphical representation of the solution in a form of beach ball plot. The equivalent call from MATLAB command prompt using <tt><a href="doc_focimt.html">focimt.m</a></tt> routine would look as follows:</p><pre class="codeinput">Solution = focimt(<span class="string">'./examples/example1.txt'</span>,<span class="string">'BeachBallFormat'</span>,<span class="string">'PNG'</span>,<span class="string">'Projection'</span>,<span class="string">'schmidt'</span>,<span class="string">'Hemisphere'</span>,<span class="string">'upper'</span>,<span class="string">'BeachBallSize'</span>,300);
-</pre><p>resulting in output parameters being stored in output cell array <tt>Solution</tt> than can be easily used in MATLAB environment.</p><p><b>Output data</b></p><p>When in console mode, the output data of moment tensor inversion are exported to ASCII files formatted according to User preferences. If <tt><a href="doc_focimt.html">focimt.m</a></tt> function is used, the results are returned by the routine in a form of cell array. Apart from moment tensor solution parametric data, the application is also providing highly customizable graphical representation of the seismic moment tensor solution in a form of <i>beach ball plot</i>. The output files are either raster (PNG) or vector format (EPS, PDF, SVG).</p><h2>Moment tensor refinement (hybridmt.m)<a name="10"></a></h2><p>Hybrid moment tensor technique was originally developed by Andersen (2001). This methodology overall aims at detecting and suppressing the influence of local path/site/sensor-related effects on estimation of seismic moment tensors resulting in their quality improvement. The methodology is especially effective in finding stations with inappropriate gain, bad site effects or high attenuation of incoming waves and provides means to account them.</p><p>The technique has been implemented in a form of MATLAB routine <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt>. The routine calculates and refines the seismic moment tensors from a group of seismic events forming a cluster. The routine whole wraps data preparation, refinement and data output. Similarly to <tt><a href="doc_focimt.html">focimt.m</a></tt> function, numerous parameters can be specified to optimize data preparation, processing and output and adjust them to personal needs of the User. For the details on the algorithm, see the <a href="doc_method.html">methodology section</a>. For the description of MATLAB implementation of hybrid moment tensor technique, see the documentation of <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine.</p><p><b>Input data</b></p><p>The <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine takes essentially the same input data as <tt><a href="doc_focimt.html">focimt.m</a></tt> or <tt>focimt</tt> application, i.e. an <a href="doc_focimtformats.html">ASCII file</a> containing event/phase data in one of the two <a href="doc_focimtformats.html">input formats</a>. However, it is now explicitly assumed all events in the input file provided by the User form a cluster with events located close by in comparison to the distances between the cluster center and sensors. This should be preserved in order to satisfy the invariance of Green&#8217;s function at a particular station of all seismic events forming a cluster.</p><p><b>Refinement and output</b></p><p>The input data is analyzed before the Hybrid Moment Tensor refinement, and the trial moment tensor inversion is performed. The statistical information on input dataset is presented to the User with information and hints regarding on how to (initially) optimize the input data. Program detects stations with insufficient number of amplitude readings, possible existence of wrong polarities etc. The User may account for problems before actual refinement starts.</p><p>In the following, the Hybrid Moment Tensor refinement is performed. The process is iterative is the User may observe the progress of refinement and trace the improvement in qulity of moment tensors. The procedure finishes with a set of refined seismic moment tensors and User-defined graphical output that allows to detect potential problems with stations/site effects/coupling or attenuation (per station). The provided output may be used to repeat the moment tensor with corrected station characteristics resulting in further improvement of seismic moment tensors.</p><p><b>References</b></p><p>Andersen, L. M. (2001). A relative moment tensor inversion technique applied to seismicity induced by mining, Univ. of the Witwatersrand, Johannesburg.</p><p>Fitch, T. J., D. W. McCowan, and M. W. Shields (1980). Estimation of seismic moment tensor from teleseismic body wave data with application to intraplate and mantle earthquakes, J. Geophys. Res. 85, 3817&#8211;3828.</p><p>Wiejacz, P. (1992). Badanie mechanizm&oacute;w wstrz&#261;s&oacute;w g&oacute;rniczych przy wykorzystaniu tensora momentu sejsmicznego, Institute of Geophysics, Polish Academy of Sciences.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+  </style></head><body><div class="content"><h1>Package overview</h1><!--introduction--><p><b>hybridMT</b> package is composed of two major parts: seismic moment tensor inversion application <tt><a href="doc_focimtexe.html">focimt</a></tt> accompanied by <tt><a href="doc_focimt.html">focimt.m</a></tt> MATLAB wrapper and <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine performing the refinement of seismic moment tensor using Hybrid Moment Tensor technique. These core functions are accompanied by various auxilliary functions, documentation and sample files.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Moment tensor inversion (focimt + focimt.m)</a></li><li><a href="#10">Moment tensor refinement (hybridmt.m)</a></li></ul></div><h2>Moment tensor inversion (focimt + focimt.m)<a name="1"></a></h2><p>The moment tensor inversion in <b>hybridMT</b> package may be performed by using the dedicated command line tool <tt><a href="doc_focimtexe.html">focimt</a></tt>. Additionally, in MATLAB environment, the moment tensor inverion may be performed using <tt><a href="doc_focimt.html">focimt.m</a></tt> routine.</p><p><tt><a href="doc_focimtexe.html">focimt</a></tt> is a stand-alone command line application performing seismic moment tensor inversion in time domain that is optimized for local-to-regional applications and seismic networks (The Cartesian coordinate system is used). The core of the program is based on the formal description presented in Fitch et al., (1980) and its fortran implementation (Wiejacz, 1992). The precompiled binaries are available for Windows platform in <b>hybridMT</b> package. The source code of <tt><a href="doc_focimtexe.html">focimt</a></tt> is provided in hybridMT package for compilation under Linux and OSX environments. The detailed description of algorithm used for seismic moment tensor inversion is provided in a separate <a href="doc_method.html">section</a>.</p><p><tt><a href="doc_focimtexe.html">focimt</a></tt> command line tool is accompanied by MATLAB wrapper function <tt><a href="doc_focimt.html">focimt.m</a></tt> to handle the input and output parameters of <tt><a href="doc_focimtexe.html">focimt</a></tt> directly in the MATLAB environment. Numerous parameters can be specified to maintain input data, define the seismic moment tensor inversion and optimization parameters as well as to handle the properties of the graphical and text output by MATLAB properties.</p><p><b>Input data</b></p><p>The input data for the seismic moment tensor inversion, regardles of whether it is performed from a command line using <tt><a href="doc_focimtexe.html">focimt</a></tt> application or whether the <tt><a href="doc_focimt.html">focimt.m</a></tt> function is used in MATLAB environment include information on amplitudes of the first P-wave motions and rise times, i.e. the program assumes that the area below the first P-wave ground displacement pulse is proportional to the seismic moment and this information is the main input parameters for the moment tensor inversion. In addition the User provides earthquake-station geometry data and rock medium parameters at the source. The input data is provided as ASCII file or MATLAB cell array.</p><p>Two different ASCII input data formats are available. In the first one, the geometry and seismic data (amplitudes, takeoff angles, angles of incidence, azimuths and distances between earthquake and sensors) is directly provided in the <a href="doc_focimtformats.html">ASCII input file</a>. In the second input data format, earthquake hypocenter, station locations as well as 1D velocity model are used to perform the 1D ray-tracing resulting in automatic calculation of geometric parameters.</p><p><b>Inversion</b></p><p>Using <tt><a href="doc_focimtexe.html">focimt</a></tt> or equivalently <tt><a href="doc_focimt.html">focimt.m</a></tt> is very easy. Having the input file, the seismic moment tensor inversion may be started directly from the console window (note this can also be performed directly in MATLAB command prompt by starting the line with an exclamation mark):</p><pre class="codeinput"><span class="syscmd">!focimt -i ./examples/example1.txt -t PNG -p SU -z 300 -o test</span>
+</pre><p>The seismic moment tensor inversion results in generation of output ASCII file <tt>test</tt> containing moment tensor inversion results as well as graphical representation of the solution in a form of the beach ball plot (here generated in PNG format). The equivalent call from MATLAB command prompt using <tt><a href="doc_focimt.html">focimt.m</a></tt> routine would look as follows:</p><pre class="codeinput">Solution = focimt(<span class="string">'./examples/example1.txt'</span>,<span class="string">'BeachBallFormat'</span>,<span class="string">'PNG'</span>,<span class="string">'Projection'</span>,<span class="string">'schmidt'</span>,<span class="string">'Hemisphere'</span>,<span class="string">'upper'</span>,<span class="string">'BeachBallSize'</span>,300);
+</pre><p>resulting in output parameters being stored in the output cell array <tt>Solution</tt> than can be easily further processed in MATLAB environment.</p><p><b>Output data</b></p><p>When in console mode, the output data of the seismic moment tensor inversion is exported to ASCII files formatted according to User preferences. If <tt><a href="doc_focimt.html">focimt.m</a></tt> function is used, the results are returned by the routine in a form of cell array. Apart from seismic moment tensor solution parametric data, the application is provides highly customizable graphical representation of the seismic moment tensor solution in a form of the <i>beach ball plot</i>. The output files are either raster (PNG) or vector format (EPS, PDF, SVG).</p><h2>Moment tensor refinement (hybridmt.m)<a name="10"></a></h2><p>Hybrid moment tensor technique was originally developed by Andersen (2001). This methodology overall aims at detecting and suppressing the influence of local path/site/sensor-related effects on inversion of seismic moment tensors resulting in overall quality improvement of the calculated tensors. The methodology is especially effective in finding stations with inappropriate gain, abnormal site effects, or strong attenuation of incoming waves providing means for suppressing these effects.</p><p>The technique has been implemented in a form of MATLAB routine <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt>. The routine calculates and refines the seismic moment tensors from a group of seismic events forming a cluster. The routine wraps data preparation, refinement and data output. Similarly to <tt><a href="doc_focimt.html">focimt.m</a></tt> function, numerous parameters can be specified to optimize data preparation, processing and output and adjust them to personal needs of the User. For the details on the algorithm, see the <a href="doc_method.html">methodology section</a>. For the description of MATLAB implementation of hybrid moment tensor technique, see the documentation of <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine.</p><p><b>Input data</b></p><p>The <tt><a href="doc_hybridmt.html">hybridmt.m</a></tt> routine takes essentially the same input data as <tt><a href="doc_focimt.html">focimt.m</a></tt> or <tt>focimt</tt> application, i.e. an <a href="doc_focimtformats.html">ASCII file</a> containing event/phase data in one of the two <a href="doc_focimtformats.html">input formats</a>. However, it is now explicitly assumed all events in the input file provided by the User form a cluster with events located close by in comparison to the distances between the cluster center and sensors. This should be preserved in order to satisfy the invariance of Green&#8217;s function at a particular station of all seismic events forming a cluster.</p><p><b>Refinement and output</b></p><p>The input data is analyzed before the Hybrid Moment Tensor refinement, and the trial moment tensor inversion is performed. The statistical information on input dataset is presented to the User with information and hints regarding on how to (initially) optimize the input data. Program detects stations with insufficient number of amplitude readings, possible existence of wrong polarities etc. The User may account for problems before the actual refinement starts.</p><p>In the following, the Hybrid Moment Tensor refinement is performed. The process is an iterative procedure and the User may observe the progress of refinement and trace the improvement in quality of seismic moment tensors. The procedure finishes with a set of refined seismic moment tensors and User-defined graphical output that allows to detect potential problems with stations/site effects/coupling or attenuation (per station). The provided output may be used to repeat the seismic moment tensor refinement with corrected station characteristics resulting in further improvement of calculated seismic moment tensors.</p><p><b>References</b></p><p>Andersen, L. M. (2001). A relative moment tensor inversion technique applied to seismicity induced by mining, Univ. of the Witwatersrand, Johannesburg.</p><p>Fitch, T. J., D. W. McCowan, and M. W. Shields (1980). Estimation of seismic moment tensor from teleseismic body wave data with application to intraplate and mantle earthquakes, J. Geophys. Res. 85, 3817&#8211;3828.</p><p>Wiejacz, P. (1992). Badanie mechanizm&oacute;w wstrz?s&oacute;w g&oacute;rniczych przy wykorzystaniu tensora momentu sejsmicznego, PhD Thesis, Institute of Geophysics, Polish Academy of Sciences.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Package overview
 % *hybridMT* package is composed of two major parts: 
@@ -80,18 +80,19 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % and sample files.
 %% Moment tensor inversion (focimt + focimt.m)
 % The moment tensor inversion in *hybridMT* package may be performed
-% either by using the command line tool |<doc_focimtexe.html focimt>|. 
+% by using the dedicated command line tool |<doc_focimtexe.html focimt>|. 
 % Additionally, in MATLAB environment, the moment tensor inverion may be 
 % performed using |<doc_focimt.html focimt.m>| routine.
 %
-% |<doc_focimtexe.html focimt>| is the stand-alone command line application performing  
-% seismic moment tensor inversion in time domain optimized for local-to-regional 
-% applications and seismic networks (Cartesian coordinate system is used). The 
+% |<doc_focimtexe.html focimt>| is a stand-alone command line application performing  
+% seismic moment tensor inversion in time domain that is optimized for local-to-regional 
+% applications and seismic networks (The Cartesian coordinate system is used). The 
 % core of the program is based on the formal description presented in Fitch et 
 % al., (1980) and its fortran implementation (Wiejacz, 1992). The precompiled 
-% binaries are available for both Windows/Linux platforms. More
-% detailed description of algorithm used is provided in separate 
-% <doc_method.html section>.
+% binaries are available for Windows platform in *hybridMT* package. The source code of |<doc_focimtexe.html focimt>| 
+% is provided in hybridMT package for compilation under Linux and OSX environments.
+% The detailed description of algorithm used for seismic moment tensor inversion is provided 
+% in a separate <doc_method.html section>.
 % 
 % |<doc_focimtexe.html focimt>| command line tool is accompanied by MATLAB wrapper function 
 % |<doc_focimt.html focimt.m>| to handle the input and output 
@@ -103,7 +104,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % *Input data*
 %%%
 % The input data for the seismic moment tensor inversion, regardles of whether it 
-% is performed in a shell mode by using |<doc_focimtexe.html focimt>| 
+% is performed from a command line using |<doc_focimtexe.html focimt>| 
 % application or whether the |<doc_focimt.html focimt.m>| function is used in MATLAB 
 % environment include information on amplitudes of the first P-wave motions and rise times, 
 % i.e. the program assumes that the area below the first P-wave ground 
@@ -113,51 +114,53 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 % the source. The input data is provided as ASCII file or MATLAB cell array.
 %
 % Two different ASCII input data formats are available. In the first one, the 
-% geometry data (takeoff angles, angles of incidence, azimuths and distances 
+% geometry and seismic data (amplitudes, takeoff angles, angles of incidence, azimuths and distances 
 % between earthquake and sensors) is directly provided in the 
 % <doc_focimtformats.html ASCII input file>. In the second input data format, 
 % earthquake hypocenter, station locations as well as 1D velocity model are used
-% to perform the 1D ray-tracing resulting in geometrical parameters calculation. 
+% to perform the 1D ray-tracing resulting in automatic calculation of 
+% geometric parameters. 
 %%% 
 % *Inversion*
 %%%
 % Using |<doc_focimtexe.html focimt>| or equivalently |<doc_focimt.html focimt.m>| is very easy. 
-% Having the input file, the moment tensor inversion may be started from directly 
-% from console window (or from MATLAB command prompt by starting the line with exclamation mark):
+% Having the input file, the seismic moment tensor inversion may be started directly 
+% from the console window (note this can also be performed directly in MATLAB command prompt 
+% by starting the line with an exclamation mark):
 !focimt -i ./examples/example1.txt -t PNG -p SU -z 300 -o test
 %%%
-% The moment tensor inversion results in generation of output ASCII file |test| containing moment tensor 
-% inversion results and graphical representation of the solution in a form of 
-% beach ball plot. The equivalent call from MATLAB command prompt using |<doc_focimt.html focimt.m>| 
-% routine would look as follows:
+% The seismic moment tensor inversion results in generation of output ASCII file |test| containing moment tensor 
+% inversion results as well as graphical representation of the solution in a form of 
+% the beach ball plot (here generated in PNG format). The equivalent call from MATLAB 
+% command prompt using |<doc_focimt.html focimt.m>| routine would look as follows:
 Solution = focimt('./examples/example1.txt','BeachBallFormat','PNG','Projection','schmidt','Hemisphere','upper','BeachBallSize',300);
 %%%
-% resulting in output parameters being stored in output cell array
-% |Solution| than can be easily used in MATLAB environment. 
+% resulting in output parameters being stored in the output cell array
+% |Solution| than can be easily further processed in MATLAB environment. 
 %%% 
 % *Output data*
 %%%
-% When in console mode, the output data of moment tensor inversion are 
+% When in console mode, the output data of the seismic moment tensor inversion is 
 % exported to ASCII files formatted according to User 
 % preferences. If |<doc_focimt.html focimt.m>| function is used, the results are 
-% returned by the routine in a form of cell array. Apart from moment tensor 
-% solution parametric data, the application is also providing highly 
+% returned by the routine in a form of cell array. Apart from seismic moment tensor 
+% solution parametric data, the application is provides highly 
 % customizable graphical representation of the seismic moment tensor solution 
-% in a form of _beach ball plot_. The output files are either raster (PNG) 
+% in a form of the _beach ball plot_. The output files are either raster (PNG) 
 % or vector format (EPS, PDF, SVG).
 %% Moment tensor refinement (hybridmt.m)
 % Hybrid moment tensor technique was originally developed by 
 % Andersen (2001). This methodology overall aims at detecting and suppressing
-% the influence of local path/site/sensor-related effects on estimation of 
-% seismic moment tensors resulting in their quality improvement. 
-% The methodology is especially effective in finding stations with inappropriate
-% gain, bad site effects or high attenuation of incoming waves and provides
-% means to account them.
+% the influence of local path/site/sensor-related effects on inversion of 
+% seismic moment tensors resulting in overall quality improvement of the 
+% calculated tensors. The methodology is especially effective in finding 
+% stations with inappropriate gain, abnormal site effects, or strong 
+% attenuation of incoming waves providing means for suppressing these effects.
 % 
 % The technique has been implemented in a form of MATLAB routine 
 % |<doc_hybridmt.html hybridmt.m>|. The routine calculates and refines the 
 % seismic moment tensors from a group of seismic events forming a cluster. 
-% The routine whole wraps data preparation, refinement and data output. Similarly to 
+% The routine wraps data preparation, refinement and data output. Similarly to 
 % |<doc_focimt.html focimt.m>| function, numerous parameters can be specified 
 % to optimize data preparation, processing and output and adjust them to 
 % personal needs of the User. For the details on the algorithm, see the 
@@ -184,18 +187,18 @@ Solution = focimt('./examples/example1.txt','BeachBallFormat','PNG','Projection'
 % information on input dataset is presented to the User with information and hints regarding 
 % on how to (initially) optimize the input data. Program detects stations with  
 % insufficient number of amplitude readings, possible existence of wrong
-% polarities etc. The User may account for problems before actual
+% polarities etc. The User may account for problems before the actual
 % refinement starts.
 %  
 % In the following, the Hybrid Moment Tensor refinement is performed. The
-% process is iterative is the User may observe the progress of refinement
-% and trace the improvement in qulity of moment tensors.
+% process is an iterative procedure and the User may observe the progress of refinement
+% and trace the improvement in quality of seismic moment tensors.
 % The procedure finishes with a set of refined seismic moment tensors and 
 % User-defined graphical output that allows to detect potential problems with 
 % stations/site effects/coupling or attenuation (per station). 
-% The provided output may be used to repeat the moment tensor with
-% corrected station characteristics resulting in further improvement of
-% seismic moment tensors.
+% The provided output may be used to repeat the seismic moment tensor refinement 
+% with corrected station characteristics resulting in further improvement of
+% calculated seismic moment tensors.
 %%% 
 % *References*
 %%%
@@ -206,8 +209,8 @@ Solution = focimt('./examples/example1.txt','BeachBallFormat','PNG','Projection'
 % moment tensor from teleseismic body wave data with application to intraplate 
 % and mantle earthquakes, J. Geophys. Res. 85, 3817–3828.
 %%%
-% Wiejacz, P. (1992). Badanie mechanizmów wstrząsów górniczych przy 
-% wykorzystaniu tensora momentu sejsmicznego, Institute of Geophysics, 
+% Wiejacz, P. (1992). Badanie mechanizmów wstrz?sów górniczych przy 
+% wykorzystaniu tensora momentu sejsmicznego, PhD Thesis, Institute of Geophysics, 
 % Polish Academy of Sciences.
 
 
