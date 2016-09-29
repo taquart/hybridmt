@@ -1,7 +1,7 @@
 hybridMT
 Seismic moment tensor inversion and moment tensor refinement package
-version 1.2.0 | fociMT-3.1.30
-last update: 2016.09.19
+version 1.2.1 | fociMT-3.1.30
+last update: 2016.09.29
 
 AUTHORS
 
