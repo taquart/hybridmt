@@ -65,7 +65,7 @@ polarity_match_ratio = 0.8;
 cmdline = {};
 cmdline2 = {};
 if ~isempty(StIgnored)
-  cmdline = [cmdline 'IgnoreStation' StIgnored];
+  cmdline = [cmdline 'IgnoreStation' {StIgnored}];
 end
 if snapshots
   cmdline = [cmdline 'BeachBallFormat' 'PNG'];
