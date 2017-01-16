@@ -39,8 +39,8 @@ function [u,v] = drawhudsonnet(varargin)
 %   correspond to pure positive Isotropic, double-couple and negative CLVD
 %   moment tensor.
 
-%   Copyright 2015-2016 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
-%   $Revision: 1.0.2 $  $Date: 2016.06.03 $
+%   Copyright 2015-2017 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
+%   $Revision: 1.0.3 $  $Date: 2017.01.16 $
 
 
 if nargin == 1
@@ -59,8 +59,13 @@ elseif ismatrix(M) && (size(M,2) == 6 || size(M,2) == 9)
     M_MATRIX = [ M(i,1) M(i,2) M(i,3); ...
       M(i,2) M(i,4) M(i,5); ...
       M(i,3) M(i,5) M(i,6)];
+    try 
     [k,t] = ae_srctype(M_MATRIX);
     [u(i),v(i)] = ae_uvt(t,k);
+    catch
+      u(i) = nan;
+      v(i) = nan;
+    end
   end
 else
   error('Inappropriate matrix size. Either 3-by-3, n-by-6 or n-by-9 matrices are allowed.');

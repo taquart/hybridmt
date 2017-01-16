@@ -7,7 +7,7 @@ function hybridmt_show(projectdir, mt_solution_type,picformat)
 %   Copyright 2015 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
 %                  Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.4 $  $Date: 2016.02.02 $
+%   $Revision: 1.0.5 $  $Date: 2017.01.16 $
 
 d = dir([projectdir '/']);
 
@@ -129,51 +129,55 @@ end
 rmsg = '';
 disp('Generating summary figures (iterations)');
 for i=1:n_iter
-  titletext = sprintf('Iteration: %d',i);
-  
-  progress = 100*i/n_iter;
-  msg = sprintf(' Figure progress: %3d/%3d |%s| (%1.1f%%)',i,n_iter,[repmat('o',1,floor(progress/5)) repmat('-',1,ceil((100-progress)/5))],progress);
-  fprintf('%s',[rmsg, msg]); rmsg = repmat(sprintf('\b'), 1, length(msg));
-  
-  P = nan(n_events,2);
-  T = nan(n_events,2);
-  B = nan(n_events,2);
-  MXX = nan(n_events,6);
-  for j=1:n_events
-    P(j,:) = Event{j}.P(i,:);
-    T(j,:) = Event{j}.T(i,:);
-    B(j,:) = Event{j}.B(i,:);
-    MXX(j,:) = Event{j}.MXX(i,:);
+  try
+    titletext = sprintf('Iteration: %d',i);
+    
+    progress = 100*i/n_iter;
+    msg = sprintf(' Figure progress: %3d/%3d |%s| (%1.1f%%)',i,n_iter,[repmat('o',1,floor(progress/5)) repmat('-',1,ceil((100-progress)/5))],progress);
+    fprintf('%s',[rmsg, msg]); rmsg = repmat(sprintf('\b'), 1, length(msg));
+    
+    P = nan(n_events,2);
+    T = nan(n_events,2);
+    B = nan(n_events,2);
+    MXX = nan(n_events,6);
+    for j=1:n_events
+      P(j,:) = Event{j}.P(i,:);
+      T(j,:) = Event{j}.T(i,:);
+      B(j,:) = Event{j}.B(i,:);
+      MXX(j,:) = Event{j}.MXX(i,:);
+    end
+    
+    % Plot P/T/B axes.
+    f = figure('Visible','off');
+    hold on;
+    drawstereonet('Projection','wullf');
+    [X,Y] = drawstereonet(P(:,1), 90 - P(:,2),'Projection','wullf');
+    plot(X,Y,'ko','Marker','o','MarkerSize',5,'MarkerFaceColor','b');
+    [X,Y] = drawstereonet(T(:,1), 90 - T(:,2),'Projection','wullf');
+    plot(X,Y,'ko','Marker','o','MarkerSize',5,'MarkerFaceColor','r');
+    [X,Y] = drawstereonet(B(:,1), 90 - B(:,2),'Projection','wullf');
+    plot(X,Y,'ko','Marker','o','MarkerSize',5,'MarkerFaceColor',[0.7 0.7 0.7]);
+    hold off;
+    axis equal;
+    set(gca,'Visible','off');
+    text(0,1.05,titletext,'HorizontalAlignment','center','Interpreter','none','VerticalAlignment','bottom');
+    saveas(gcf,sprintf('%s/!iterations/ptb-stereonet-%03d.%s',projectdir,i,picformat));
+    close(f);
+    
+    % Hudson plot.
+    f = figure('Visible','off');
+    [U,V] = drawhudsonnet(MXX);
+    hold on;
+    plot(U,V,'ok','MarkerSize',5,'MarkerFaceColor','r');
+    hold off;
+    set(gca,'Visible','off');
+    saveas(gcf,sprintf('%s/!iterations/hudson-stereonet-%03d.%s',projectdir,i,picformat));
+    close(f);
+    
+    pause(0.01);
+  catch
+    warning('hybridmt_show:unexpected_exception','Unexpected exception while preparing the figure plots');
   end
-  
-  % Plot P/T/B axes.
-  f = figure('Visible','off');
-  hold on;
-  drawstereonet('Projection','wullf');
-  [X,Y] = drawstereonet(P(:,1), 90 - P(:,2),'Projection','wullf');
-  plot(X,Y,'ko','Marker','o','MarkerSize',5,'MarkerFaceColor','b');
-  [X,Y] = drawstereonet(T(:,1), 90 - T(:,2),'Projection','wullf');
-  plot(X,Y,'ko','Marker','o','MarkerSize',5,'MarkerFaceColor','r');
-  [X,Y] = drawstereonet(B(:,1), 90 - B(:,2),'Projection','wullf');
-  plot(X,Y,'ko','Marker','o','MarkerSize',5,'MarkerFaceColor',[0.7 0.7 0.7]);
-  hold off;
-  axis equal;
-  set(gca,'Visible','off');
-  text(0,1.05,titletext,'HorizontalAlignment','center','Interpreter','none','VerticalAlignment','bottom');
-  saveas(gcf,sprintf('%s/!iterations/ptb-stereonet-%03d.%s',projectdir,i,picformat));
-  close(f);
-  
-  % Hudson plot.
-  f = figure('Visible','off');
-  [U,V] = drawhudsonnet(MXX);
-  hold on;
-  plot(U,V,'ok','MarkerSize',5,'MarkerFaceColor','r');
-  hold off;
-  set(gca,'Visible','off');
-  saveas(gcf,sprintf('%s/!iterations/hudson-stereonet-%03d.%s',projectdir,i,picformat));
-  close(f);
-  
-  pause(0.01);
 end
 fprintf('\n');
 
@@ -192,7 +196,7 @@ for i=1:n_events
   msg = sprintf(' Figure progress: %3d/%3d |%s| (%1.1f%%)',i,n_events,[repmat('o',1,floor(progress/5)) repmat('-',1,ceil((100-progress)/5))],progress);
   fprintf('%s',[rmsg, msg]); rmsg = repmat(sprintf('\b'), 1, length(msg));
   
-  % Moment tensor decomposiotion changes.
+  % Moment tensor decomposition changes.
   f = figure('Visible','off');
   hold on;
   plot(Event{i}.ISO,'r-','Marker','.');
@@ -274,15 +278,19 @@ for i=1:n_events
   close(f);
   
   % Hudson plot of moment tensor decomposition.
-  f = figure('Visible','off');
-  [U,V] = drawhudsonnet(Event{i}.MXX);
-  hold on;
-  plot(U,V,'-k','Marker','.');
-  plot(U(end),V(end),'ok','MarkerSize',5,'MarkerFaceColor','r');
-  hold off;
-  set(gca,'Visible','off');
-  saveas(gcf,[Event{i}.path '/hudson_plot.' picformat]);
-  close(f);
+  try
+    f = figure('Visible','off');
+    [U,V] = drawhudsonnet(Event{i}.MXX);
+    hold on;
+    plot(U,V,'-k','Marker','.');
+    plot(U(end),V(end),'ok','MarkerSize',5,'MarkerFaceColor','r');
+    hold off;
+    set(gca,'Visible','off');
+    saveas(gcf,[Event{i}.path '/hudson_plot.' picformat]);
+    close(f);
+  catch
+    warning('hybridmt_show:unexpected_exception','Unexpected exception while preparing Hudson''s plot');
+  end
   
   pause(0.01);
 end
