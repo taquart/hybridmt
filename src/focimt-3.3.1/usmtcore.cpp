@@ -3,7 +3,7 @@
 // Module: focimt
 // Moment tensor inversion core.
 //
-// Copyright (c) 2013-2015, Grzegorz Kwiatek.
+// Copyright (c) 2013-2017, Grzegorz Kwiatek.
 //
 // These routines were mostly translated to C++ from FORTRAN program USMT
 // (Unix Seismic Moment Tensor) program by dr Pawel Wiejacz from Institute of
@@ -356,6 +356,10 @@ void Taquart::UsmtCore::MOM1(int &IEXP, int QualityType) {
   std::cout << "T0 = " << TROZ << " M0 = " << RM0[1] << " MT = " << RMT[1] << " ERR = " << SIG;
 #endif
 
+  // Full moment tensor solution, norm L1.
+  Solution[1].E[0] = EQQ1;
+  Solution[1].E[1] = EQQ2;
+  Solution[1].E[2] = EQQ3;
   EIGGEN(EQQ1, EQQ2, EQQ3, PEXPLO, PCLVD[1], PDBCP[1], PEXPL_VAC[1],
       PCLVD_VAC[1], PDBCP_VAC[1]);
   RMAG = mw(RM0[1]);
@@ -454,6 +458,10 @@ void Taquart::UsmtCore::MOM1(int &IEXP, int QualityType) {
 #endif
 
   double DUM = 0.0;
+  // Trace-null moment tensor solution, norm L1.
+  Solution[2].E[0] = EQQ1;
+  Solution[2].E[1] = EQQ2;
+  Solution[2].E[2] = EQQ3;
   EIGGEN(EQQ1, EQQ2, EQQ3, DUM, PCLVD[2], PDBCP[2], DUM, PCLVD_VAC[2],
       PDBCP_VAC[2]);
   RMAG = mw(RM0[2]);
@@ -520,6 +528,11 @@ void Taquart::UsmtCore::MOM1(int &IEXP, int QualityType) {
       }
     }
   }
+
+  // Double-couple moment tensor solution, norm L1.
+  Solution[3].E[0] = EQQ1;
+  Solution[3].E[1] = EQQ2;
+  Solution[3].E[2] = EQQ3;
 
   COV = COV / 36.0;
   DHELP1 = fabs(COV) / double(N - 1);
@@ -767,7 +780,7 @@ void Taquart::UsmtCore::EIGGEN_NEW(double e1, double e2, double e3, double &iso,
   // of Jost and Herrmann (1989):
   const double ff = -v3 / v1;
   iso = trace;
-  clvd = v1 * ff;
+  clvd = 2 * v1 * ff;
   dbcp = fabs(v1 * (1.0 - 2.0 * ff));
   const double s = fabs(iso) + fabs(clvd) + fabs(dbcp);
   iso = iso / s * 100.0;
@@ -1481,6 +1494,10 @@ void Taquart::UsmtCore::MOM2(bool REALLY, int QualityType) {
     std::cout << std::endl;
 #endif
 
+    // Full moment tensor solution, norm L2.
+    Solution[1].E[0] = EQQ1;
+    Solution[1].E[1] = EQQ2;
+    Solution[1].E[2] = EQQ3;
     EIGGEN(EQQ1, EQQ2, EQQ3, PEXPL[1], PCLVD[1], PDBCP[1], PEXPL_VAC[1],
         PCLVD_VAC[1], PDBCP_VAC[1]);
     RMAG = mw(RM0[1]);
@@ -1621,6 +1638,10 @@ void Taquart::UsmtCore::MOM2(bool REALLY, int QualityType) {
   std::cout << std::endl;
 #endif
 
+  // Trace-null moment tensor solution, norm L2.
+  Solution[2].E[0] = EQQ1;
+  Solution[2].E[1] = EQQ2;
+  Solution[2].E[2] = EQQ3;
   EIGGEN(EQQ1, EQQ2, EQQ3, DUM, PCLVD[2], PDBCP[2], DUM, PCLVD_VAC[2],
       PDBCP_VAC[2]);
   RMAG = mw(RM0[2]);
@@ -1728,6 +1749,11 @@ void Taquart::UsmtCore::MOM2(bool REALLY, int QualityType) {
   std::cout << "T0 = " << TROZ << " M0 = " << RM0[3] << " MT = " << RMT[3] << " ERR = " << SIG;
   std::cout << std::endl;
 #endif
+
+  // Double-couple solution, norm L2.
+  Solution[3].E[0] = EQQ1;
+  Solution[3].E[1] = EQQ2;
+  Solution[3].E[2] = EQQ3;
 
   RMAG = mw(RM0[3]);
   MAGN[3] = RMAG;

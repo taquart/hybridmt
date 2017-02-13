@@ -30,6 +30,131 @@
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
+void CalcTravelTime1D_2(double sta_elev, double depth, double delta,
+    std::vector<double> Top, std::vector<double> Velocity, double &traveltime,
+    double &takeoff, bool &directphase, double &aoi, int &kk,
+    double &ray_dist) {
+
+  // New travel-time calculation routine that allows to calculate travel
+  // time for sensors locater below the sea level.
+
+  std::vector<double> TopAdj = Top;
+  std::vector<double> VelAdj = Velocity;
+  double depth_adj = depth;
+  bool revert_hypocenter_station = false;
+
+  if (sta_elev > 0.0) {
+    // Station is above sea level. Increase thickness of the first layer in the
+    // velocity model.
+    for (unsigned int k = 1; k < TopAdj.size(); k++) {
+      TopAdj[k] = TopAdj[k] + sta_elev;
+    } // we do not touch TopAdj[0]
+    depth_adj = depth_adj + sta_elev;
+    sta_elev = 0.0;
+  }
+  else if (sta_elev < 0.0) {
+    // Station is BELOW the sea level. Cut the velocity model to either the
+    // abs(sta_evel) or depth (whatever is more shallow).
+    if (fabs(sta_elev) > depth_adj) {
+      // STATION is below HYPOCENTER. We will perform raytracing
+      // by reverting station and hypocenter locations. The velocity model
+      // will be adjusted to the HYPOCENTER DEPTH.
+      revert_hypocenter_station = true;
+
+      sta_elev = sta_elev + depth_adj;
+
+      for (unsigned int k = 0; k < TopAdj.size(); k++) {
+        TopAdj[k] = TopAdj[k] - depth_adj;
+      }
+      unsigned int j = 0;
+      for (unsigned int k = 0; k < TopAdj.size(); k++) {
+        if (TopAdj[k] <= 0)
+          j = k; // j = index of layer to start with.
+      }
+      TopAdj.erase(TopAdj.begin(), TopAdj.begin() + j);
+      VelAdj.erase(VelAdj.begin(), VelAdj.begin() + j);
+      TopAdj[0] = 0.0;
+
+      depth_adj = 0.0;
+    }
+    else {
+      // STATION is above HYPOCENTER. We will adjust the top of the velocity
+      // model to STATION DEPTH.
+
+      // Reduce depth of event by station depth (negative elevation)/
+      // Final station position is at depth 0.0.
+      depth_adj = depth_adj - fabs(sta_elev);
+
+      for (unsigned int k = 0; k < TopAdj.size(); k++) {
+        TopAdj[k] = TopAdj[k] - fabs(sta_elev);
+      }
+
+      unsigned int j = 0;
+      for (unsigned int k = 0; k < TopAdj.size(); k++) {
+        if (TopAdj[k] <= 0)
+          j = k; // j = index of layer to start with.
+      }
+      TopAdj.erase(TopAdj.begin(), TopAdj.begin() + j);
+      VelAdj.erase(VelAdj.begin(), VelAdj.begin() + j);
+      TopAdj[0] = 0.0;
+
+      sta_elev = 0.0;
+    }
+  }
+
+  double depth_hypo = 0.0;
+  if (revert_hypocenter_station) {
+    depth_hypo = fabs(sta_elev);
+  }
+  else {
+    depth_hypo = depth_adj;
+  }
+
+  /*
+   std::cout << "Original Elev/Depth/Delta " << elevation << " " << depth << " "
+   << delta << std::endl;
+   for (unsigned int i = 0; i < TopAdj.size(); i++) {
+   std::cout << "  Top:  " << TopAdj[i] << " Velocity: " << VelAdj[i]
+   << std::endl;
+   }
+   std::cout << (revert_hypocenter_station ? "Reverted" : "Not reverted")
+   << std::endl;
+   std::cout << "Modified Elev/Depth/Delta " << sta_elev << " " << depth_adj
+   << std::endl << std::endl;
+   */
+
+  // Increase resolution of the velocity model.
+  for (unsigned int i = 0; i < Top.size(); i++) {
+    if (fabs(depth - Top[i]) < 0.0001)
+      depth_hypo = depth_hypo - 0.001;
+  }
+
+  // Copy modified velocity model to the array.
+  double VELOCITY[TT1D_RAYTRACE_MAXLAY];
+  double TOP[TT1D_RAYTRACE_MAXLAY];
+  VELOCITY[0] = 0.0;
+  TOP[0] = 0.0;
+  for (unsigned int i = 0; i < TopAdj.size(); i++) {
+    VELOCITY[i + 1] = VelAdj[i] * 10.0;
+    TOP[i + 1] = TopAdj[i] * 10.0;
+  }
+  const int no_layers = TopAdj.size();
+
+  depth_hypo *= 10.0;
+  delta *= 10.0;
+
+  // Run ray-tracing routine.
+  ttime(delta, depth_hypo, no_layers, VELOCITY, TOP, traveltime, takeoff,
+      directphase, aoi, kk, ray_dist);
+  if (revert_hypocenter_station) {
+    double temp = takeoff;
+    takeoff = aoi;
+    aoi = temp;
+  }
+  ray_dist /= 10.0;
+}
+
+//-----------------------------------------------------------------------------
 void CalcTravelTime1D(double sta_elev, double depth, double delta,
     std::vector<double> Top, std::vector<double> Velocity, double &traveltime,
     double &takeoff, bool &directphase, double &aoi, int &kk,
@@ -38,13 +163,13 @@ void CalcTravelTime1D(double sta_elev, double depth, double delta,
   // Multiply everything 10x in order to get rid of instabilities in
   // ray-tracing procedure for small inter-layer distances. Then the
   // ray_dist must be divided by factor of 10.0.
-  for(unsigned int i=0; i<Top.size(); i++) {
+  for (unsigned int i = 0; i < Top.size(); i++) {
     Top[i] = Top[i] * 10.0;
     Velocity[i] = Velocity[i] * 10.0;
   }
-  sta_elev*=10.0;
-  depth*=10.0;
-  delta*=10.0;
+  sta_elev *= 10.0;
+  depth *= 10.0;
+  delta *= 10.0;
 
   if (depth < 0.0) {
     depth = 0.0;
@@ -52,7 +177,8 @@ void CalcTravelTime1D(double sta_elev, double depth, double delta,
 
   // The source depth cannot be on layer boundary.
   for (unsigned int i = 0; i < Top.size(); i++) {
-    if (fabs(depth - Top[i]) < 0.0001) depth = depth - 0.001;
+    if (fabs(depth - Top[i]) < 0.0001)
+      depth = depth - 0.001;
   }
 
   // Shift original velocity model according to station elevation.
@@ -72,27 +198,24 @@ void CalcTravelTime1D(double sta_elev, double depth, double delta,
     VELOCITY[i + 1] = Velocity[i];
     TOP[i + 1] = TopAdj[i];
   }
+  const int no_layers = TopAdj.size();
 
-  // Number of layers.
-  const int nl = TopAdj.size();
-  ttime(delta, depth + sta_elev, nl, VELOCITY, TOP, traveltime, takeoff,
+  // Perform ray-tracing.
+  ttime(delta, depth + sta_elev, no_layers, VELOCITY, TOP, traveltime, takeoff,
       directphase, aoi, kk, ray_dist);
-  ray_dist/=10.0;
+  ray_dist /= 10.0;
 }
 
 //-----------------------------------------------------------------------------
 void ttime(const double &delta, const double &depth, const int &nl,
     const double v[], const double top[], double &t, double &takeoff,
     bool &directphase, double &aoi, int &kk, double &ray_dist) {
-  int jl = 0;
-  double tdir = 0.0;
+
+  // Variables.
   double thk[TT1D_RAYTRACE_MAXLAY];
-  double tkj = 0.0;
-  double tref = 0.0;
-  double u = 0.0;
   double vsq[TT1D_RAYTRACE_MAXLAY];
-  double x = 0.0;
-  double xovmax = 0.0;
+  int jl = 0;
+  double tdir = 0.0, tkj = 0.0, tref = 0.0, u = 0.0, x = 0.0, xovmax = 0.0;
   double ray_dist_temp = 0.0; // Reset ray distance to 0.0f.
 
   kk = 0;
@@ -118,26 +241,6 @@ void ttime(const double &delta, const double &depth, const int &nl,
       directphase = true;
     }
   }
-}
-
-//-----------------------------------------------------------------------------
-void vmodel(const int& nl, const double v[], const double top[],
-    const double &depth, double vsq[], double thk[], int &jl, double &tkj) {
-  int i = 0;
-  for (i = 1; i <= nl; i++)
-    vsq[i] = v[i] * v[i];
-  jl = nl;
-  for (i = 1; i <= nl; i++) {
-    if (depth <= top[i]) {
-      jl = i - 1;
-      break;
-    }
-  }
-  for (i = 1; i <= nl - 1; i++) {
-    double a = top[i + 1] - top[i];
-    thk[i] = a;
-  }
-  tkj = depth - top[jl];
 }
 
 //-----------------------------------------------------------------------------
@@ -170,14 +273,17 @@ void direct1(const int &nl, const double v[], const double vsq[],
       vlmax = v[l];
     }
   }
-  if (tklmax <= 0.05) tklmax = 0.05;
+  if (tklmax <= 0.05)
+    tklmax = 0.05;
 
   ua = (v[jl] / vlmax) * delta / sqrt(delta * delta + depth * depth);
   ub = (v[jl] / vlmax) * delta / sqrt(delta * delta + tklmax * tklmax);
   uasq = ua * ua;
   ubsq = ub * ub;
-  if (ubsq >= 1.0f) ubsq = 0.99999;
-  if (uasq >= 1.0f) uasq = 0.99999;
+  if (ubsq >= 1.0f)
+    ubsq = 0.99999;
+  if (uasq >= 1.0f)
+    uasq = 0.99999;
   xa = tkj * ua / sqrt(1.0 - uasq);
   if (lmax == jl) {
     xb = delta;
@@ -210,7 +316,8 @@ void direct1(const int &nl, const double v[], const double vsq[],
       del = del + thk[l] * u / sqrt(vsq[jl] / vsq[l] - usq);
     }
     xtest = del - delta;
-    if (fabs(xtest) < 0.02) goto L23193;
+    if (fabs(xtest) < 0.02)
+      goto L23193;
     if (xtest < 0.0) {
       xa = x;
       dela = del;
@@ -249,12 +356,7 @@ void refract(const int nl, const double v[], const double vsq[],
   double rinj[TT1D_RAYTRACE_MAXLAY];
   double tr[TT1D_RAYTRACE_MAXLAY]; // Travel time for refraction in layer X
   double rr[TT1D_RAYTRACE_MAXLAY];
-  int j1 = 0;
-  int jx = 0;
-  int l = 0;
-  int lx = 0;
-  int m = 0;
-  int m1 = 0;
+  int j1 = 0, jx = 0, l = 0, lx = 0, m = 0, m1 = 0;
   double sqt = 0.0;
   double tim = 0.0;
 
@@ -293,7 +395,8 @@ void refract(const int nl, const double v[], const double vsq[],
   } //23159 continue
   m = jl + 1;
   while (1) {
-    if (!(tid[m] == TT1D_MAXT)) break;
+    if (!(tid[m] == TT1D_MAXT))
+      break;
     m = m + 1;
   }
   lx = m;
@@ -317,7 +420,8 @@ void refract(const int nl, const double v[], const double vsq[],
   }
   m = m - 1;
 
-  if (!(tid[m + 1] < TT1D_MAXT || m == 1)) goto l23165;
+  if (!(tid[m + 1] < TT1D_MAXT || m == 1))
+    goto l23165;
 
   if (tid[m + 1] < TT1D_MAXT) {
     jx = m + 1;
@@ -332,8 +436,8 @@ void refract(const int nl, const double v[], const double vsq[],
 void tiddid(const int &jl, const int &nl, const double v[], const double vsq[],
     const double thk[], double tid[], double did[], double rid[]) {
   double did1 = 0.0, did2 = 0.0, dimm = 0.0, rid1 = 0.0, rid2 = 0.0;
-  int j1 = 0, l = 0, m = 0, m1 = 0;
   double sqt = 0.0, tid1 = 0.0, tid2 = 0.0, tim = 0.0, rim = 0.0;
+  int j1 = 0, l = 0, m = 0, m1 = 0;
   j1 = jl + 1;
   for (m = j1; m <= nl; m++) {
     tid[m] = 0.0;
@@ -347,9 +451,9 @@ void tiddid(const int &jl, const int &nl, const double v[], const double vsq[],
     m1 = m - 1;
     for (l = 1; l <= m1; l++) {
       if ((vsq[m] <= vsq[l])) {
-        tid[m] = 100000.0;
-        did[m] = 100000.0;
-        rid[m] = 100000.0;
+        tid[m] = TT1D_MAXT;
+        did[m] = TT1D_MAXT;
+        rid[m] = TT1D_MAXT;
         continue;
       } //23178 continue
       sqt = sqrt(vsq[m] - vsq[l]);
@@ -368,12 +472,32 @@ void tiddid(const int &jl, const int &nl, const double v[], const double vsq[],
       }
     } //23176 continue
 
-    if ((tid[m] != 100000.0)) {
+    if ((tid[m] != TT1D_MAXT)) {
       tid[m] = tid1 + 2 * tid2;
       did[m] = did1 + 2 * did2;
       rid[m] = rid1 + 2 * rid2;
     }
   } //23174 continue
+}
+
+//-----------------------------------------------------------------------------
+void vmodel(const int& nl, const double v[], const double top[],
+    const double &depth, double vsq[], double thk[], int &jl, double &tkj) {
+  int i = 0;
+  for (i = 1; i <= nl; i++)
+    vsq[i] = v[i] * v[i];
+  jl = nl;
+  for (i = 1; i <= nl; i++) {
+    if (depth <= top[i]) {
+      jl = i - 1;
+      break;
+    }
+  }
+  for (i = 1; i <= nl - 1; i++) {
+    double a = top[i + 1] - top[i];
+    thk[i] = a;
+  }
+  tkj = depth - top[jl];
 }
 
 //-----------------------------------------------------------------------------

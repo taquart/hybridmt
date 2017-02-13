@@ -3,7 +3,7 @@
 // Module: FOCIMT
 // Auxiliary function.
 //
-// Copyright (c) 2013-2016, Grzegorz Kwiatek.
+// Copyright (c) 2013-2017, Grzegorz Kwiatek.
 //
 // Permission is hereby granted, free of charge, to any person or organization
 // obtaining a copy of the software and accompanying documentation covered by
@@ -170,7 +170,7 @@ void GenerateBallCairo(Taquart::TriCairo_Meca &Meca,
 
   //if (FSList.size() == 0) return;
 
-  Taquart::FaultSolution * s;
+  Taquart::FaultSolution * s = NULL;
 
   if (FSList.size() > 0) {
     if (Type == Taquart::String("dc")) {
@@ -247,7 +247,7 @@ void GenerateBallCairo(Taquart::TriCairo_Meca &Meca,
     for (unsigned int i = 1; i < FSList.size(); i++) {
       Meca.BDCColor = Taquart::TCColor(0.5, 0.5, 0.5, 0.5);
 
-      Taquart::FaultSolution * s;
+      Taquart::FaultSolution * s = NULL;
 
       if (Type == "dc") {
         s = &FSList[i].DoubleCoupleSolution;
@@ -271,14 +271,15 @@ void GenerateBallCairo(Taquart::TriCairo_Meca &Meca,
       }
 
       //std::cout << s -> FIA << " " << s -> DLA << std::endl;
-
-      Meca.DoubleCouple(s->FIA, s->DLA);
-      Meca.DoubleCouple(s->FIB, s->DLB);
+      if (s != NULL) {
+        Meca.DoubleCouple(s->FIA, s->DLA);
+        Meca.DoubleCouple(s->FIB, s->DLB);
+      }
     }
   }
 
   // Draw double-couple lines.
-  if (DrawDC && FSList.size() > 0) {
+  if (DrawDC && FSList.size() > 0 && s != NULL) {
     Meca.BDCColor = DCColor;
     //std::cout << s.FIA << " " << s.DLA << std::endl;
     Meca.DoubleCouple(s->FIA, s->DLA);
@@ -609,7 +610,7 @@ void PrepareHelp(Options &listOpts) {
   listOpts.addOption("n", "norm",
       "Norm type.                                           \n\n"
           "    Arguments: [L1|L2] for L1 and L2 norm, respectively. Defines norm used in  \n"
-          "    seismic moment tensor inversion. The default option is '-n L2' (faster).   \n"
+          "    the seismic moment tensor inversion. The default option is '-n L2'.        \n"
           "    When Jacknife method is used the option is ignored and L2 norm is always   \n"
           "    used.                                                                      \n",
       true);
@@ -637,8 +638,9 @@ void PrepareHelp(Options &listOpts) {
           "         The moment tensor components are in [Nm]                              \n"
           "    [C]: Moment tensor components in CMT conventions: M33,M11,M22,M13,-M23,-M12\n"
           "         The moment tensor components are in [Nm]                              \n"
-          "    [F]: Fault plane solutions in format: STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB\n"
-          "         (all values are in degrees)                                           \n"
+          "    [G]: Eigenvalues of the seismic moment tensor E1, E2, E3                   \n"
+          "    [V]: Diagonal elements of the moment tensor covariance matrix in the       \n"
+          "         following order: C11, C22, C33, C44, C55, C66                         \n"
           "    [D]: Decomposition of the moment tensor into Isotropic, Compensated linear \n"
           "         vector dipole and double-couple in format: ISO/CLVD/DBCP. The numbers \n"
           "         are provided in percents and calculated according to Jost and Herrmann\n"
@@ -647,21 +649,21 @@ void PrepareHelp(Options &listOpts) {
           "         vector dipole and double-couple in format: ISO/CLVD/DBCP. The numbers \n"
           "         are provided in percents and calculated according to Vavrycuk (2001)  \n"
           "         approach.                                                             \n"
+          "    [F]: Fault plane solutions in format: STRIKEA/DIPA/RAKEA/STRIKEB/DIPB/RAKEB\n"
+          "         (all values are in degrees)                                           \n"
           "    [A]: P/T/B Axes orientations in format:                                    \n"
           "         PTREND/PPLUNGE/TTREND/TPLUNGE/BTREND/BPLUNGE                          \n"
           "         All values are in degrees.                                            \n"
           "    [W]: Seismic moment, total seismic moment, maximum error of the seismic    \n"
           "         moment tensor estimate and the moment magnitude calculated using      \n"
-          "         Hanks & Kanamori formula. The first three values are in [Nm]          \n"
+          "         Hanks & Kanamori formula. The first three values are in [Nm].         \n"
           "    [Q]: Quality index                                                         \n"
-          "    [T]: Fault type. 'SS','NF' or 'TF' will be exported depending whether the  \n"
-          "         faulting style is strike-slip, normal or thrust, respectively.        \n"
+          "    [T]: Abbreviated faulting type: 'SS','NF' or 'TF' corresponding to         \n"
+          "         strike-slip, normal or thrust faulting, respectively.                 \n"
           "    [U]: Vector of synthetic displacements calculated (the number of exported  \n"
           "         numbers correspond to the number of amplitudes in the input file.     \n"
           "    [E]: Scaled RMS Error calculated between theoretical and measured seismic  \n"
           "         moments.                                                              \n"
-          "    [V]: Diagonal elements of the MT covariance matrix in the following order: \n"
-          "         C11, C22, C33, C44, C55, C66                                          \n"
           "    [*]: Export new line character                                             \n"
           "                                                                               \n"
           "    NOTE #1:                                                                   \n"
@@ -684,7 +686,7 @@ void PrepareHelp(Options &listOpts) {
   listOpts.addOption("j", "jacknife", "Performs station Jacknife test.\n");
 // 10
   listOpts.addOption("a", "amplitude",
-      "Perform amplitude resampling.                        \n\n"
+      "Perform amplitude resampling (obsolete, recommend -ra)\n\n"
           "    Arguments: x[/y] where x is a floating-point positive number that describes\n"
           "    the level of noise applied to each amplitude: A+x*A*N(0,1)/3 where N is a  \n"
           "    normal distribution with mean 0 and std 1. The default value of x is 1     \n"
@@ -693,28 +695,41 @@ void PrepareHelp(Options &listOpts) {
       true);
 // 11
   listOpts.addOption("f", "drawfault",
-      "Generate picture with fault plane solution           \n\n"
-          "    Arguments: strike/dip/rake                                                 \n"
-          "                                                                               \n",
+      "Generate beach ball with fault plane solution        \n\n"
+          "    Arguments: [strike/dip/rake][M11/M12/M13/M22/M23/M33]. The strike/dip/rake \n"
+          "    triplet must be provided in degrees. Alternatively, six independent moment \n"
+          "    tensor components can be provided in a form [M11/M12/M13/M22/M23/M33].     \n"
+          "    The command may be combined with -fs to overlay station information.       \n",
       true);
 // 12
   listOpts.addOption("fj", "drawfaults",
-      "Generate picture with jacknife solutions             \n\n"
-          "    Arguments: strike/dip/rake[:s1/d1/r1][:s2/d2/r2]...      \n"
-          "                                                                               \n",
+      "Generate beach ball with jacknife solutions          \n\n"
+          "    Arguments: [strike/dip/rake[:s1/d1/r1][:s2/d2/r2][:...]] or alternatively  \n"
+          "    [M11/M12/M13/M22/M23/M33][:M11/M12/M13/M22/M23/M33][:...]. Same as option  \n"
+          "    -f, but multiple nodal lines are plotted reflecting different moment       \n"
+          "    tensor solutions. The command may be combined with -fs to overlay station  \n"
+          "    information.                                                               \n",
       true);
 // 13
   listOpts.addOption("fs", "drawstations",
-      "Generate picture with station and polarity data      \n\n"
-          "    Arguments: azimuth/takeoff/polarity/name[:a2/t2/p2/n2][:a3/t3/p3/n3]...    \n"
-          "                                                                               \n",
-      true);
+      "Generate beach ball with stations                    \n\n"
+          "    Arguments: azimuth/takeoff/polarity/name[:a2/t2/p2/n2][:a3/t3/p3/n3][:...] \n"
+          "    Overlays station and polarity information on the beach ball. Use in        \n"
+          "    combination with -f and -fj options.", true);
 // 14
   listOpts.addOption("z", "size",
       "Beach ball file size                                 \n\n"
-          "    Size of the beach ball figure in pixels.                                   \n",
+          "    Size of the beach ball figure in pixels (PNG) or in points (PDF/PS/SVG)    \n",
       true);
-// 15
+  // 15
+  listOpts.addOption("rt", "resampling_takeoff",
+      "Perform takeoff resampling                           \n\n"
+          "    Performs additional MT inversions on resampled input data with modified    \n"
+          "    takeoff angles.                                                            \n"
+          "    Arguments: x/y where x is the number of resamplings of the original dataset\n"
+          "    and y is the amplitude variation factor.                                   \n",
+      true);
+  // 16
   listOpts.addOption("rp", "resampling_polarity",
       "Perform phase polarities resampling                  \n\n"
           "    Performs additional MT inversions on resampled input data with randomly    \n"
@@ -722,7 +737,7 @@ void PrepareHelp(Options &listOpts) {
           "    Arguments: x/y where x is the number of resamplings of the original dataset\n"
           "    and y is the fraction of reversed amplitudes.                              \n",
       true);
-  // 16
+  // 17
   listOpts.addOption("rr", "resampling_rejection",
       "Perform station rejection resampling                 \n\n"
           "    Performs additional MT inversions on resampled input data with randomly    \n"
@@ -730,7 +745,7 @@ void PrepareHelp(Options &listOpts) {
           "    Arguments: x/y where x is the number of resamplings of the original        \n"
           "    dataset and y is the fraction of rejected stations                         \n",
       true);
-  // 17
+  // 18
   listOpts.addOption("ra", "resampling_amplitude",
       "Perform amplitude resampling                         \n\n"
           "    Performs additional MT inversions on resampled input data with randomly    \n"
@@ -738,14 +753,14 @@ void PrepareHelp(Options &listOpts) {
           "    Arguments: x/y where x is the number of resamplings of the original        \n"
           "    dataset and y is the amplitude variation factor (see option -a for details)\n",
       true);
-  // 18
+  // 19
   listOpts.addOption("mt", "modeltakeoff",
       "Export raytracing data                               \n\n"
           "    Procedure export raytracing data for specific set of epicentral distances  \n"
           "    and epicentral depths for 1D velocity model file specified with option -m  \n"
           "    Arguments: dstart/dstep/dend/estart/estep/eend in [km]                     \n",
       true);
-  // 19
+  // 20
   listOpts.addOption("cn", "normalfaultcolor",
       "Best double-couple line color for normal fault       \n\n"
           "    Arguments are r/g/b[/a], where r,g,b are red, green and blue color         \n"

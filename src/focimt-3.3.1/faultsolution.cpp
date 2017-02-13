@@ -3,7 +3,7 @@
 // Module: focimt
 // Class for storing fault plane solution data.
 //
-// Copyright (c) 2013-2015, Grzegorz Kwiatek.
+// Copyright (c) 2013-2017, Grzegorz Kwiatek.
 //
 // Permission is hereby granted, free of charge, to any person or organization
 // obtaining a copy of the software and accompanying documentation covered by
@@ -71,6 +71,8 @@ FaultSolution::FaultSolution(void) {
   EXPL_VAC = 0.0;
   CLVD_VAC = 0.0;
   DBCP_VAC = 0.0;
+  for (unsigned int i = 0; i < 3; i++)
+    E[i] = 0.0;
 }
 
 //---------------------------------------------------------------------------
@@ -319,6 +321,8 @@ void FaultSolution::Assign(const FaultSolution &Source) {
   //U_th = Source.U_th;
   //U_measured = Source.U_measured;
   UERR = Source.UERR;
+  for (unsigned int i = 0; i < 3; i++)
+    E[i] = Source.E[i];
 }
 
 //---------------------------------------------------------------------------

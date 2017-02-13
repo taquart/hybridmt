@@ -3,7 +3,7 @@
 // Module: FOCIMT
 // Main routine.
 //
-// Copyright (c) 2013-2016, Grzegorz Kwiatek.
+// Copyright (c) 2013-2017, Grzegorz Kwiatek.
 //
 // Permission is hereby granted, free of charge, to any person or organization
 // obtaining a copy of the software and accompanying documentation covered by
@@ -64,6 +64,7 @@ int main(int argc, char* argv[]) {
     double BootstrapPercentReverse = 0.00;
     double BootstrapPercentReject = 0.00;
     double BootstrapAmplitudeModifier = 0.00;
+    double BootstrapTakeoffModifier = 0.00;
     bool NoiseTest = false;
     bool DrawFaultOnly = false;
     bool DrawFaultsOnly = false;
@@ -157,7 +158,16 @@ int main(int argc, char* argv[]) {
                     Taquart::String(listOpts.getArgs(switchInt).c_str()).Trim().ToDouble()
                         + 0.5);
             break;
-          case 15: // Option -rp (resampling / polarity)
+          case 15: // Option -rt (resampling / takeoff)
+            BootstrapTest = true;
+            Temp = Taquart::String(listOpts.getArgs(switchInt).c_str()).Trim();
+            Dispatch2(Temp, v1, v2);
+            i1 = (unsigned int) (v1 + 0.5);
+            if (i1 > BootstrapSamples)
+              BootstrapSamples = i1;
+            BootstrapTakeoffModifier = v2;
+            break;
+          case 16: // Option -rp (resampling / polarity)
             BootstrapTest = true;
             Temp = Taquart::String(listOpts.getArgs(switchInt).c_str()).Trim();
             Dispatch2(Temp, v1, v2);
@@ -166,7 +176,7 @@ int main(int argc, char* argv[]) {
               BootstrapSamples = i1;
             BootstrapPercentReverse = v2;
             break;
-          case 16: // Option -rr (resampling / station rejection)
+          case 17: // Option -rr (resampling / station rejection)
             BootstrapTest = true;
             Temp = Taquart::String(listOpts.getArgs(switchInt).c_str()).Trim();
             Dispatch2(Temp, v1, v2);
@@ -175,7 +185,7 @@ int main(int argc, char* argv[]) {
               BootstrapSamples = i1;
             BootstrapPercentReject = v2;
             break;
-          case 17: // Option -ra (resampling / amplitude modification)
+          case 18: // Option -ra (resampling / amplitude modification)
             BootstrapTest = true;
             Temp = Taquart::String(listOpts.getArgs(switchInt).c_str()).Trim();
             Dispatch2(Temp, v1, v2);
@@ -184,28 +194,28 @@ int main(int argc, char* argv[]) {
               BootstrapSamples = i1;
             BootstrapAmplitudeModifier = v2;
             break;
-          case 18: // Option -mt (1D tomography map)
+          case 19: // Option -mt (1D tomography map)
             // Use 1D velocity model from a file (forces different formatting of input file)
             // Option -m must be also specified.
             TakeoffRanges = true;
             TakeoffString =
                 Taquart::String(listOpts.getArgs(switchInt).c_str()).Trim();
             break;
-          case 19: // -cn Option -c (set color) format is r/g/b/a or r/g/b
-          case 20: // -cs
-          case 21: // -cr
-          case 22: // -cd
-          case 23: // -ct
-          case 24: // -cp
-          case 25: // -c+
-          case 26: // -c-
-          case 27: // -cl
+          case 20: // -cn Option -c (set color) format is r/g/b/a or r/g/b
+          case 21: // -cs
+          case 22: // -cr
+          case 23: // -cd
+          case 24: // -ct
+          case 25: // -cp
+          case 26: // -c+
+          case 27: // -c-
+          case 28: // -cl
             Temp = Taquart::String(listOpts.getArgs(switchInt).c_str()).Trim();
             ColorSelection(Temp, switchInt - 19); // Intepret color string
             break;
-          case 28:
-            std::cout << "focimt\nrev. 3.1.29 (2016.06.14)\n"
-                "(c) 2013-2016 Grzegorz Kwiatek and Patricia Martinez-Garzon"
+          case 29:
+            std::cout << "focimt\nrev. 3.3.1 (2017.02.09)\n"
+                "(c) 2013-2017 Grzegorz Kwiatek and Patricia Martinez-Garzon"
                 << std::endl;
             break;
         }
@@ -248,7 +258,7 @@ int main(int argc, char* argv[]) {
       }
 
       // If option -mt is on, get ranges for azimuths and takeoff and
-      // output data to
+      // output data to a text file.
       if (TakeoffRanges) {
         if (FilenameOut.Length() == 0)
           FilenameOut = "raytracing.txt";
@@ -264,8 +274,8 @@ int main(int argc, char* argv[]) {
             double takeoff = 0.0f, aoi = 0.0f, sta_elev = 0.0f;
             int kk = 0;
 
-            CalcTravelTime1D(sta_elev, depth, delta, Top, Velocity, traveltime,
-                takeoff, directphase, aoi, kk, ray_dist);
+            CalcTravelTime1D_2(sta_elev, depth, delta, Top, Velocity,
+                traveltime, takeoff, directphase, aoi, kk, ray_dist);
 
             OutFile << sta_elev << " ";
             OutFile << depth << " ";
@@ -282,8 +292,9 @@ int main(int argc, char* argv[]) {
         return 0;
       }
 
-      // Try to read one more variable, if it contains "DATA", calculate
-      // the parameters and exit program.
+      // Try to read one more variable from the velocity model file. If the
+      // variable is a string containing "DATA", calculate the raytracing
+      // parameters for following data and exit program.
       char data[255];
       VelocityFile >> data;
       Taquart::String datas(data);
@@ -300,7 +311,7 @@ int main(int argc, char* argv[]) {
           VelocityFile >> depth;
           VelocityFile >> delta;
 
-          CalcTravelTime1D(sta_elev, depth, delta, Top, Velocity, traveltime,
+          CalcTravelTime1D_2(sta_elev, depth, delta, Top, Velocity, traveltime,
               takeoff, directphase, aoi, kk, ray_dist);
 
           OutFile << sta_elev << " ";
@@ -396,8 +407,8 @@ int main(int argc, char* argv[]) {
               break;
             }
           }
-          CalcTravelTime1D(elevation, depth, epicentral_distance, Top, Velocity,
-              null, takeoff, null2, aoi, null3, distance);
+          CalcTravelTime1D_2(elevation, depth, epicentral_distance, Top,
+              Velocity, null, takeoff, null2, aoi, null3, distance);
           // Prepare input line structure.
           Taquart::SMTInputLine il;
           il.Name = Taquart::String(id); /*!< Station name.*/
@@ -512,8 +523,8 @@ int main(int argc, char* argv[]) {
           MTInversion(InversionNormType, QualityType, td, channel, 'J', FSList);
         }
       }
-      // Perform additional inversions on resampled dataset (bootstrapping)
-      // Options -rr or -rp or -ra are in use.
+      // Perform additional inversions using resampled datasets
+      // Options -rr/-rp/-ra/-rt
       else if (BootstrapTest) {
         Taquart::SMTInputData BootstrapData;
         Taquart::SMTInputLine InputLine;
@@ -529,6 +540,14 @@ int main(int argc, char* argv[]) {
           unsigned int st_ampmod = 0;
           double v;
           for (unsigned int j = 0; j < BootstrapData.Count(); j++) {
+
+            // Randomly modify station takeoff angle (option -rt)
+            if (BootstrapTakeoffModifier > 0.0) {
+              v = rand_normal(0.0, BootstrapTakeoffModifier);
+              BootstrapData.Get(j, InputLine);
+              InputLine.TakeOff = InputLine.TakeOff + v / 3.0;
+              BootstrapData.Set(j, InputLine);
+            }
 
             // Randomly reverse station polarity (option -rp)
             if (BootstrapPercentReverse > 0.0
@@ -557,12 +576,6 @@ int main(int argc, char* argv[]) {
             }
           }
 
-          /*
-           std::cout << i << " Rej: " << st_rejected << " Rev: " << st_reversed
-           << " Mod: " << st_ampmod << " (" << v << ")  ("
-           << BootstrapData.Count() << "/" << InputData.Count() << ")"
-           << std::endl;
-           */
           int channel = i + 1;
 
           // Run MT inversion for resampled dataset.
@@ -640,8 +653,6 @@ int main(int argc, char* argv[]) {
                     Taquart::String path;
                     Taquart::String file;
                     SplitFilename(FilenameOut, file, path);
-                    //std::cout << path.Length();
-                    //std::cout << file.Length();
                     if (path == file) {
                       OutName = path + "-" + Taquart::String(fileid) + "-"
                           + FSuffix + "." + Formats[q].LowerCase();
@@ -768,6 +779,19 @@ int main(int argc, char* argv[]) {
                 sprintf(txtb, "%s%+7.1f%s%+7.1f%s%+7.1f", FOCIMT_SEP2,
                     Solution.EXPL,
                     FOCIMT_SEP2, Solution.CLVD, FOCIMT_SEP2, Solution.DBCP);
+                OutFile << txtb;
+              }
+
+              // Export eigenvalues of the moment tensor solution.
+              if (DumpOrder[i] == 'G') {
+                OutFile << FOCIMT_SEP << Solution.E[0];
+                OutFile << FOCIMT_SEP << Solution.E[1];
+                OutFile << FOCIMT_SEP << Solution.E[2];
+              }
+              else if (DumpOrder[i] == 'g') {
+                sprintf(txtb, "%s%13.5e%s%13.5e%s%13.5e", FOCIMT_SEP2,
+                    Solution.E[0],
+                    FOCIMT_SEP2, Solution.E[1], FOCIMT_SEP2, Solution.E[2]);
                 OutFile << txtb;
               }
 
