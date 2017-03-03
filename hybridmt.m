@@ -92,6 +92,12 @@ elseif n_events <= 1/ratio_limit
   error('Cannot perform hybrid moment tensor inversion with a single event.');
 end
 
+% Check for repetive IDs
+IDListTemp = getsolution(Solution,mt_solution_type,'event_id');
+if numel(IDListTemp) ~= numel(unique(IDListTemp))
+  error('Input phase data contains event(s) with same event id(s).');
+end
+
 % Check how many stations we have.
 Stations = cell(0);
 P_MATCH = [];
