@@ -33,6 +33,7 @@ p.addParamValue('Solution', 'full', @(x)any(strcmpi(x,{'full','deviatoric','dc'}
 p.addParamValue('ProjectDir', 'results', @(x) ischar(x) );
 p.addParamValue('Snapshots', 'on', @(x)any(strcmpi(x,{'off','on'}))); %#ok<*NVREPL>
 p.addParamValue('Display', 'on', @(x)any(strcmpi(x,{'off','on'}))); %#ok<*NVREPL>
+p.addParamValue('SaveInput', 'on', @(x)any(strcmpi(x,{'off','on'}))); %#ok<*NVREPL>
 p.addParamValue('RatioLimit', 10, @(x) isscalar(x) && x >= 1);
 p.addParamValue('TestData', 'off', @(x)any(strcmpi(x,{'off','on'})));
 p.addParamValue('IgnoreStation', cell(0), @(x) iscell(x)); % passthrough to focimt.m
@@ -56,6 +57,7 @@ test_data = strcmp(p.Results.TestData,'on');
 StIgnored = p.Results.IgnoreStation;
 CoStation = p.Results.CorrectStation;
 picformat = lower(p.Results.FigureFormat);
+save_input = strcmp(p.Results.SaveInput,'on');
 min_npol = 10;
 min_events = 20;
 pick_ratio = 0.5;
@@ -275,6 +277,11 @@ for iteration = 1:n_iter
         mkdir(sprintf('%s/%s',output_dir,Solution{i}.event_id),'iter');
       end
     end
+  end
+  
+  % Optionally save input file.
+  if save_input
+    save(sprintf('%s/input_%03d.mat',output_dir,iteration),'Input');
   end
   
   if snapshots % remove or move beach balls to appriopriate folders
