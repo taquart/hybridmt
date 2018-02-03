@@ -202,7 +202,7 @@ if ischar(INPUT)
   else
     error('File %s does not exist.',INPUT);
   end
-elseif iscell(INPUT);
+elseif iscell(INPUT)
   Input = INPUT;
   clear INPUT;
 else
