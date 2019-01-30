@@ -24,7 +24,7 @@ p.addParamValue('FileName', '', @(x) ischar(x) );
 p.addParamValue('PicksLost',0, @(x) isscalar(x) && x >= 0.0 && x < 1.0);
 p.addParamValue('Northing', meshgrid(-10000:5000:10000), @(x) ismatrix(x) );
 p.addParamValue('Easting', meshgrid(-10000:5000:10000)', @(x) ismatrix(x) );
-p.addParamValue('EventDepth', 1500, @(x) isvector(x) && all(x >= 0 & x < 360));
+p.addParamValue('EventDepth', 1500, @(x) isvector(x) && all(x >= 0 & x < 6371000));
 p.addParamValue('VelocityModel', [0.00 3.00 8.00 20.00 22.00; 4.10 5.47 5.75 6.02 7.90]', @(x) ismatrix(x));
 p.parse(STRIKE, DIP, RAKE, varargin{:});
 
