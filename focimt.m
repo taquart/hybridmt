@@ -346,15 +346,15 @@ function focimt_deletefile(Files)
 
 for i=1:numel(Files)
   filename = Files{i};
-  if exist(filename,'file');
+  if exist(filename,'file')
     delete(filename);
   end
-  if exist(filename,'file');
+  if exist(filename,'file')
     warning('FOCIMT:file_locked',['Cannot delete ' filename '. Executing "fclose all" command']);
     fclose all;
     delete(filename);
   end
-  if exist(filename,'file');
+  if exist(filename,'file')
     error(['Cannot delete file (' filename '. File locked outside of MATLAB?']);
   end
 end
