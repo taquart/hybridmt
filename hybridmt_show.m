@@ -40,7 +40,7 @@ Iteration = cell(1,n_iter);
 
 rmsg = '';
 disp('Reading solution files');
-for i=1:numel(SolutionFiles);
+for i=1:numel(SolutionFiles)
   % Display progress.
   progress = 100*i/numel(SolutionFiles);
   msg = sprintf(' File progress: %s |%s| (%1.1f%%)',SolutionFiles{i},[repmat('o',1,floor(progress/5)) repmat('-',1,ceil((100-progress)/5))],progress);
@@ -64,6 +64,7 @@ for i=1:n_events
   Event{i}.M0 = nan(n_iter,1);
   Event{i}.MT = nan(n_iter,1);
   Event{i}.M0ERRMAX = nan(n_iter,1);
+  Event{i}.RMS = nan(n_iter,1);
   Event{i}.MW = nan(n_iter,1);
   Event{i}.P = nan(n_iter,2);
   Event{i}.T = nan(n_iter,2);
@@ -114,6 +115,7 @@ for i=1:n_iter
     Event{j}.M0(i,:) = [Solution.M0 ];
     Event{j}.MT(i,:) = [Solution.MT ];
     Event{j}.M0ERRMAX(i,:) = [Solution.M0ERRMAX ];
+    Event{j}.RMS(i,:) = [Solution.RMSERROR ];
     Event{j}.MW(i,:) = [Solution.MW ];
     Event{j}.MXX(i,:) = [Solution.MXX ];
     
@@ -237,6 +239,20 @@ for i=1:n_events
   xlabel('Iteration');
   ylabel('P/T/B Plunge');
   saveas(gcf,[Event{i}.path '/ptb_axes.' picformat]);
+  close(f);
+  
+  % Error dropdown.
+  f = figure('Visible','off');
+  hold on;
+  plot(Event{i}.RMS,Event{i}.M0ERRMAX,'k-','Marker','.');
+  plot(Event{i}.RMS(end),Event{i}.M0ERRMAX(end),'ko');
+  hold off;
+  grid on; box on;
+  set(gca,'YScale','log');
+  xlabel('RMS Error');
+  ylabel('Maximum error of MT component [Nm]');
+  title(titletext,'Interpreter','none');
+  saveas(gcf,[Event{i}.path '/errors.' picformat]);
   close(f);
   
   % Seismic moment information.
