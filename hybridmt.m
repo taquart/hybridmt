@@ -16,13 +16,13 @@ function [Solution, History] = hybridmt(Input, varargin)
 %
 %   See also FOCIMT
 %
-%   part of hybridMT package 
+%   part of hybridMT package
 %   <a href="matlab:open('html/doc_hybridmt.html')">Reference page for hybridmt</a>
 
-%   Copyright 2015-2016 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
+%   Copyright 2015-2019 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
 %                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.5 $  $Date: 2016.07.08 $
+%   $Revision: 1.0.6 $  $Date: 2019.03.25 $
 
 % Parse input parameters.
 p = inputParser;
@@ -102,6 +102,7 @@ end
 
 % Check how many stations we have.
 Stations = cell(0);
+Components = cell(0);
 P_MATCH = [];
 BadEvents = cell(0);
 BADEVENTSN = [];
@@ -123,11 +124,13 @@ for i=1:n_events
     k = k + 1;
   end
   Stations = [Stations Sol.Station]; %#ok<AGROW>
+  Components = [Components Sol.Component];  %#ok<AGROW>
   P_MATCH = [P_MATCH sign(Sol.UMEASURED.*Sol.UTH) == 1]; %#ok<AGROW> % count how many polarities match.
 end
 
 % "Stations" contain unique names of stations from all events.
 Stations_unique = sort(unique(Stations));
+Components_unique = sort(unique(Components));
 
 % remove ignored stations.
 if numel(StIgnored)
@@ -138,6 +141,7 @@ if numel(StIgnored)
 end
 
 n_stations = numel(Stations_unique);
+n_components = numel(Components_unique);
 N_PICKS = zeros(1,n_stations);
 N_MATCH = zeros(1,n_stations);
 for i=1:n_stations
@@ -145,6 +149,7 @@ for i=1:n_stations
   N_MATCH(i) = sum(P_MATCH(strcmpi(Stations,Stations_unique{i})));
 end
 Stations = Stations_unique;
+Components = Components_unique;
 
 %---- Display basic statistics.
 
@@ -152,7 +157,7 @@ Stations = Stations_unique;
 fprintf(' Number of events: %d\n',n_events);
 if numel(BadEvents)
   fprintf(' There are events with limited number of polarities (<%d):\n',min_npol);
-  for i=1:numel(BadEvents);
+  for i=1:numel(BadEvents)
     fprintf(' %s (N=%d)',BadEvents{i},BADEVENTSN(i));
     if mod(i,5) == 0
       fprintf('\n');
@@ -306,8 +311,8 @@ for iteration = 1:n_iter
   
   
   % This matrixes will hold theoretical and measured displacements.
-  U_THEORETICAL   = nan(n_events, n_stations);
-  U_MEASURED = nan(n_events, n_stations);
+  U_THEORETICAL   = nan(n_events, n_stations, n_components);
+  U_MEASURED = nan(n_events, n_stations, n_components);
   
   for i=1:n_events
     
@@ -323,22 +328,30 @@ for iteration = 1:n_iter
     
     % Get station and displacement information
     Sta = Sol.Station;
+    Cmp = Sol.Component;
     U_TH_TEMP = Sol.UTH;
     U_MEAS_TEMP = Sol.UMEASURED;
     
     % As for some stations there may be no displacement data, we have to
     % put data in appropriate places of the matrix.
     Sta_ID = nan(size(Sta));
+    Cmp_ID = nan(size(Cmp));
     for j=1:numel(Sta)
       Sta_ID(j) = find(strcmp(Stations,Sta{j}));
     end
-    if sum(isnan(Sta_ID))
+    for j=1:numel(Cmp)
+      Cmp_ID(j) = find(strcmp(Components,Cmp{j}));
+    end
+    if sum(isnan(Sta_ID)) || sum(isnan(Cmp_ID))
       error('!!!!');
     end
     
     % Transfer displacements into appropriate place of matrix.
-    U_THEORETICAL(i,Sta_ID) = U_TH_TEMP;
-    U_MEASURED(i,Sta_ID) = U_MEAS_TEMP;
+    % Each row is a single unique events.
+    % Each column is a single unique station.
+    % 3rd dimention is along components.
+    U_THEORETICAL(i+(Sta_ID-1)*n_events+(Cmp_ID-1)*n_events*n_stations) = U_TH_TEMP;
+    U_MEASURED(i+(Sta_ID-1)*n_events+(Cmp_ID-1)*n_events*n_stations) = U_MEAS_TEMP;
     
   end
   
@@ -350,23 +363,53 @@ for iteration = 1:n_iter
   POLARITY_DISC  = nan(1,size(U_RATIO,2));
   RMS_ERROR = nan(size(U_RATIO,1),1);
   
-  % Calculate displacement ratios for each station.
-  for i=1:size(U_RATIO,2)
-    I = ~isnan(U_RATIO(:,i)) & abs(U_RATIO(:,i)) < ratio_limit & abs(U_RATIO(:,i)) > 1/ratio_limit;
-    U_RATIO_MEDIAN(i) = median(abs(U_RATIO(I,i)));
-    I = ~isnan(U_RATIO(:,i));
-    POLARITY_DISC(i) = sum(sign(U_RATIO(I,i)) > 0) / sum(I); % calculates how many theoretical and observe polarities match.
+  % Split ratio to horizontal and vertical version.
+  % This is not the most elegant way to do so, but I don't know a better approach.
+  if n_components == 1
+    U_RATIO_VER = U_RATIO;
+  elseif n_components == 2
+    U_RATIO_VER = cat(1, U_RATIO(:,:,1), U_RATIO(:,:,2));
+  elseif n_components == 3
+    U_RATIO_VER = cat(1, U_RATIO(:,:,1), U_RATIO(:,:,2), U_RATIO(:,:,3));
+  else
+    error('!!!!');
   end
-  I = ~isnan(U_RATIO);
-  polarity_valid_total = sum(sign(U_RATIO(I)) > 0) / sum(I(:));
   
+  % New version of calculation of displacement ratios.
+  for i=1:size(U_RATIO_VER, 2)
+    I = ~isnan(U_RATIO_VER(:,i)) & ...
+      abs(U_RATIO_VER(:,i)) < ratio_limit & ...
+      abs(U_RATIO_VER(:,i)) > 1/ratio_limit;
+    U_RATIO_MEDIAN(i) = median(abs(U_RATIO_VER(I,i)));
+    I = ~isnan(U_RATIO_VER(:,i));
+    POLARITY_DISC(i) = sum(sign(U_RATIO_VER(I,i)) > 0) / sum(I); % calculates how many theoretical and observe polarities match.
+  end
+  I = ~isnan(U_RATIO_VER);
+  polarity_valid_total = sum(sign(U_RATIO_VER(I)) > 0) / sum(I(:));
+  
+  %   % Calculate displacement ratios for each station.
+  %   for i=1:size(U_RATIO,2)
+  %     I = ~isnan(U_RATIO(:,i)) & abs(U_RATIO(:,i)) < ratio_limit & abs(U_RATIO(:,i)) > 1/ratio_limit;
+  %     U_RATIO_MEDIAN(i) = median(abs(U_RATIO(I,i)));
+  %     I = ~isnan(U_RATIO(:,i));
+  %     POLARITY_DISC(i) = sum(sign(U_RATIO(I,i)) > 0) / sum(I); % calculates how many theoretical and observe polarities match.
+  %   end
+  %   I = ~isnan(U_RATIO);
+  %   polarity_valid_total = sum(sign(U_RATIO(I)) > 0) / sum(I(:));
   
   % Calculate RMS error for each event.
-  for i=1:size(U_RATIO,1)
-    I = ~isnan(U_RATIO(i,:));
-    %RMS_ERROR(i) = sqrt( sum( (U_THEORETICAL(i,I) - U_MEASURED(i,I)).^2 ) / sum(I));
-    RMS_ERROR(i) = sqrt( sum( (U_THEORETICAL(i,I) - U_MEASURED(i,I)).^2 ) ) / sqrt(sum( U_MEASURED(i,I).^2 ));
+  UM = U_MEASURED(:,:);
+  UT = U_THEORETICAL(:,:);
+  for i=1:size(UM,1)
+    I = ~isnan(UM(i,:));
+    RMS_ERROR(i) = sqrt( sum( (UT(i,I) - UM(i,I)).^2 ) ) / sqrt(sum( UM(i,I).^2 ));
   end
+  
+  %   % Calculate RMS error for each event.
+  %   for i=1:size(U_RATIO,1)
+  %     I = ~isnan(U_RATIO(i,:));
+  %     RMS_ERROR(i) = sqrt( sum( (U_THEORETICAL(i,I) - U_MEASURED(i,I)).^2 ) ) / sqrt(sum( U_MEASURED(i,I).^2 ));
+  %   end
   
   % Store information in history structure.
   History.RMS_ERROR(:,iteration) = RMS_ERROR;

@@ -166,22 +166,24 @@ while 1
     sol_type = fscanf(fid,'%s',1); %#ok<NASGU>
     rejected_station_no = fscanf(fid,'%d',1); %#ok<NASGU>
     n_u = fscanf(fid,'%d',1);
-    Data = textscan(fid,'%s %f %f', n_u);
+    Data = textscan(fid,'%s %s %f %f', n_u);
     
     if matrixmode
       evstr = ['Solution{j}.' solution '.'];
       if i == 1
         % first is always "N" solution, prepare empty matrices.
         eval([ evstr 'Station=Data{1}'';']);
+        eval([ evstr 'Component=Data{2}'';']);
         eval([ evstr 'UMEASURED=nan(n,length(Data{1}));']);
         eval([ evstr 'UTH=nan(n,length(Data{1}));']);
         StationList = Data{1};
+        ComponentList = Data{2};
       end
       for m=1:length(Data{1})
-        k = find(strcmp(Data{1}{m},StationList));
+        k = find(strcmp(Data{1}{m},StationList) & strcmp(Data{2}{m},ComponentList));
         if ~isempty(k)
-          eval([ evstr 'UMEASURED(i,k)=Data{2}(m);']);
-          eval([ evstr sprintf('UTH(%d,%d)=Data{3}(%d);',i,k,m)]);
+          eval([ evstr 'UMEASURED(i,k)=Data{3}(m);']);
+          eval([ evstr sprintf('UTH(%d,%d)=Data{4}(%d);',i,k,m)]);
         else
           error('!!!');
         end
@@ -190,8 +192,9 @@ while 1
       evstr = ['Solution{j}.' solution '(i).'];
       
       eval([ evstr 'Station=Data{1}'';']);
-      eval([ evstr 'Umeasured=Data{2}'';']);
-      eval([ evstr 'Uth=Data{3}'';']);
+      eval([ evstr 'Component=Data{2}'';']);
+      eval([ evstr 'Umeasured=Data{3}'';']);
+      eval([ evstr 'Uth=Data{4}'';']);
     end
   end
   j = j + 1;
