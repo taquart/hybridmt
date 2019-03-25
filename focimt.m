@@ -6,10 +6,10 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 %   part of hybridMT package
 %   <a href="matlab:open('html/doc_focimt.html')">Reference page for focimt</a>
 
-%   Copyright 2015-2016 Grzegorz Kwiatek <taquart@gmail.com>
+%   Copyright 2015-2019 Grzegorz Kwiatek <taquart@gmail.com>
 %                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.14 $  $Date: 2016.09.19 $
+%   $Revision: 1.0.15 $  $Date: 2018.03.25 $
 
 % Parse input parameters.
 p = inputParser;
