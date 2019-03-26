@@ -211,7 +211,7 @@ for i=1:n_events
   xlabel('Iteration');
   ylabel('% Moment tensor components');
   title(titletext,'Interpreter','none');
-  saveas(gcf,[Event{i}.path '/decomposition.' picformat]);
+  saveas(gcf,[Event{i}.path '/' Event{i}.event_id '-decomposition.' picformat]);
   close(f);
   
   % P/T/B axes directions.
@@ -238,7 +238,7 @@ for i=1:n_events
   legend('P plunge','T plunge','B plunge');
   xlabel('Iteration');
   ylabel('P/T/B Plunge');
-  saveas(gcf,[Event{i}.path '/ptb_axes.' picformat]);
+  saveas(gcf,[Event{i}.path '/' Event{i}.event_id '-ptb_axes.' picformat]);
   close(f);
   
   % Error dropdown.
@@ -252,7 +252,7 @@ for i=1:n_events
   xlabel('RMS Error');
   ylabel('Maximum error of MT component [Nm]');
   title(titletext,'Interpreter','none');
-  saveas(gcf,[Event{i}.path '/errors.' picformat]);
+  saveas(gcf,[Event{i}.path '/' Event{i}.event_id '-errors.' picformat]);
   close(f);
   
   % Seismic moment information.
@@ -267,7 +267,7 @@ for i=1:n_events
   xlabel('Iteration');
   ylabel('Seismic moment [Nm]');
   title(titletext,'Interpreter','none');
-  saveas(gcf,[Event{i}.path '/moment.' picformat]);
+  saveas(gcf,[Event{i}.path '/' Event{i}.event_id '-moment.' picformat]);
   close(f);
   
   % P/T/B axis directions on stereonet plot.
@@ -290,7 +290,7 @@ for i=1:n_events
   axis equal;
   set(gca,'Visible','off');
   text(0,1.05,titletext,'HorizontalAlignment','center','Interpreter','none','VerticalAlignment','bottom');
-  saveas(gcf,[Event{i}.path '/ptb_axes-stereonet.' picformat]);
+  saveas(gcf,[Event{i}.path '/' Event{i}.event_id '-ptb_axes-stereonet.' picformat]);
   close(f);
   
   % Hudson plot of moment tensor decomposition.
@@ -302,7 +302,7 @@ for i=1:n_events
     plot(U(end),V(end),'ok','MarkerSize',5,'MarkerFaceColor','r');
     hold off;
     set(gca,'Visible','off');
-    saveas(gcf,[Event{i}.path '/hudson_plot.' picformat]);
+    saveas(gcf,[Event{i}.path '/' Event{i}.event_id '-hudson_plot.' picformat]);
     close(f);
   catch
     warning('hybridmt_show:unexpected_exception','Unexpected exception while preparing Hudson''s plot');
