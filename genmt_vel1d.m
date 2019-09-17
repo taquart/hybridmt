@@ -34,7 +34,7 @@ if isempty(filename)
   commonfile = false;
 else
   commonfile = true;
-  if exist(filename,'file');
+  if exist(filename,'file')
     delete(filename);
   end
 end
