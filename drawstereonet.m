@@ -95,6 +95,8 @@ for i=1:length(X0)
       GTKO = [0 90] * pi / 180;
       [GX,GY] = project_stereonet(GAZM*180/pi, GTKO*180/pi,'Projection',projection,'Scale',scale_factor);
       line(GX+ x0,GY+ y0,'Color',grid_color);
+      [x,y] = project_stereonet(GAZM*180/pi, 90,'Projection',projection,'Scale',scale_factor);
+      text(x,y,num2str(round(GAZM*180/pi)));
     end
     for GTKO = (0:grid_step_plunge:90)*pi/180
       GAZM = (0:2:360) * pi / 180;
