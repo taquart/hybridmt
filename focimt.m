@@ -13,7 +13,7 @@ function [Solution, Input, Params] = focimt(INPUT, varargin)
 
 % Parse input parameters.
 p = inputParser;
-p.addRequired('INPUT', @(x) ischar(x) || iscell(x) || (isnumeric(x) && all(size(x) == [1 3]) || all(size(x) == [1 6])) );
+p.addRequired('INPUT', @(x) ischar(x) || iscell(x) || (isnumeric(x) && (size(x,2) == 3 || size(x,2) == 6)) );
 p.addParamValue('Jacknife', 'off', @(x)any(strcmpi(x,{'on','off'}))); %#ok<*NVREPL>
 p.addParamValue('Verbose', 'off', @(x)any(strcmpi(x,{'on','off'}))); %#ok<*NVREPL>
 p.addParamValue('Norm', 'L2', @(x)any(strcmpi(x,{'L1','L2'})));
@@ -34,7 +34,7 @@ p.addParamValue('PlotAxes', 'on', @(x)any(strcmpi(x,{'on','off'})));
 p.addParamValue('PlotDC', 'on', @(x)any(strcmpi(x,{'on','off'})));
 p.addParamValue('Decomposition', 'JostHerrmann', @(x)any(strcmpi(x,{'JostHerrmann','Vavrycuk'})));
 p.addParamValue('Solutions', 'FTD', @(x) ischar(x));
-p.addParamValue('DrawSolution', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 6]));
+p.addParamValue('DrawSolution', [], @(x) size(x,2) == 3 || size(x,2) == 6);
 p.addParamValue('NormalFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('StrikeSlipFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
 p.addParamValue('ThrustFaultColor', [], @(x)all(size(x) == [1 3]) || all(size(x) == [1 4]));
@@ -157,14 +157,15 @@ end
 % If DrawSolution option is turned on, we stop the processing here and
 % just plot the moment tensor solution provided.
 if ~isempty(p.Results.DrawSolution) ...
-    || ( isnumeric(INPUT) && all(size(INPUT) == [1 3]) || all(size(INPUT) == [1 6]) )
-  if ( isnumeric(INPUT) && all(size(INPUT) == [1 3]) || all(size(INPUT) == [1 6]) )
+    || ( isnumeric(INPUT) && (size(INPUT,2) == 3 || size(INPUT,2) == 6) )
+  if ( isnumeric(INPUT) && (size(INPUT,2) == 3 || size(INPUT,2) == 6) )
     M = INPUT;
   else
     M = p.Results.DrawSolution;
   end
   if size(M,2) == 3 % strike/dip/rake
-    commandline = sprintf(' -f %f/%f/%f', M);
+    commandline = [' -fj ' sprintf('%f/%f/%f:',M')]; 
+    commandline = commandline(1:end-1);
   elseif size(M,2) == 6 % moment tensor components
     commandline = sprintf(' -f %f/%f/%f/%f/%f/%f', M);
   end
