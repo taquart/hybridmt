@@ -22,7 +22,7 @@ function [Solution, History] = hybridmt(Input, varargin)
 %   Copyright 2015-2019 Grzegorz Kwiatek <kwiatek@gfz-potsdam.de>
 %                       Patricia Martinez-Garzon <patricia@gfz-potsdam.de>
 %
-%   $Revision: 1.0.6 $  $Date: 2019.03.25 $
+%   $Revision: 1.0.7 $  $Date: 2019.09.20 $
 
 % Parse input parameters.
 p = inputParser;
@@ -377,13 +377,29 @@ for iteration = 1:n_iter
   
   % New version of calculation of displacement ratios.
   for i=1:size(U_RATIO_VER, 2)
-    I = ~isnan(U_RATIO_VER(:,i)) & ...
-      abs(U_RATIO_VER(:,i)) < ratio_limit & ...
-      abs(U_RATIO_VER(:,i)) > 1/ratio_limit;
-    U_RATIO_MEDIAN(i) = median(abs(U_RATIO_VER(I,i)));
+    
+    % Waterlevel ratios that exceeds certain values.
+    K = abs(U_RATIO_VER(:,i)) >= ratio_limit;
+    U_RATIO_VER(K,i) = ratio_limit * sign(U_RATIO_VER(K,i));
+    K = abs(U_RATIO_VER(:,i)) <= 1 / ratio_limit;
+    U_RATIO_VER(K,i) = (1/ratio_limit) * sign(U_RATIO_VER(K,i));
+    
+    % For median ratio calculation, get only values that are not nans.
     I = ~isnan(U_RATIO_VER(:,i));
-    POLARITY_DISC(i) = sum(sign(U_RATIO_VER(I,i)) > 0) / sum(I); % calculates how many theoretical and observe polarities match.
+    U_RATIO_MEDIAN(i) = median(abs(U_RATIO_VER(I,i)));
+    
+    % Assess how many observed polarities match the observed ones (per station).
+    I = ~isnan(U_RATIO_VER(:,i));
+    POLARITY_DISC(i) = sum(sign(U_RATIO_VER(I,i)) > 0) / sum(I); % per station.
   end
+  
+  % Assess number of picks per station.
+  N_STATION = sum(~isnan(U_RATIO_VER));
+  N_PERCENT = N_STATION ./ size( U_RATIO_VER, 1) * 100;
+  
+  
+  % Assess how many observed polarities match the observed ones (all
+  % stations)
   I = ~isnan(U_RATIO_VER);
   polarity_valid_total = sum(sign(U_RATIO_VER(I)) > 0) / sum(I(:));
   
@@ -447,7 +463,7 @@ for iteration = 1:n_iter
     subplot(2,3,1);
     plot(History.U_RATIO_MEDIAN');
     set(gca,'XLim',[0 n_iter+1]);
-    ylabel('Amplitude ratio history');
+    ylabel('Ratio History');
     xlabel('iteration #');
     
     subplot(2,3,2);
@@ -458,12 +474,48 @@ for iteration = 1:n_iter
     
     subplot(2,3,3);
     imagesc(History.U_CHANGES);
+    
+    % Add pluses
+    YY = repmat((1:size(History.U_RATIO_MEDIAN,1))',1,size(History.U_RATIO_MEDIAN,2));
+    XX = repmat(1:size(History.U_RATIO_MEDIAN,2),size(History.U_RATIO_MEDIAN,1),1);
+    K = find(History.U_RATIO_MEDIAN >= ratio_limit | History.U_RATIO_MEDIAN <= 1/ratio_limit);
+    hold on;
+    plot(XX(K),YY(K),'+r');
+    hold off;
+    
+    % Add warning messages that maximum ratio was hit.
+    K = find(U_RATIO_MEDIAN >= ratio_limit | U_RATIO_MEDIAN <= 1/ratio_limit);
+    if ~isempty(K)
+      text(ones(size(K)),K,'!RATIO LIMIT!','Color','red','FontSize',8,'VerticalAlignment','Middle','HorizontalAlignment','left');
+    end
+    colormap(1-bone);
+    set(gca,'YTick',1:n_stations,'YTickLabel',Stations);
     set(gca,'XLim',[0 n_iter+1]);
-    ylabel('Relative changes to U');
+    ylabel('Correction Factor');
     xlabel('iteration #');
     
     subplot(2,3,4);
-    barh(POLARITY_DISC*100);
+    barh(POLARITY_DISC*100,'FaceColor',[0.8 0.8 0.8],'EdgeColor',[0.6 0.6 0.6]);
+    % Add information on number of stations and percentage of stations with
+    % polarity informatiom.
+    for j=1:numel(N_PERCENT)
+      txt = sprintf('N=%d (%d%%)',N_STATION(j), round(N_PERCENT(j)));
+      if N_STATION(j) < 5 || N_PERCENT(j) < 20
+        clr = [1 0 0];
+      elseif N_PERCENT(j) < 40
+        clr = [255 165 0] / 255;
+      else
+        clr = [0 100 0] / 255;
+      end
+      if POLARITY_DISC(j)*100 < 50
+        ha = 'left';
+      else
+        ha = 'right';
+      end
+      text(POLARITY_DISC(j)*100,j,txt,'Color',clr,'VerticalAlignment','middle','FontSize',8, ...
+        'HorizontalAlignment',ha);
+    end
+    
     set(gca,'YLim',[0 n_stations+1],'XLim',[0 100]);
     set(gca,'YTick',1:n_stations,'YTickLabel',Stations);
     grid on; box on;
@@ -472,17 +524,47 @@ for iteration = 1:n_iter
     
     subplot(2,3,5);
     imagesc(log10(abs(U_RATIO)));
+    % Display rectangles.
+    for j=1:numel(N_PERCENT)
+      x = j;
+      y = size(U_RATIO,1)+1;
+      if N_STATION(j) < 5 || N_PERCENT(j) < 20
+        clr = [1 0 0];
+        rectangle('Position',[x-0.5 0 1 y],'FaceColor','none','EdgeColor',clr);
+      elseif N_PERCENT(j) < 40
+        clr = [255 165 0] / 255;
+        rectangle('Position',[x-0.5 0 1 y],'FaceColor','none','EdgeColor',clr);
+      end
+    end
+    
     set(gca,'XLim',[0 n_stations+1]);
+    set(gca,'XTick',1:n_stations,'XTickLabel',Stations); xtickangle(90);
     grid on;
+    colormap(1-bone);
     ylabel('Event #');
     xlabel('Station');
+    title('Ratios per event');
     
     subplot(2,3,6);
-    barh(History.U');
+    barh(History.U','FaceColor',[0.8 0.8 0.8],'EdgeColor',[0.6 0.6 0.6]);
+    % Add warning messages that maximum ratio was hit.
+    K = find(U_RATIO_MEDIAN >= ratio_limit | U_RATIO_MEDIAN <= 1/ratio_limit);
+    mmax = max(History.U);
+    if ~isempty(K)
+      for j=1:numel(K)
+        if History.U(K(j)) > 0.5 * mmax
+          ha = 'right';
+        else
+          ha = 'left';
+        end
+        text(History.U(K(j)),K(j),'!RATIO LIMIT!','Color','red','FontSize',8,'VerticalAlignment','Middle','HorizontalAlignment',ha);
+      end
+    end
+    
     set(gca,'YLim',[0 n_stations+1]);
     set(gca,'YTick',1:n_stations,'YTickLabel',Stations);
     grid on; box on;
-    xlabel('M_0 correction factor');
+    xlabel('Final Correction Factor');
     ylabel('Station');
   end
   
